@@ -64,16 +64,29 @@ export default [
   {
     path: '/articles',
     name: 'article',
+    meta: {
+      icon: 'ios-cube',
+      title: '文章管理'
+    },
     component: Main,
     children: [
       {
         path: 'article_list',
         name: 'article_list',
         meta: {
-          icon: '_qq',
+          icon: 'ios-document',
           title: '文章列表'
         },
         component: () => import('@/view/article-list/article-lists.vue')
+      },
+      {
+        path: 'article_add',
+        name: 'article_add',
+        meta: {
+          icon: 'ios-create',
+          title: '新建文章'
+        },
+        component: () => import('@/view/article-add/article-add.vue')
       }
     ]
   },

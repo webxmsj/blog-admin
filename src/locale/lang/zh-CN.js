@@ -1,6 +1,8 @@
 export default {
   home: '首页',
+  article: '文章管理',
   article_list: '文章列表',
+  article_add: '新建文章',
   components: '组件',
   count_to_page: '数字渐变',
   tables_page: '多功能表格',
