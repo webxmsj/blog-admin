@@ -1,4 +1,6 @@
 export default {
+  home: 'Home',
+  article_list: 'Article-lists',
   components: 'Components',
   count_to_page: 'Count-to',
   tables_page: 'Table',

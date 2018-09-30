@@ -1,4 +1,6 @@
 export default {
+  home: '首页',
+  article_list: '文章列表',
   components: '组件',
   count_to_page: '数字渐变',
   tables_page: '多功能表格',
@@ -8,7 +10,7 @@ export default {
   icons_page: '自定义图标',
   img_cropper_page: '图片编辑器',
   update: '上传数据',
-  join_page: 'QQ群',
+  join_page: '联系方式',
   doc: '文档',
   update_table_page: '上传CSV文件',
   update_paste_page: '粘贴表格数据',

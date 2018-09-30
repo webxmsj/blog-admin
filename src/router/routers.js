@@ -37,6 +37,7 @@ export default [
         name: 'home',
         meta: {
           hideInMenu: true,
+          // icon: 'md-home',
           title: '首页',
           notCache: true
         },
@@ -54,9 +55,25 @@ export default [
         name: 'join_page',
         meta: {
           icon: '_qq',
-          title: 'QQ群'
+          title: 'join_page'
         },
         component: () => import('@/view/join-page.vue')
+      }
+    ]
+  },
+  {
+    path: '/articles',
+    name: 'article',
+    component: Main,
+    children: [
+      {
+        path: 'article_list',
+        name: 'article_list',
+        meta: {
+          icon: '_qq',
+          title: '文章列表'
+        },
+        component: () => import('@/view/article-list/article-lists.vue')
       }
     ]
   },
@@ -74,7 +91,7 @@ export default [
         name: 'count_to_page',
         meta: {
           icon: 'md-trending-up',
-          title: '数字渐变'
+          title:  '数字渐变'
         },
         component: () => import('@/view/components/count-to/count-to.vue')
       },
