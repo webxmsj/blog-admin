@@ -91,6 +91,106 @@ export default [
     ]
   },
   {
+    path: '/comment',
+    name: 'comment',
+    meta: {
+      icon: 'ios-cube',
+      title: '评论管理'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'comment_list',
+        name: 'comment_list',
+        meta: {
+          icon: 'ios-document',
+          title: '评论列表'
+        },
+        component: () => import('@/view/comment/comment.vue')
+      }
+    ]
+  },
+  {
+    path: '/category',
+    name: 'category',
+    meta: {
+      icon: 'ios-cube',
+      title: '分类管理'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'category_index',
+        name: 'category_index',
+        meta: {
+          icon: 'ios-document',
+          title: '分类管理'
+        },
+        component: () => import('@/view/category/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/links',
+    name: 'links',
+    meta: {
+      icon: 'ios-cube',
+      title: '链接管理'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'links_index',
+        name: 'links_index',
+        meta: {
+          icon: 'ios-document',
+          title: '链接管理'
+        },
+        component: () => import('@/view/links/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/users',
+    name: 'users',
+    meta: {
+      icon: 'ios-cube',
+      title: '用户管理'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'users_index',
+        name: 'users_index',
+        meta: {
+          icon: 'ios-document',
+          title: '用户管理'
+        },
+        component: () => import('@/view/users/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/setting',
+    name: 'setting',
+    meta: {
+      icon: 'ios-cube',
+      title: '偏好设置'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'setting_index',
+        name: 'setting_index',
+        meta: {
+          icon: 'ios-document',
+          title: '设置中心'
+        },
+        component: () => import('@/view/setting/index.vue')
+      }
+    ]
+  },
+  {
     path: '/components',
     name: 'components',
     meta: {
