@@ -1,14 +1,21 @@
 <template>
   <div>
-    分类管理
-    {{ name }}
+    <Table :columns="columns" :data="datas"></Table>
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      name: '分类管理'
+      columns: [{
+        type: 'selection',
+        align: 'center'
+      }, {
+        title: ''
+      }],
+      datas: [{
+
+      }]
     }
   }
 }
