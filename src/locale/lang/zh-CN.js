@@ -26,5 +26,14 @@ export default {
   directive_page: '指令',
   level_1: 'level-1',
   level_2: 'level-2',
-  level_2_1: 'level-2-1'
+  level_2_1: 'level-2-1',
+  tools_methods_page: '工具方法',
+  drag_list_page: '拖拽列表',
+  'upload-excel': '',
+  excel: '',
+  'export-excel': '',
+  level_2_3: '',
+  level_2_2: '',
+  level_2_2_1: '',
+  category: '分类管理'
 }
