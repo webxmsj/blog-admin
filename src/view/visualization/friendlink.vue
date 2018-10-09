@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <p>链接管理</p>
-    <Table :loading="loading" :columns="columns" :data="datas"></Table>
-  </div>
+  <Table :loading="loading" :columns="columns" :data="datas"></Table>
 </template>
 <script>
 import { getFriendLinks, getDisplayStructure } from '@/api/getdatas'

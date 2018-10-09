@@ -1,78 +1,22 @@
 <template>
-  <div class="categorycomponent">
-    <category :datas="datas"></category>
+  <div>
+    <div class="categorycomponent">
+      <category :datas="datas"></category>
+    </div>
   </div>
 </template>
 
 <script>
 import category from '@/components/category/category.vue'
 import Bus from '@/components/category/bus'
+import { getCategorys } from '@/api/getdatas'
 export default {
   components: {
     category
   },
   data () {
     return {
-      datas: [{
-        name: '文化',
-        description: '文人墨客的世界',
-        key: 'culture',
-        classline: '0',
-        children: [{
-          name: '历史',
-          description: '中华上下五千年的历史',
-          key: 'history',
-          classline: '0,0'
-        }, {
-          name: '哲学',
-          description: '哲学者的世界我们不懂',
-          key: 'philosophy',
-          classline: '0,1'
-        }]
-      }, {
-        name: '生活',
-        description: '品味生活,享受生活',
-        key: 'life',
-        classline: '1',
-        children: [{
-          name: '旅行',
-          description: '身体和灵魂总有一个在路上',
-          key: 'travel',
-          classline: '1,0',
-          children: [{
-            name: '在路上',
-            description: '走出去,你将看到这个精彩的世界',
-            key: 'category2-1',
-            classline: '1,0,0'
-          }, {
-            name: '自助游',
-            description: '带着自己的爱车,说走就走，说停就停',
-            key: 'category2-2',
-            classline: '1,0,1',
-            children: [{
-              name: '朋友',
-              description: '朋友一生一起走',
-              key: 'category2-1',
-              classline: '1,0,1,0'
-            }, {
-              name: '同事',
-              description: '相互帮助,相互鼓励,是同事情',
-              key: 'category2-2',
-              classline: '1,0,1,1'
-            }, {
-              name: '父母',
-              description: '父母在哪,家在哪,那是我永远的避风港湾',
-              key: 'category2-2',
-              classline: '1,0,1,2'
-            }]
-          }]
-        }, {
-          name: '励志',
-          description: '偶尔还是要喝一些鸡汤的,万一实现了呢',
-          key: 'category2-2',
-          classline: '1,1'
-        }]
-      }],
+      datas: [],
       newitem: {
         name: '',
         description: ''
@@ -101,6 +45,16 @@ export default {
       }
       return res
     }
+  },
+  beforeMount () {
+    // 获取文章分类
+    getCategorys().then(res => {
+      if (res.status === 200) {
+        this.datas = res.data
+      } else {
+        console.log('请求失败')
+      }
+    })
   },
   mounted () {
     Bus.$on('additem', data => {

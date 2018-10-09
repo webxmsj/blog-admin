@@ -48,6 +48,9 @@ export default [
   {
     path: '/join',
     name: 'join',
+    meta: {
+      hideInMenu: true
+    },
     component: Main,
     children: [
       {
@@ -65,7 +68,7 @@ export default [
     path: '/articles',
     name: 'article',
     meta: {
-      icon: 'ios-cube',
+      icon: 'ios-paper',
       title: '文章管理'
     },
     component: Main,
@@ -74,7 +77,7 @@ export default [
         path: 'article_list',
         name: 'article_list',
         meta: {
-          icon: 'ios-document',
+          icon: 'ios-paper',
           title: '文章列表'
         },
         component: () => import('@/view/article-list/article-lists.vue')
@@ -83,7 +86,7 @@ export default [
         path: 'article_add',
         name: 'article_add',
         meta: {
-          icon: 'ios-create',
+          icon: 'ios-paper-plane',
           title: '新建文章'
         },
         component: () => import('@/view/article-add/article-add.vue')
@@ -94,7 +97,7 @@ export default [
     path: '/comment',
     name: 'comment',
     meta: {
-      icon: 'ios-cube',
+      icon: 'md-outlet',
       title: '评论管理'
     },
     component: Main,
@@ -103,7 +106,7 @@ export default [
         path: 'comment_list',
         name: 'comment_list',
         meta: {
-          icon: 'ios-document',
+          icon: 'md-outlet',
           title: '评论列表'
         },
         component: () => import('@/view/comment/comment.vue')
@@ -114,7 +117,7 @@ export default [
     path: '/category',
     name: 'category',
     meta: {
-      icon: 'ios-cube',
+      icon: 'md-git-merge',
       title: '分类管理'
     },
     component: Main,
@@ -123,7 +126,7 @@ export default [
         path: 'category_index',
         name: 'category_index',
         meta: {
-          icon: 'ios-document',
+          icon: 'md-git-merge',
           title: '分类管理'
         },
         component: () => import('@/view/category/index.vue')
@@ -134,7 +137,7 @@ export default [
     path: '/links',
     name: 'links',
     meta: {
-      icon: 'ios-cube',
+      icon: 'ios-body',
       title: '链接管理'
     },
     component: Main,
@@ -143,7 +146,7 @@ export default [
         path: 'links_index',
         name: 'links_index',
         meta: {
-          icon: 'ios-document',
+          icon: 'ios-body',
           title: '链接管理'
         },
         component: () => import('@/view/links/index.vue')
@@ -154,7 +157,7 @@ export default [
     path: '/users',
     name: 'users',
     meta: {
-      icon: 'ios-cube',
+      icon: 'ios-contact',
       title: '用户管理'
     },
     component: Main,
@@ -163,7 +166,7 @@ export default [
         path: 'users_index',
         name: 'users_index',
         meta: {
-          icon: 'ios-document',
+          icon: 'ios-contact',
           title: '用户管理'
         },
         component: () => import('@/view/users/index.vue')
@@ -174,7 +177,7 @@ export default [
     path: '/setting',
     name: 'setting',
     meta: {
-      icon: 'ios-cube',
+      icon: 'ios-settings',
       title: '偏好设置'
     },
     component: Main,
@@ -183,7 +186,7 @@ export default [
         path: 'setting_index',
         name: 'setting_index',
         meta: {
-          icon: 'ios-document',
+          icon: 'ios-settings',
           title: '设置中心'
         },
         component: () => import('@/view/setting/index.vue')
@@ -194,6 +197,7 @@ export default [
     path: '/components',
     name: 'components',
     meta: {
+      hideInMenu: true,  // 隐藏起来
       icon: 'logo-buffer',
       title: '组件'
     },
@@ -268,6 +272,7 @@ export default [
     path: '/update',
     name: 'update',
     meta: {
+      hideInMenu: true,  // 隐藏起来
       icon: 'md-cloud-upload',
       title: '数据上传'
     },
@@ -297,6 +302,7 @@ export default [
     path: '/excel',
     name: 'excel',
     meta: {
+      hideInMenu: true,  // 隐藏起来
       icon: 'ios-stats',
       title: 'EXCEL导入导出'
     },
@@ -326,7 +332,7 @@ export default [
     path: '/tools_methods',
     name: 'tools_methods',
     meta: {
-      hide: true
+      hideInMenu: true,  // 隐藏起来
     },
     component: Main,
     children: [
@@ -346,7 +352,7 @@ export default [
     path: '/directive',
     name: 'directive',
     meta: {
-      hide: true
+      hideInMenu: true,  // 隐藏起来
     },
     component: Main,
     children: [
@@ -365,6 +371,7 @@ export default [
     path: '/multilevel',
     name: 'multilevel',
     meta: {
+      hideInMenu: true,  // 隐藏起来
       icon: 'md-menu',
       title: '多级菜单'
     },
@@ -466,5 +473,81 @@ export default [
       hideInMenu: true
     },
     component: () => import('@/view/error-page/404.vue')
-  }
+  },
+  {
+    path: '/visualizationtable',
+    name: 'visualization_table',
+    meta: {
+      icon: 'md-grid',
+      title: '数据表可视化'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'visualization_post',
+        name: 'visualization_post',
+        meta: {
+          icon: 'ios-speedometer',
+          title: '文章相关表'
+        },
+        component: parentView,
+        children: [
+          {
+            path: 'visualization_post_category',
+            name: 'visualization_post_category',
+            meta: {
+              icon: 'md-grid',
+              title: '文章分类表'
+            },
+            component: () => import('@/view/visualization/category.vue')
+          },
+          {
+            path: 'visualization_post_category_corresponding',
+            name: 'visualization_post_category_corresponding',
+            meta: {
+              icon: 'md-grid',
+              title: '文章分类对应表'
+            },
+            component: () => import('@/view/visualization/category_corresponding.vue')
+          },
+          {
+            path: 'visualization_post_tag',
+            name: 'visualization_post_tag',
+            meta: {
+              icon: 'md-grid',
+              title: '文章标签表'
+            },
+            component: () => import('@/view/visualization/tag.vue')
+          },
+          {
+            path: 'visualization_post_tag_corresponding',
+            name: 'visualization_post_tag_corresponding',
+            meta: {
+              icon: 'md-grid',
+              title: '文章标签对应表'
+            },
+            component: () => import('@/view/visualization/tag_corresponding.vue')
+          },
+          {
+            path: 'visualization_posts',
+            name: 'visualization_posts',
+            meta: {
+              icon: 'md-grid',
+              title: '文章表'
+            },
+            component: () => import('@/view/visualization/post.vue')
+          }
+        ]
+      },
+      {
+        path: 'visualization_friendlink',
+        name: 'visualization_friendlink',
+        meta: {
+          icon: 'ios-link',
+          title: '友情链接表'
+        },
+        component: () => import('@/view/visualization/friendlink.vue')
+      }
+    ]
+  },
 ]
