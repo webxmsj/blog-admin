@@ -213,3 +213,14 @@ export const objEqual = (obj1, obj2) => {
   /* eslint-disable-next-line */
   else return !keysArr1.some(key => obj1[key] != obj2[key])
 }
+/**
+ * 返回 obj 的数据类型， 基于 toString
+ * @Author mengxiaofei
+ * @Date   2018-10-10T11:34:14+0800
+ * @param  {Any}                 obj 任意类型
+ * @return {String}                  小写的代表类型的字符串
+ */
+export const isType = (obj) => {
+  var type = Object.prototype.toString.call(obj)
+  return type.slice(8, -1).toLowerCase()
+}

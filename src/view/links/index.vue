@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import { getFriendLinks, getDisplayStructure } from '@/api/getdatas'
+import { queryall, getDisplayStructure } from '@/api/getdatas'
 export default {
   data () {
     return {
@@ -15,7 +15,7 @@ export default {
     }
   },
   beforeMount () {
-    getFriendLinks().then(res => {
+    queryall('blog_link').then(res => {
       if (res.status === 200) {
         this.loading = false
         this.datas = res.data

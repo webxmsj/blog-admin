@@ -34,6 +34,8 @@ export default {
             name: 'home'
           })
         })
+      }).catch(e => {
+        console.log('error', e)
       })
     }
   }

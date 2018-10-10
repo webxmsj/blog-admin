@@ -1,38 +1,37 @@
 <template>
   <div>
     <p style="margin: 15px;">文章标签表</p>
-    <Table :columns="columns4" :data="data4"></Table>
+    <Table :columns="columns" :data="data"></Table>
   </div>
 </template>
 
 <script>
+import { queryall, getDisplayStructure } from '@/api/getdatas'
+import { convertSqlResToCol } from '@/libs/util'
 export default {
   data () {
     return {
-      columns4: [{
-        title: '标签id',
-        key: 'id'
-      }, {
-        title: '状态',
-        key: 'status'
-      }, {
-        title: '是否推荐',
-        key: 'recommended'
-      }, {
-        title: '标签文章数',
-        key: 'post_count'
-      }, {
-        title: '标签名称',
-        key: 'name'
-      }],
-      data4: [{
-        id: 1
-      }]
+      columns: [],
+      data: []
     }
+  },
+  beforeMount () {
+    // 获取 标签表显示字段结构
+    getDisplayStructure('blog_tag').then(res => {
+      if (res.status === 200) {
+        this.columns = convertSqlResToCol(res.data)
+      } else {
+        console.log('请求 getDisplayStructure 失败')
+      }
+    })
+    // 获取原始的标签表数据
+    queryall('blog_tag').then(res => {
+      if (res.status === 200) {
+        this.data = res.data
+      } else {
+        console.log('获取文章分类错误')
+      }
+    })
   }
 }
 </script>
-
-<style>
-
-</style>

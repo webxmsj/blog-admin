@@ -2,7 +2,8 @@
   <Table :loading="loading" :columns="columns" :data="datas"></Table>
 </template>
 <script>
-import { getFriendLinks, getDisplayStructure } from '@/api/getdatas'
+import { queryall, getDisplayStructure } from '@/api/getdatas'
+import { convertSqlResToCol } from '@/libs/util'
 export default {
   data () {
     return {
@@ -12,7 +13,7 @@ export default {
     }
   },
   beforeMount () {
-    getFriendLinks().then(res => {
+    queryall('blog_link').then(res => {
       if (res.status === 200) {
         this.loading = false
         this.datas = res.data
@@ -23,7 +24,7 @@ export default {
     // 获取表结构
     getDisplayStructure('blog_link').then(res => {
       if (res.status === 200) {
-        this.columns = res.data
+        this.columns = convertSqlResToCol(res.data)
       } else {
         console.log(res)
       }

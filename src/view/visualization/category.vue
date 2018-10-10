@@ -1,34 +1,35 @@
 <template>
   <div>
     <p style="margin: 15px;">文章分类表 (blog_category)</p>
-    <Table :columns="columns1" :data="data1"></Table>
+    <Table :columns="columns" :data="data"></Table>
   </div>
 </template>
 
 <script>
-import { getDisplayStructure, getOriginalCategorys } from '@/api/getdatas'
+import { getDisplayStructure, queryall } from '@/api/getdatas'
+import { convertSqlResToCol } from '@/libs/util'
 export default {
   data () {
     return {
-      columns1: [],
-      data1: []
+      columns: [],
+      data: []
     }
   },
   beforeMount () {
     // 获取 分类表显示字段结构
     getDisplayStructure('blog_category').then(res => {
       if (res.status === 200) {
-        this.columns1 = res.data
+        this.columns = convertSqlResToCol(res.data)
       } else {
         console.log('请求 getDisplayStructure 失败')
       }
     })
     // 获取原始的分类数据
-    getOriginalCategorys().then(res => {
+    queryall('blog_category').then(res => {
       if (res.status === 200) {
-        this.data1 = res.data
+        this.data = res.data
       } else {
-        console.log('获取  getOriginalCategorys 失败')
+        console.log('获取文章分类错误')
       }
     })
   }

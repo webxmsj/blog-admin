@@ -109,3 +109,89 @@ CREATE TABLE IF NOT EXISTS `blog_tag_post` (
   PRIMARY KEY (`id`),
   KEY `post_id` (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='portal应用 标签文章对应表';
+
+--
+-- 表的结构 `blog_user`
+--
+
+CREATE TABLE IF NOT EXISTS `blog_user` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_type` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '用户类型;1:普通用户;2:基础后台管理用户3:超级后台管理用户',
+  `sex` tinyint(2) NOT NULL DEFAULT '0' COMMENT '性别;0:保密,1:男,2:女',
+  `birthday` int(11) NOT NULL DEFAULT '0' COMMENT '生日',
+  `last_login_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后登录时间',
+  `score` int(11) NOT NULL DEFAULT '0' COMMENT '用户积分',
+  `coin` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '金币',
+  `balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '余额',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '注册时间',
+  `user_status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '用户状态;0:禁用,1:正常,2:未验证',
+  `user_login` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户名',
+  `user_pass` varchar(64) NOT NULL DEFAULT '' COMMENT '登录密码;cmf_password加密',
+  `user_nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
+  `user_email` varchar(100) NOT NULL DEFAULT '' COMMENT '用户登录邮箱',
+  `user_url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人网址',
+  `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像',
+  `signature` varchar(255) NOT NULL DEFAULT '' COMMENT '个性签名',
+  `last_login_ip` varchar(15) NOT NULL DEFAULT '' COMMENT '最后登录ip',
+  `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '用户手机号',
+  `more` text COMMENT '扩展属性',
+  PRIMARY KEY (`id`),
+  KEY `user_login` (`user_login`),
+  KEY `user_nickname` (`user_nickname`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+
+--
+-- 表的结构 `blog_third_party_user` 第三方用户表
+--
+
+CREATE TABLE IF NOT EXISTS `blog_third_party_user` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '本站用户id',
+  `last_login_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '最后登录时间',
+  `expire_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'access_token过期时间',
+  `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '绑定时间',
+  `login_times` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '登录次数',
+  `status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态;1:正常;0:禁用',
+  `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '用户昵称',
+  `third_party` varchar(20) NOT NULL DEFAULT '' COMMENT '第三方惟一码',
+  `app_id` varchar(64) NOT NULL DEFAULT '' COMMENT '第三方应用 id',
+  `last_login_ip` varchar(15) NOT NULL DEFAULT '' COMMENT '最后登录ip',
+  `access_token` varchar(512) NOT NULL DEFAULT '' COMMENT '第三方授权码',
+  `openid` varchar(40) NOT NULL DEFAULT '' COMMENT '第三方用户id',
+  `union_id` varchar(64) NOT NULL DEFAULT '' COMMENT '第三方用户多个产品中的惟一 id,(如:微信平台)',
+  `more` text COMMENT '扩展信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='第三方用户表';
+
+--
+-- 表的结构 `blog_user_token` 用户token 对应表
+--
+
+CREATE TABLE IF NOT EXISTS `blog_user_token` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `expire_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT ' 过期时间',
+  `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `token` varchar(64) NOT NULL DEFAULT '' COMMENT 'token',
+  `device_type` varchar(10) NOT NULL DEFAULT '' COMMENT '设备类型;mobile,android,iphone,ipad,web,pc,mac,wxapp',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户客户端登录 token 表';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

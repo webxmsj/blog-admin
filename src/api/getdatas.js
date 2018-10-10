@@ -1,8 +1,11 @@
 import axios from '@/libs/api.request'
 
-export const getFriendLinks = () => {
+export const queryall = tablename => {
   return axios.request({
-    url: 'get_friend_links',
+    url: 'query_all',
+    params: {
+      tablename: tablename
+    },
     method: 'get'
   })
 }

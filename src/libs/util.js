@@ -1,9 +1,35 @@
 import Cookies from 'js-cookie'
 // cookie保存的天数
 import config from '@/config'
-import { forEach, hasOneOf, objEqual } from '@/libs/tools'
+import { forEach, hasOneOf, objEqual, isType } from '@/libs/tools'
 
 export const TOKEN_KEY = 'token'
+
+// 转换sql查询的表结构 为符合要求的table clomuns //
+export const convertSqlResToCol = (sqlres) => {
+  return sqlres.map((item) => {
+    var title = item['COLUMN_COMMENT'] ? `${item['COLUMN_NAME']} (${item['COLUMN_COMMENT']})` : `${item['COLUMN_NAME']}`
+    return {
+      title: title,
+      key: item['COLUMN_NAME'],
+      width: 200
+    }
+  })
+}
+
+// 设置指定列的属性
+export const setAppointColumn = (target, source) => {
+  var key
+  if (Array.isArray(target)) {
+    for (key in source) {
+      if (isType(source[key]) === 'object') {
+        target[key] = Object.assign(target[key], source[key])
+      } else {
+        target[key]['width'] = source[key]
+      }
+    }
+  }
+}
 
 export const setToken = (token) => {
   Cookies.set(TOKEN_KEY, token, { expires: config.cookieExpires || 1 })
