@@ -1,7 +1,7 @@
 <template>
   <div>
     <p style="margin: 15px;">文章标签表</p>
-    <Table :columns="columns" :data="data"></Table>
+    <Table :columns="columns" :data="data" width="1000"></Table>
   </div>
 </template>
 

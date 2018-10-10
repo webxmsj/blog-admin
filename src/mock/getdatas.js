@@ -25,83 +25,162 @@ export const getFriendLinks = () => {
   }]
 }
 
+export const queryAll = (req) => {
+  const params = getParams(req.url)
+  console.log(params)
+  var result = []
+  switch (params.tablename) {
+    case 'blog_link':
+      result = [{
+        id: 0,
+        status: 1,
+        rating: 8,
+        list_order: 6,
+        description: '信息描述',
+        url: 'http://www.baidu.com',
+        name: '百度',
+        image: '',
+        target: '_blank',
+        rel: ''
+      }]
+      break
+    case 'blog_category':
+      result = [{
+        id: 0
+      }]
+      break
+  }
+  return result
+}
+
 export const getDisplayStructure = req => {
   const params = getParams(req.url)
   var result
   switch (params.tablename) {
     case 'blog_link':
       result = [{
-        title: '编号',
-        key: 'id'
+        COLUMN_COMMENT: '编号',
+        COLUMN_NAME: 'id'
       }, {
-        title: '状态',
-        key: 'status' // 1 显示 0 不显示
+        COLUMN_COMMENT: '状态',
+        COLUMN_NAME: 'status' // 1 显示 0 不显示
       }, {
-        title: '级别',
-        key: 'rating'
+        COLUMN_COMMENT: '级别',
+        COLUMN_NAME: 'rating'
       }, {
-        title: '排序',
-        key: 'list_order'
+        COLUMN_COMMENT: '排序',
+        COLUMN_NAME: 'list_order'
       }, {
-        title: '描述',
-        key: 'description'
+        COLUMN_COMMENT: '描述',
+        COLUMN_NAME: 'description'
       }, {
-        title: '地址',
-        key: 'url'
+        COLUMN_COMMENT: '地址',
+        COLUMN_NAME: 'url'
       }, {
-        title: '名称',
-        key: 'name'
+        COLUMN_COMMENT: '名称',
+        COLUMN_NAME: 'name'
       }, {
-        title: '图标',
-        key: 'image'
+        COLUMN_COMMENT: '图标',
+        COLUMN_NAME: 'image'
       }, {
-        title: '打开方式',
-        key: 'target'
+        COLUMN_COMMENT: '打开方式',
+        COLUMN_NAME: 'target'
       }, {
-        title: '链接与网站的关系',
-        key: 'rel'
+        COLUMN_COMMENT: '链接与网站的关系',
+        COLUMN_NAME: 'rel'
       }]
       break
     case 'blog_category':
       result = [{
-        title: '分类id',
-        key: 'id'
+        COLUMN_COMMENT: '分类id',
+        COLUMN_NAME: 'id'
       }, {
-        title: '分类父id',
-        key: 'parent_id'
+        COLUMN_COMMENT: '分类父id',
+        COLUMN_NAME: 'parent_id'
       }, {
-        title: '分类文章数',
-        key: 'post_count'
+        COLUMN_COMMENT: '分类文章数',
+        COLUMN_NAME: 'post_count'
       }, {
-        title: '状态',
-        key: 'status'
+        COLUMN_COMMENT: '状态',
+        COLUMN_NAME: 'status'
       }, {
-        title: '删除时间',
-        key: 'delete_time'
+        COLUMN_COMMENT: '删除时间',
+        COLUMN_NAME: 'delete_time'
       }, {
-        title: '排序',
-        key: 'list_order'
+        COLUMN_COMMENT: '排序',
+        COLUMN_NAME: 'list_order'
       }, {
-        title: '分类名称',
-        key: 'name'
+        COLUMN_COMMENT: '分类名称',
+        COLUMN_NAME: 'name'
       }, {
-        title: '分类描述',
-        key: 'description'
+        COLUMN_COMMENT: '分类描述',
+        COLUMN_NAME: 'description'
       }, {
-        title: '关系路径',
-        key: 'path'
+        COLUMN_COMMENT: '关系路径',
+        COLUMN_NAME: 'path'
       }, {
-        title: 'seo标题',
-        key: 'seo_title'
+        COLUMN_COMMENT: 'seo标题',
+        COLUMN_NAME: 'seo_title'
       }, {
-        title: 'seo描述',
-        key: 'seo_description'
+        COLUMN_COMMENT: 'seo描述',
+        COLUMN_NAME: 'seo_description'
       }, {
-        title: 'seo关键词',
-        key: 'seo_keywords'
+        COLUMN_COMMENT: 'seo关键词',
+        COLUMN_NAME: 'seo_keywords'
       }, {
-        title: '扩展属性',
-        key: 'more'
+        COLUMN_COMMENT: '扩展属性',
+        COLUMN_NAME: 'more'
+      }]
+      break
+    case 'blog_category_post':
+      result = [{
+        COLUMN_COMMENT: 'id',
+        COLUMN_NAME: 'id'
+      }, {
+        COLUMN_COMMENT: '文章id',
+        COLUMN_NAME: 'post_id'
+      }, {
+        COLUMN_COMMENT: '分类id',
+        COLUMN_NAME: 'category_id'
+      }, {
+        COLUMN_COMMENT: '排序',
+        COLUMN_NAME: 'list_order'
+      }, {
+        COLUMN_COMMENT: '状态0发布1不发布',
+        COLUMN_NAME: 'status'
+      }]
+      break
+    case 'blog_tag':
+      result = [{
+        COLUMN_COMMENT: 'id',
+        COLUMN_NAME: 'id'
+      }, {
+        COLUMN_COMMENT: '是否推荐',
+        COLUMN_NAME: 'recommended'
+      }, {
+        COLUMN_COMMENT: '标签文章数量',
+        COLUMN_NAME: 'post_count'
+      }, {
+        COLUMN_COMMENT: '标签名称',
+        COLUMN_NAME: 'name'
+      }, {
+        COLUMN_COMMENT: '状态0发布1不发布',
+        COLUMN_NAME: 'status'
+      }]
+      break
+    case 'blog_tag_post':
+      result = [{
+        COLUMN_COMMENT: 'id',
+        COLUMN_NAME: 'id'
+      }, {
+        COLUMN_COMMENT: '标签id',
+        COLUMN_NAME: 'tag_id'
+      }, {
+        COLUMN_COMMENT: '文章id',
+        COLUMN_NAME: 'post_id'
+      }, {
+        COLUMN_COMMENT: '状态0发布1不发布',
+        COLUMN_NAME: 'status'
       }]
       break
   }

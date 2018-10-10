@@ -1,7 +1,7 @@
 <template>
   <div>
     <p style="margin: 15px;">标签文章对应表</p>
-    <Table :columns="columns" :data="data"></Table>
+    <Table :columns="columns" :data="data" width="800"></Table>
   </div>
 </template>
 
