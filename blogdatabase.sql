@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : local
+ Source Server         : localhost
  Source Server Type    : MySQL
  Source Server Version : 80012
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 10/10/2018 17:48:08
+ Date: 15/10/2018 06:30:16
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `blog_category`  (
   `seo_title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `seo_keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `seo_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
-  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '扩展属性',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
 
@@ -106,14 +106,30 @@ CREATE TABLE `blog_post`  (
   `post_keywords` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'seo keywords',
   `post_excerpt` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'post摘要',
   `post_source` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '转载文章的来源',
-  `post_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '文章内容',
-  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性,如缩略图;格式为json',
+  `post_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '文章内容',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '扩展属性,如缩略图;格式为json',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `type_status_date`(`post_status`, `create_time`, `id`) USING BTREE,
   INDEX `parent_id`(`parent_id`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE,
   INDEX `create_time`(`create_time`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'portal应用 文章表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for blog_setting
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_setting`;
+CREATE TABLE `blog_setting`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设置的类型',
+  `data` json NULL COMMENT 'json格式的key-value',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_setting
+-- ----------------------------
+INSERT INTO `blog_setting` VALUES (19, 'qiniu', '{\"bucket\": \"ddd\", \"domain\": \"cccc\", \"accessKey\": \"a\", \"secretKey\": \"b\"}');
 
 -- ----------------------------
 -- Table structure for blog_tag
@@ -165,11 +181,11 @@ CREATE TABLE `blog_user`  (
   `signature` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '个性签名',
   `last_login_ip` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '最后登录ip',
   `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '用户手机号',
-  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '扩展属性',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_login`(`user_login`) USING BTREE,
   INDEX `user_nickname`(`user_nickname`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_user
@@ -189,11 +205,11 @@ CREATE TABLE `blog_user_token`  (
   `device_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '设备类型;mobile,android,iphone,ipad,web,pc,mac,wxapp',
   `ip_address` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户客户端登录 token 表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户客户端登录 token 表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_user_token
 -- ----------------------------
-INSERT INTO `blog_user_token` VALUES (20, 4, 1539246406839, 1539160006839, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo0fSwiZXhwIjoxNTM5MjQ2NDA2LCJpYXQiOjE1MzkxNjAwMDZ9.h4yCpBaLqsSXXipQH47LYMed52QwEH4kOWrhvRstSdVV4Vf3XTY_RJJ0puMW26xX1D6wvwGFF1jW9ZBWNE32Pa7FVsjDGiVU5YDaFqYdN3P4T0iEOLDEbIIN4hSHPn6hIfRJvfM5q0As0dZOroTonHfyUPuZv_ebdBbZl6DFvWQW_NEDenVRR2OwfJAlqFL0WdcO-ukKx99h78ZLACgzIsJwzwetVe3PIRapT9glydIhXuQwYI6sH43Q4lapJg_tbdfXNjVEn8m719dVZxQzk8Uu9mFkIHjPLKNibRH40BMe2n0msZ9486ijozK5wSsq7YamPax4mzONSZmqnOucnw', '', '::1');
+INSERT INTO `blog_user_token` VALUES (20, 4, 1539635316187, 1539548916187, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo0fSwiZXhwIjoxNTM5NjM1MzE2LCJpYXQiOjE1Mzk1NDg5MTZ9.VMlDnMaL-yWOC3uemh9xpB5JhKtXwDZTSXbvV-op4EHdTUSh7C9YaEvinkpoG1jyKqT_n0jP1enkmLtvYKAVAGsVh9zIGGw5yMKCgrocUlfX02QvpTnwr3les_g-d5ENfzgBBrA_xq5fSWFjdyrTZzv3tU-85lcUJOHp-eAY1KLSSVkc05LIGNqxGNGBQB6HUMcRh_-U7gsTsyUaXb9Km7hxMt7TCfJhOvs65W_eQ0TZwcsTuK809AL_3cwknC1tzoLG8EEW1C7HO6betiO7-968I_2VZ_ZfuC2ZmyuDS6yiwn2LFW6eMQqA4hpQVZSgIgQ0DZanEbBJV8-cydkEGA', '', '::1');
 
 SET FOREIGN_KEY_CHECKS = 1;

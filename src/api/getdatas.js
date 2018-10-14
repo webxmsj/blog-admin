@@ -33,3 +33,21 @@ export const getOriginalCategorys = () => {
     method: 'get'
   })
 }
+
+export const updateSetting = data => {
+  return axios.request({
+    url: 'update_setting',
+    method: 'post',
+    data: data
+  })
+}
+
+export const getSettingByType = type => {
+  return axios.request({
+    url: 'get_setting_by_type',
+    method: 'post',
+    data: {
+      type: type
+    }
+  })
+}

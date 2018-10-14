@@ -73,7 +73,28 @@
               <p>头像：</p>
             </Col>
             <Col span="16">
-              <Input placeholder="请输入用户名" style="width: auto"></Input>
+              <Upload
+                ref="upload"
+                :show-upload-list="false"
+                :default-file-list="defaultList"
+                :on-success="handleSuccess"
+                :format="['jpg','jpeg','png']"
+                :max-size="2048"
+                :on-progress="onProgress"
+                :on-format-error="handleFormatError"
+                :on-exceeded-size="handleMaxSize"
+                :before-upload="handleBeforeUpload"
+                multiple
+                type="drag"
+                name="file"
+                action="//upload-z2.qiniu.com/"
+                :data="{token: token}"
+                style="display: inline-block;width:58px;"
+              >
+                <div style="width: 58px;height:58px;line-height: 58px;">
+                    <Icon type="md-add" size="20"></Icon>
+                </div>
+            </Upload>
             </Col>
           </Row>
           <Row class="field">

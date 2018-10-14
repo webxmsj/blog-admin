@@ -1,6 +1,6 @@
 <template>
-  <Tabs type="card">
-    <TabPane label="信息配置">
+  <Tabs type="card" :value="tabname" @on-click="tabchange">
+    <TabPane label="信息配置" name="info">
       <div class="box">
         <div class="item">
           <label for="title">博客标题：</label>
@@ -36,17 +36,76 @@
         </div>
       </div>
     </TabPane>
-    <TabPane label="皮肤">皮肤</TabPane>
-    <TabPane label="参数设置">参数设置</TabPane>
-    <TabPane label="七牛">七牛</TabPane>
-    <TabPane label="邮箱配置">邮箱配置</TabPane>
+    <TabPane label="皮肤" name="theme">皮肤</TabPane>
+    <TabPane label="参数设置" name="field">参数设置</TabPane>
+    <TabPane label="七牛" name="qiniu">
+      <div class="box">
+        <div class="item">
+          <label for="title">Access Key：</label>
+          <Input id="title" placeholder="请输入Access Key" v-model="qiniu.data.accessKey" style="width: 300px"/>
+        </div>
+        <div class="item">
+          <label for="title">Secret Key：</label>
+          <Input id="title" placeholder="请输入Secret Key" v-model="qiniu.data.secretKey" style="width: 300px"/>
+        </div>
+        <div class="item">
+          <label for="title">域名：</label>
+          <Input id="title" placeholder="请输入域名" v-model="qiniu.data.domain" style="width: 300px"/>
+        </div>
+        <div class="item">
+          <label for="title">Bucket：</label>
+          <Input id="title" placeholder="请输入Bucket" v-model="qiniu.data.bucket" style="width: 300px"/>
+        </div>
+      </div>
+      <Button type="primary" @click="savedata('qiniu')">更新</Button>
+    </TabPane>
+    <TabPane label="邮箱配置" name="email">邮箱配置</TabPane>
     </Tabs>
 </template>
 <script>
+import { updateSetting, getSettingByType } from '@/api/getdatas'
+
 export default {
   data () {
     return {
-      name: '设置中心'
+      name: '设置中心',
+      tabname: '',
+      qiniu: {
+        id: '',
+        type: 'qiniu',
+        data: {
+          accessKey: '',
+          secretKey: '',
+          domain: '',
+          bucket: ''
+        }
+      }
+    }
+  },
+  methods: {
+    savedata (type) {
+      updateSetting({
+        id: this[type]['id'],
+        type: type,
+        data: JSON.stringify(this[type]['data'])
+      }).then(res => {
+        if (res.data['id']) {
+          this[type]['id'] = res.data['id']
+        }
+        console.log('更新设置成功', type, res)
+      })
+    },
+    tabchange (name) {
+      getSettingByType(name).then(res => {
+        console.log('查询设置成功', name, res)
+        if (res.data.length > 0) {
+          this[name] = {
+            id: res.data[0]['id'],
+            data: JSON.parse(res.data[0]['data']),
+            type: res.data[0]['type']
+          }
+        }
+      })
     }
   }
 }
