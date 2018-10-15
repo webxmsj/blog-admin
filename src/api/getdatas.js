@@ -51,3 +51,27 @@ export const getSettingByType = type => {
     }
   })
 }
+
+export const uploadFile = data => {
+  return axios.request({
+    url: 'upload_qiniu',
+    method: 'post',
+    data: data
+  })
+}
+
+export const sendMail = data => {
+  return axios.request({
+    url: 'send_mail',
+    method: 'post',
+    data: data
+  })
+}
+
+export const addUser = data => {
+  return axios.request({
+    url: 'add_user',
+    method: 'post',
+    data: data
+  })
+}

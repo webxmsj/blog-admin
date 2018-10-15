@@ -5,7 +5,7 @@
       <Button type="primary">修改用户</Button>
       <Button type="error">删除用户</Button>
     </ButtonGroup>
-    <Table ref="selection" border :columns="columns" :data="datas"></Table>
+    <Table ref="selection" border stripe :columns="columns" :data="datas"></Table>
     <Modal v-model="showmodal" fullscreen title="新建用户只需简单几步" @on-visible-change="modalChange">
       <Steps class="newuser" :current="step">
         <Step title="选择角色" icon="ios-contact" @click.native="jumpTo(0)"></Step>
@@ -17,18 +17,9 @@
       <div v-show="step === 0" class="role">
         <Row type="flex" justify="center">
           <Col span="6">
-            <div class="item" @click="choserole(0)">
+            <div class="item" @click="choserole(1)">
               <img src="../../assets/images/role.jpg" alt="普通用户">
               <p>我是普通用户</p>
-              <div class="mask" :class="{active:choseindex == 0}">
-                <Icon type="md-checkmark-circle-outline" />
-              </div>
-            </div>
-          </Col>
-          <Col span="6">
-            <div class="item" @click="choserole(1)">
-              <img src="../../assets/images/role.jpg" alt="管理员">
-              <p>我是管理员</p>
               <div class="mask" :class="{active:choseindex == 1}">
                 <Icon type="md-checkmark-circle-outline" />
               </div>
@@ -36,9 +27,18 @@
           </Col>
           <Col span="6">
             <div class="item" @click="choserole(2)">
+              <img src="../../assets/images/role.jpg" alt="管理员">
+              <p>我是管理员</p>
+              <div class="mask" :class="{active:choseindex == 2}">
+                <Icon type="md-checkmark-circle-outline" />
+              </div>
+            </div>
+          </Col>
+          <Col span="6">
+            <div class="item" @click="choserole(3)">
               <img src="../../assets/images/role.jpg" alt="超级管理员">
               <p>我是超级管理员</p>
-              <div class="mask" :class="{active:choseindex == 2}">
+              <div class="mask" :class="{active:choseindex == 3}">
                 <Icon type="md-checkmark-circle-outline" />
               </div>
             </div>
@@ -57,7 +57,7 @@
               <p>用户名：</p>
             </Col>
             <Col span="16">
-              <Input placeholder="请输入用户名" style="width: auto"></Input>
+              <Input placeholder="请输入用户名" style="width: auto" v-model="information.username"></Input>
             </Col>
           </Row>
           <Row class="field">
@@ -65,7 +65,23 @@
               <p>用户昵称：</p>
             </Col>
             <Col span="16">
-              <Input placeholder="请输入用户昵称" style="width: auto"></Input>
+              <Input placeholder="请输入用户昵称" style="width: auto" v-model="information.nickname"></Input>
+            </Col>
+          </Row>
+          <Row class="field">
+            <Col span="8">
+              <p>登录密码：</p>
+            </Col>
+            <Col span="16">
+              <Input placeholder="请输入登录密码" style="width: auto" v-model="information.oncepassword"></Input>
+            </Col>
+          </Row>
+          <Row class="field">
+            <Col span="8">
+              <p>再次输入登录密码：</p>
+            </Col>
+            <Col span="16">
+              <Input placeholder="请再次输入登录密码" style="width: auto" v-model="information.secondpassword"></Input>
             </Col>
           </Row>
           <Row class="field">
@@ -73,28 +89,24 @@
               <p>头像：</p>
             </Col>
             <Col span="16">
-              <Upload
-                ref="upload"
-                :show-upload-list="false"
-                :default-file-list="defaultList"
-                :on-success="handleSuccess"
-                :format="['jpg','jpeg','png']"
-                :max-size="2048"
-                :on-progress="onProgress"
-                :on-format-error="handleFormatError"
-                :on-exceeded-size="handleMaxSize"
-                :before-upload="handleBeforeUpload"
-                multiple
-                type="drag"
-                name="file"
-                action="//upload-z2.qiniu.com/"
-                :data="{token: token}"
-                style="display: inline-block;width:58px;"
-              >
-                <div style="width: 58px;height:58px;line-height: 58px;">
-                    <Icon type="md-add" size="20"></Icon>
+              <div class="useravatar">
+                <Upload
+                  :show-upload-list="false"
+                  :format="['jpg','jpeg','png']"
+                  :max-size="2048"
+                  :before-upload="uploadBanner"
+                  :on-format-error="pc1FormatError"
+                  multiple
+                  type="drag"
+                  action="">
+                  <div style="width: 200px;height:200px;line-height:200px;text-align: center;">
+                      <p>点击上传图片</p>
+                  </div>
+                </Upload>
+                <div class="mask" v-if="information.useravatar" :style="{backgroundImage: 'url('+ information.useravatar +')'}">
+                  <p><span>重新上传</span></p>
                 </div>
-            </Upload>
+              </div>
             </Col>
           </Row>
           <Row class="field">
@@ -103,9 +115,9 @@
             </Col>
             <Col span="16">
               <RadioGroup v-model="information.sex">
-                <Radio label="保密"></Radio>
-                <Radio label="男"></Radio>
-                <Radio label="女"></Radio>
+                <Radio label="0">保密</Radio>
+                <Radio label="1">男</Radio>
+                <Radio label="2">女</Radio>
               </RadioGroup>
             </Col>
           </Row>
@@ -135,7 +147,7 @@
               <p>个性签名：</p>
             </Col>
             <Col span="16">
-              <Input placeholder="请输入个性签名" style="width: auto"></Input>
+              <Input placeholder="请输入个性签名" style="width: auto" v-model="information.signature"></Input>
             </Col>
           </Row>
           <Row class="field">
@@ -143,17 +155,23 @@
               <p>个人网址：</p>
             </Col>
             <Col span="16">
-              <Input placeholder="请输入个人网址" style="width: auto"></Input>
+              <Input placeholder="请输入个人网址" style="width: auto" v-model="information.website"></Input>
             </Col>
           </Row>
         </div>
-        <Button type="info" @click="step += 1">下一步</Button>
+        <Button type="info" @click="submitdatas">下一步</Button>
+      </div>
+      <!-- /send_mail -->
+      <div v-show="step === 2" class="mailcontainer">
+          发送邮件
+          <Input v-model="email" placeholder="请输入邮箱"></Input>
+          <Button @click="sendmail">发送邮件</Button>
       </div>
     </Modal>
   </div>
 </template>
 <script>
-import { getDisplayStructure, queryall } from '@/api/getdatas'
+import { getDisplayStructure, queryall, uploadFile, sendMail, addUser } from '@/api/getdatas'
 import { convertSqlResToCol } from '@/libs/util'
 export default {
   data () {
@@ -162,12 +180,21 @@ export default {
       datas: [],
       showmodal: false,
       step: 0,
-      choseindex: 0,
+      choseindex: 1,
       open: false,
       information: {
+        id: '',
         sex: 0,
-        birthday: ''
-      }
+        username: '',
+        nickname: '',
+        birthday: '',
+        useravatar: '',
+        website: '',
+        signature: '',
+        oncepassword: '',
+        secondpassword: ''
+      },
+      email: ''
     }
   },
   beforeMount () {
@@ -194,6 +221,26 @@ export default {
     })
   },
   methods: {
+    uploadBanner (file) {
+      var that = this
+      var reader = new FileReader()
+      let formData = new FormData()
+      reader.onload = function (e) {
+        var img = new Image()
+        img.src = e.target.result
+        img.onload = function () {
+          formData.append('file', file)
+          uploadFile(formData).then(res => {
+            that.information.useravatar = 'http://qiniu.bfrontend.com/' + res.data
+            console.log('上传成功', res.data)
+          })
+        }
+      }
+      reader.readAsDataURL(file)
+    },
+    pc1FormatError (file) {
+      console.log('文件格式不正确', file.name)
+    },
     modalChange (flag) {
       if (!flag) {
         this.step = 0
@@ -214,6 +261,28 @@ export default {
     },
     chosebirthday () {
       this.open = !this.open
+    },
+    submitdatas () {
+      this.step += 1
+      addUser({
+        role: this.choseindex,
+        ...this.information
+      }).then(res => {
+        this.information.id = res.data.id
+        console.log('新增用户成功', res)
+      })
+    },
+    sendmail () {
+      sendMail({
+        user: this.information.username,
+        email: this.email,
+        id: this.information.id
+      }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+      console.log('send mail')
     }
   }
 }
@@ -293,11 +362,51 @@ export default {
   width: 40%;
   margin: 0 auto;
   .field{
+    margin: 10px 0;
     p{
       text-align: right;
       line-height: 32px;
     }
-    margin: 10px 0;
+    .useravatar{
+      width: 200px;
+      height: 200px;
+      text-align: center;
+      position: relative;
+      p{
+        text-align: center;
+        line-height: 200px;
+      }
+      .mask{
+        background-size: cover;
+        background-position: center;
+        position:absolute;
+        left:0;
+        top:0;
+        height:100%;
+        width: 100%;
+        z-index: 2;
+        p{
+          display: block;
+          transition: all .6s linear;
+          opacity: 0;
+          color: #fff;
+          text-align: center;
+          line-height: 200px;
+          height: 200px;
+          span{
+            cursor: pointer;
+            padding: 5px 0;
+            margin: 0 10px;
+          }
+        }
+        &:hover{
+          p{
+            opacity: 1;
+            background: rgba(0,0,0,.5);
+          }
+        }
+      }
+    }
   }
 }
 

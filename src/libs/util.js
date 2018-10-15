@@ -12,7 +12,8 @@ export const convertSqlResToCol = (sqlres) => {
     return {
       title: title,
       key: item['COLUMN_NAME'],
-      width: 200
+      width: 200,
+      height: 32
     }
   })
 }
