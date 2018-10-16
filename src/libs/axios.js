@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
 // import { Spin } from 'iview'
 class HttpRequest {
   constructor (baseUrl = baseURL) {
@@ -12,6 +13,10 @@ class HttpRequest {
         //
       }
     }
+    let token = Cookies.get('token')
+    if (token) {
+      config.headers['Authorization'] = 'Bearer ' + token
+    }
     return config
   }
   destroy (url) {
@@ -24,9 +29,9 @@ class HttpRequest {
     // 请求拦截
     instance.interceptors.request.use(config => {
       // 添加全局的loading...
-      if (!Object.keys(this.queue).length) {
-        // Spin.show() // 不建议开启，因为界面不友好
-      }
+      // if (!Object.keys(this.queue).length) {
+      // Spin.show() // 不建议开启，因为界面不友好
+      // }
       this.queue[url] = true
       return config
     }, error => {
@@ -39,6 +44,7 @@ class HttpRequest {
       return { data, status }
     }, error => {
       this.destroy(url)
+      // err.response.status
       return Promise.reject(error)
     })
   }

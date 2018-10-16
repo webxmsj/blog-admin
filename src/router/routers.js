@@ -454,9 +454,18 @@ export default [
     path: '/401',
     name: 'error_401',
     meta: {
-      hideInMenu: true
+      hideInMenu: true,
+      notCache: true
     },
     component: () => import('@/view/error-page/401.vue')
+  },
+  {
+    path: '/activeemail/:id/:code',
+    name: 'activeemail',
+    meta: {
+      hideInMenu: true
+    },
+    component: () => import('@/view/auxiliary/activeemail.vue')
   },
   {
     path: '/500',

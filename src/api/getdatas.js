@@ -68,9 +68,17 @@ export const sendMail = data => {
   })
 }
 
-export const addUser = data => {
+export const addOrUpdateUser = data => {
   return axios.request({
-    url: 'add_user',
+    url: 'add_update_user',
+    method: 'post',
+    data: data
+  })
+}
+
+export const activeEmail = data => {
+  return axios.request({
+    url: 'active_email',
     method: 'post',
     data: data
   })
