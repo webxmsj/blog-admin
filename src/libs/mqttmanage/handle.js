@@ -2,10 +2,12 @@
 * @Author: mengxiaofei
 * @Date:   2018-10-17 14:51:59
 * @Last Modified by:   mengxiaofei
-* @Last Modified time: 2018-10-17 16:36:55
+* @Last Modified time: 2018-10-17 18:37:33
 */
+import store from '@/store'
 import mqtt from 'mqtt'
 import { isType } from '../tools'
+import { updateClientId } from '@/api/getdatas'
 class Mqtt {
   constructor (options) {
     this._setting = {
@@ -14,17 +16,28 @@ class Mqtt {
     }
     this.subscribes = {}
     Object.assign(this._setting, options)
-    this.client = mqtt.connect(this._setting.url)
+    this.clientId = 'bfrontend_' + Math.random().toString(36).substr(2, 10)
+    this.client = mqtt.connect(this._setting.url, {
+      clientId: this.clientId // 用户id
+    })
     this.addHook()
   }
 
   addHook () {
-    this.client.on('connect', function () {
+    this.client.on('connect', () => {
+      updateClientId({
+        userId: store.state.user.userId,
+        clientId: this.clientId
+      }).then(res => {
+        console.log('更新clientid成功')
+      })
       console.log('连接成功')
+      // 将 clientId 与用户对应 提交到数据库
     })
     this.client.on('message', (topic, payload) => {
-      if (this.subscribes[topic]) {
-        this.subscribes[topic](payload.toString())
+      var current = this.subscribes[topic]
+      if (current) {
+        current['handler'].call(current['context'], payload.toString())
       }
     })
   }

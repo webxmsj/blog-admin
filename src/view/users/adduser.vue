@@ -162,9 +162,20 @@
     </div>
     <!-- /send_mail -->
     <div v-show="step === 2" class="mailcontainer">
-        发送邮件
+      <div v-show="!sendstatus">
+        <p>发送邮件</p>
         <Input v-model="email" placeholder="请输入邮箱"></Input>
         <Button @click="sendmail">发送邮件</Button>
+        <span class="loadingbar">
+          <Spin fix>
+            <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+            <div>发送中</div>
+          </Spin>
+        </span>
+      </div>
+      <div v-show="sendstatus">
+        <p>发送成功,请登录邮箱进行激活</p>
+      </div>
     </div>
   </Modal>
 </template>
@@ -178,6 +189,7 @@ export default {
       choseindex: 1,
       open: false,
       passwordstatus: false,
+      sendstatus: false,
       temppassword: {
         oncepassword: '',
         secondpassword: ''
@@ -196,15 +208,28 @@ export default {
       email: ''
     }
   },
-  mounted () {
-    this.$mqtt.addSubscribe({
-      activeresult: function (data) {
-        console.log('邮箱激活结果', data)
-      },
-      sendresult: function (data) {
-        console.log('邮箱发送结果', data)
+  watch: {
+    step (curval, oldval) {
+      if (curval === 2) {
+        this.$mqtt.addSubscribe({
+          activeresult: {
+            context: this,
+            handler: function (data) {
+              console.log('邮箱激活结果', data)
+            }
+          },
+          sendresult: {
+            context: this,
+            handler: function (data) {
+              this.sendstatus = true
+              console.log('邮箱发送结果', data)
+            }
+          }
+        })
+      } else if (oldval === 2) {
+        console.log('离开邮箱界面')
       }
-    })
+    }
   },
   beforeDestroy () {
     this.$mqtt.removeSubscribe(['activeresult', 'sendresult'])
@@ -402,4 +427,25 @@ export default {
     }
   }
 }
+
+.loadingbar{
+  position: relative;
+  display: inline-block;
+  width: 150px;
+  height: 100px;
+  vertical-align: middle;
+}
+.demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    @keyframes ani-demo-spin {
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
+    }
+    .demo-spin-col{
+        height: 100px;
+        position: relative;
+        border: 1px solid #eee;
+    }
 </style>
