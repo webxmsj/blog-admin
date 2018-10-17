@@ -3,10 +3,22 @@
     <div class="information">
       <Row class="field">
         <Col span="8">
+          <p>用户角色：</p>
+        </Col>
+        <Col span="16">
+          <RadioGroup v-model="information.role" type="button">
+            <Radio label="1">普通用户</Radio>
+            <Radio label="2">管理员</Radio>
+            <Radio label="3">超级管理员</Radio>
+          </RadioGroup>
+        </Col>
+      </Row>
+      <Row class="field">
+        <Col span="8">
           <p>用户名：</p>
         </Col>
         <Col span="16">
-          <Input placeholder="请输入用户名" style="width: auto" v-model="information.user_login"></Input>
+          <Input placeholder="请输入用户名" style="width: auto" v-model="information.username"></Input>
         </Col>
       </Row>
       <Row class="field">
@@ -14,7 +26,7 @@
           <p>用户昵称：</p>
         </Col>
         <Col span="16">
-          <Input placeholder="请输入用户昵称" style="width: auto" v-model="information.user_nickname"></Input>
+          <Input placeholder="请输入用户昵称" style="width: auto" v-model="information.nickname"></Input>
         </Col>
       </Row>
       <Row class="field">
@@ -22,7 +34,11 @@
           <p>原密码：</p>
         </Col>
         <Col span="16">
-          <Input placeholder="请输入登录密码" style="width: auto" v-model="temppassword.original">
+          <Input placeholder="请输入登录密码" style="width: auto" v-model="temppassword.original" @on-blur="checkisright">
+            <span slot="append">
+              <Icon v-show="!originalstatus" color="orange" type="ios-alert" />
+              <Icon v-show="originalstatus" color="green" type="ios-checkmark-circle" />
+            </span>
           </Input>
         </Col>
       </Row>
@@ -31,7 +47,7 @@
           <p>新密码：</p>
         </Col>
         <Col span="16">
-          <Input placeholder="请输入登录密码" style="width: auto" v-model="temppassword.newpassword">
+          <Input placeholder="请输入登录密码" style="width: auto" v-model="temppassword.newpassword" @on-blur="checkpassword">
           </Input>
         </Col>
       </Row>
@@ -42,6 +58,7 @@
         <Col span="16">
           <div class="useravatar">
             <Upload
+              ref="avatar"
               :show-upload-list="false"
               :format="['jpg','jpeg','png']"
               :max-size="2048"
@@ -54,8 +71,8 @@
                   <p>点击上传图片</p>
               </div>
             </Upload>
-            <div class="mask" v-if="information.avatar" :style="{backgroundImage: 'url('+ information.avatar +')'}">
-              <p><span>重新上传</span></p>
+            <div class="mask" v-if="information.useravatar" :style="{backgroundImage: 'url('+ information.useravatar +')'}">
+              <p><span @click="reupload">重新上传</span></p>
             </div>
           </div>
         </Col>
@@ -106,20 +123,32 @@
           <p>个人网址：</p>
         </Col>
         <Col span="16">
-          <Input placeholder="请输入个人网址" style="width: auto" v-model="information.user_url"></Input>
+          <Input placeholder="请输入个人网址" style="width: auto" v-model="information.website"></Input>
         </Col>
       </Row>
     </div>
   </Modal>
 </template>
 <script>
-import { addOrUpdateUser } from '@/api/getdatas'
+import { addOrUpdateUser, checkpassword, uploadFile } from '@/api/getdatas'
 export default {
   data () {
     return {
       isshow: false,
       open: false,
-      information: {},
+      information: {
+        id: '',
+        sex: 0,
+        role: '',
+        username: '',
+        nickname: '',
+        birthday: '',
+        useravatar: '',
+        website: '',
+        signature: '',
+        password: ''
+      },
+      originalstatus: false,
       temppassword: {
         original: '',
         newpassword: ''
@@ -129,6 +158,9 @@ export default {
   methods: {
     changestatus () {
       this.isshow = !this.isshow
+    },
+    reupload () {
+      this.$refs.avatar.handleClick()
     },
     uploadBanner (file) {
       var that = this
@@ -140,7 +172,7 @@ export default {
         img.onload = function () {
           formData.append('file', file)
           uploadFile(formData).then(res => {
-            that.information.useravatar = 'http://qiniu.bfrontend.com/' + res.data
+            that.information.useravatar = 'http://img.bfrontend.com/' + res.data
             console.log('上传成功', res.data)
           })
         }
@@ -157,8 +189,38 @@ export default {
       this.open = !this.open
     },
     setdatas (data) {
-      this.information = data
-      this.information.sex = this.information.sex + ''
+      this.information.id = data.id
+      this.information.sex = data.sex + ''
+      this.information.username = data.user_login
+      this.information.nickname = data.user_nickname
+      this.information.birthday = data.birthday
+      this.information.useravatar = data.avatar
+      this.information.website = data.user_url
+      this.information.signature = data.signature
+      this.information.role = data.user_type + ''
+      this.information.password = ''
+    },
+    checkisright () {
+      // 检验输入的 原始密码是否正确
+      checkpassword({
+        id: this.information.id,
+        password: this.temppassword.original
+      }).then(res => {
+        if (res.data.isright) {
+          this.originalstatus = true
+          console.log('密码正确')
+        } else {
+          this.originalstatus = false
+          console.log('检查原始密码是否正确')
+        }
+      })
+    },
+    checkpassword () {
+      if (!this.originalstatus) {
+        console.log('原密码不正确,请重新输入')
+      } else {
+        this.information.password = this.temppassword.newpassword
+      }
     },
     okhandle () {
       addOrUpdateUser(this.information).then(res => {

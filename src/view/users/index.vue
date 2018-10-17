@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import { getDisplayStructure, queryall } from '@/api/getdatas'
+import { getDisplayStructure, queryall, deleteUser } from '@/api/getdatas'
 import { convertSqlResToCol } from '@/libs/util'
 import AddUser from './adduser.vue'
 import UpdateUser from './updateuser.vue'
@@ -58,6 +58,11 @@ export default {
                   props: {
                     type: 'text',
                     size: 'small'
+                  },
+                  on: {
+                    click () {
+                      that.deleteuser(params.row.id)
+                    }
                   }
                 },
                 '删除'
@@ -84,6 +89,11 @@ export default {
       if (data) {
         this.$refs[ref].setdatas(data)
       }
+    },
+    deleteuser (id) {
+      deleteUser(id).then(res => {
+        console.log('删除用户成功', res)
+      })
     }
   }
 }

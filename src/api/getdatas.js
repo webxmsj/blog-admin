@@ -83,3 +83,27 @@ export const activeEmail = data => {
     data: data
   })
 }
+/**
+ * 检验原始密码是否正确
+ * @Author mengxiaofei
+ * @Date   2018-10-17T10:15:54+0800
+ * @param  {Object}          { id, password }
+ * @return {[type]}
+ */
+export const checkpassword = data => {
+  return axios.request({
+    url: 'check_password',
+    method: 'post',
+    data: data
+  })
+}
+
+export const deleteUser = id => {
+  return axios.request({
+    url: 'delete_user',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}

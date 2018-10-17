@@ -210,7 +210,7 @@ export default {
         img.onload = function () {
           formData.append('file', file)
           uploadFile(formData).then(res => {
-            that.information.useravatar = 'http://qiniu.bfrontend.com/' + res.data
+            that.information.useravatar = 'http://img.bfrontend.com/' + res.data
             console.log('上传成功', res.data)
           })
         }
