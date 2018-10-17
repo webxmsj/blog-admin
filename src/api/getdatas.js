@@ -107,3 +107,11 @@ export const deleteUser = id => {
     }
   })
 }
+
+export const updateClientId = data => {
+  return axios.request({
+    url: 'update_clientid',
+    method: 'post',
+    data: data
+  })
+}
