@@ -196,6 +196,19 @@ export default {
       email: ''
     }
   },
+  mounted () {
+    this.$mqtt.addSubscribe({
+      activeresult: function (data) {
+        console.log('邮箱激活结果', data)
+      },
+      sendresult: function (data) {
+        console.log('邮箱发送结果', data)
+      }
+    })
+  },
+  beforeDestroy () {
+    this.$mqtt.removeSubscribe(['activeresult', 'sendresult'])
+  },
   methods: {
     changestatus () {
       this.isshow = !this.isshow
