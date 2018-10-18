@@ -2,7 +2,7 @@
 * @Author: mengxiaofei
 * @Date:   2018-10-17 14:51:59
 * @Last Modified by:   mengxiaofei
-* @Last Modified time: 2018-10-18 10:51:51
+* @Last Modified time: 2018-10-18 19:05:53
 */
 import store from '@/store'
 import mqtt from 'mqtt'
