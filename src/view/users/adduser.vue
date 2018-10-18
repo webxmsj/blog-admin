@@ -160,7 +160,6 @@
       </div>
       <Button type="info" @click="submitdatas">下一步</Button>
     </div>
-    <!-- /send_mail -->
     <div v-show="step === 2" class="mailcontainer">
       <div v-show="!sendstatus">
         <p>发送邮件</p>
@@ -175,7 +174,15 @@
       </div>
       <div v-show="sendstatus">
         <p>发送成功,请登录邮箱进行激活</p>
+        <Button type="info" @click="submitdatas">下一步</Button>
       </div>
+    </div>
+    <div v-show="step === 3" class="mobilecontainer">
+      <p>手机绑定</p>
+      <Button type="info" @click="step += 1">提交</Button>
+    </div>
+    <div v-show="step === 4" class="registersuccess">
+      <p>注册成功，请开始使用</p>
     </div>
   </Modal>
 </template>
@@ -222,17 +229,16 @@ export default {
             context: this,
             handler: function (data) {
               this.sendstatus = true
+              this.step += 1 // 发送成功自动进入手机绑定
               console.log('邮箱发送结果', data)
             }
           }
         })
       } else if (oldval === 2) {
         console.log('离开邮箱界面')
+        this.$mqtt.removeSubscribe(['activeresult', 'sendresult'])
       }
     }
-  },
-  beforeDestroy () {
-    this.$mqtt.removeSubscribe(['activeresult', 'sendresult'])
   },
   methods: {
     changestatus () {

@@ -108,9 +108,25 @@ export const deleteUser = id => {
   })
 }
 
-export const updateClientId = data => {
+export const addOrUpdateLink = data => {
   return axios.request({
-    url: 'update_clientid',
+    url: 'add_update_link',
+    method: 'post',
+    data: data
+  })
+}
+
+export const hideOrDeleteLink = data => {
+  return axios.request({
+    url: 'hide_delete_link',
+    method: 'post',
+    data: data
+  })
+}
+
+export const addCategory = data => {
+  return axios.request({
+    url: 'add_category',
     method: 'post',
     data: data
   })

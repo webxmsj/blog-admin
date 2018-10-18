@@ -1,18 +1,24 @@
 <template>
-  <div>
+  <div class="category">
+    <ButtonGroup class="btns">
+      <Button @click="addParentCategory">添加父分类</Button>
+    </ButtonGroup>
     <div class="categorycomponent">
+      <!-- @additem="" @delitem="" -->
       <category :datas="datas"></category>
     </div>
+    <addcategory ref="addcategory" @confirm="addCallBack"></addcategory>
   </div>
 </template>
 
 <script>
 import category from '@/components/category/category.vue'
-import Bus from '@/components/category/bus'
-import { getCategorys } from '@/api/getdatas'
+import addcategory from './addcategory.vue'
+import { queryall, addCategory } from '@/api/getdatas'
 export default {
   components: {
-    category
+    category,
+    addcategory
   },
   data () {
     return {
@@ -44,11 +50,42 @@ export default {
         i++
       }
       return res
+    },
+    addParentCategory () {
+      console.log('添加父级分类')
+      this.$refs.addcategory.changeStatus('parent')
+    },
+    addParentCallBack (data) {
+      if (data.id === '') {
+        data.id = this.datas.length
+      }
+      addCategory(data).then(res => {
+        this.datas.push(res.data[0])
+      })
+    },
+    addCallBack (flag, data) {
+      if (flag === 'child') {
+        this.addChildCallBack(data)
+      } else {
+        this.addParentCallBack(data)
+      }
+    },
+    addChildCallBack (path) {
+      var newpath
+      // var res = this.getCurrentByClassline(data)
+      if (path.indexOf(',') > -1) {
+        var arr = path.split(',')
+        arr[arr.length - 1] = arr[arr.length - 1] + 1
+        newpath = arr.join(',')
+      } else {
+        newpath = path + ',0'
+      }
+      console.log(newpath)
     }
   },
   beforeMount () {
     // 获取文章分类
-    getCategorys().then(res => {
+    queryall('blog_category').then(res => {
       if (res.status === 200) {
         this.datas = res.data
       } else {
@@ -57,7 +94,10 @@ export default {
     })
   },
   mounted () {
-    Bus.$on('additem', data => {
+    this.$bus.$on('additem', data => {
+      this.$refs.addcategory.changeStatus('child')
+    })
+    /* Bus.$on('additem', data => {
       var newitem = {
         name: 'sdf',
         description: ''
@@ -105,8 +145,9 @@ export default {
           })
         }
       })
-    })
-    Bus.$on('delitem', data => {
+    }) */
+
+    /* Bus.$on('delitem', data => {
       var arr = data.split(',')
       console.log('delitem', data)
       var currentres = this.getCurrentByClassline(data)
@@ -123,11 +164,16 @@ export default {
         console.log(parentres)
         parentres['children'].splice(arr[arr.length - 1], 1)
       }
-    })
+    }) */
   }
 }
 </script>
 <style lang="less">
+.category{
+  .btns{
+    margin-bottom: 15px;
+  }
+}
 .categorycomponent{
   width: 360px;
   border-left: 1px solid #dcdee2;

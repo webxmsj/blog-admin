@@ -14,7 +14,6 @@
   </div>
 </template>
 <script>
-import Bus from '@/components/category/bus'
 export default {
   name: 'categoryItem',
   data () {
@@ -31,11 +30,11 @@ export default {
   methods: {
     additem (event, item) {
       event.stopPropagation()
-      Bus.$emit('additem', item.classline)
+      this.$bus.$emit('additem', item.path)
     },
     delitem (event, item) {
       event.stopPropagation()
-      Bus.$emit('delitem', item.classline)
+      this.$bus.$emit('delitem', item.path)
     }
   }
 }

@@ -31,6 +31,43 @@ export const setAppointColumn = (target, source) => {
   }
 }
 
+// 分类  从原始数据开始构造结果
+export const transformorigincategorys = (origindata) => {
+  var result = []
+  // function transform (target, datas) {
+  //   if (target['children']) {
+  //     target['children'].push(datas)
+  //   } else {
+  //     target['children'] = datas
+  //   }
+  // }
+  // for (let i = 0, ilen = origindata.length; i < ilen; i++) {
+  //   var arr = origindata[i]['path'].split(',')
+  //   if (origindata[i]['path'].indexOf(',') === -1) {
+  //     result[i] = origindata[i]
+  //   } else {
+  //     var index = 0
+  //     while (index < arr.length) {
+  //       if (index === 0) {
+  //         if (!result[arr[index]]) {
+  //           result[arr[index]] = []
+  //           result[arr[index]].push({
+  //             ...origindata[i]
+  //           })
+  //         }
+  //       } else {
+  //         if (!result[arr[index - 1]]) {
+  //           result[arr[index - 1]]['children'] = []
+
+  //         }
+  //       }
+  //       index++
+  //     }
+  //   }
+  // }
+  return result
+}
+
 export const setToken = (token) => {
   Cookies.set(TOKEN_KEY, token, { expires: config.cookieExpires || 1 })
 }

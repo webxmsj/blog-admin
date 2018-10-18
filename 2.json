@@ -1,0 +1,66 @@
+[{
+    "name": "文化",
+    "description": "文人墨客的世界",
+    "key": "culture",
+    "path": "0",
+    "children": [{
+      "name": "历史",
+      "description": "中华上下五千年的历史",
+      "key": "history",
+      "path": "0,0"
+    }, {
+      "name": "哲学",
+      "description": "哲学者的世界我们不懂",
+      "key": "philosophy",
+      "path": "0,1"
+    }]
+  }, {
+    "name": "生活",
+    "description": "品味生活,享受生活",
+    "key": "life",
+    "path": "1",
+    "children": [{
+      "name": "旅行",
+      "description": "身体和灵魂总有一个在路上",
+      "key": "travel",
+      "path": "1,0",
+      "children": [{
+        "name": "在路上",
+        "description": "走出去,你将看到这个精彩的世界",
+        "key": "category2-1",
+        "path": "1,0,0"
+      }, {
+        "name": "自助游",
+        "description": "带着自己的爱车,说走就走，说停就停",
+        "key": "category2-2",
+        "path": "1,0,1",
+        "children": [{
+          "name": "朋友",
+          "description": "朋友一生一起走",
+          "key": "category2-1",
+          "path": "1,0,1,0"
+        }, {
+          "name": "同事",
+          "description": "相互帮助,相互鼓励,是同事情",
+          "key": "category2-2",
+          "path": "1,0,1,1",
+          "children": [{
+            "name": "同事一",
+            "description": "同事一",
+            "key": "category",
+            "path": "1,0,1,0,0"
+          }]
+        }, {
+          "name": "父母",
+          "description": "父母在哪,家在哪,那是我永远的避风港湾",
+          "key": "category2-2",
+          "path": "1,0,1,2"
+        }]
+      }]
+    }, {
+      "name": "励志",
+      "description": "偶尔还是要喝一些鸡汤的,万一实现了呢",
+      "key": "category2-2",
+      "path": "1,1"
+    }]
+  }]

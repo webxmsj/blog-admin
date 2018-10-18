@@ -2,12 +2,11 @@
 * @Author: mengxiaofei
 * @Date:   2018-10-17 14:51:59
 * @Last Modified by:   mengxiaofei
-* @Last Modified time: 2018-10-17 18:37:33
+* @Last Modified time: 2018-10-18 10:51:51
 */
 import store from '@/store'
 import mqtt from 'mqtt'
 import { isType } from '../tools'
-import { updateClientId } from '@/api/getdatas'
 class Mqtt {
   constructor (options) {
     this._setting = {
@@ -17,25 +16,18 @@ class Mqtt {
     this.subscribes = {}
     Object.assign(this._setting, options)
     this.clientId = 'bfrontend_' + Math.random().toString(36).substr(2, 10)
-    this.client = mqtt.connect(this._setting.url, {
-      clientId: this.clientId // 用户id
-    })
+    this.client = mqtt.connect(this._setting.url)
     this.addHook()
   }
 
   addHook () {
     this.client.on('connect', () => {
-      updateClientId({
-        userId: store.state.user.userId,
-        clientId: this.clientId
-      }).then(res => {
-        console.log('更新clientid成功')
-      })
       console.log('连接成功')
       // 将 clientId 与用户对应 提交到数据库
     })
     this.client.on('message', (topic, payload) => {
-      var current = this.subscribes[topic]
+      let key = topic.split('/')[0]
+      var current = this.subscribes[key]
       if (current) {
         current['handler'].call(current['context'], payload.toString())
       }
@@ -45,9 +37,10 @@ class Mqtt {
   addSubscribe (items) {
     if (isType(items) === 'object') {
       var keysarr = Object.keys(items)
+      let { userId } = store.state.user
       keysarr.forEach(key => {
         this.subscribes[key] = items[key]
-        this.client.subscribe(key, function (err, res) {
+        this.client.subscribe(`${key}/${userId}`, function (err, res) {
           if (err) {
             console.log(err)
           } else {
