@@ -14,7 +14,8 @@
 <script>
 import category from '@/components/category/category.vue'
 import addcategory from './addcategory.vue'
-import { queryall, addCategory } from '@/api/getdatas'
+import { queryall, addCategory, deleteCategory } from '@/api/getdatas'
+import { transformorigincategorys } from '@/libs/util'
 export default {
   components: {
     category,
@@ -26,17 +27,26 @@ export default {
       newitem: {
         name: '',
         description: ''
-      }
+      },
+      newpath: ''
     }
   },
   methods: {
     getCurrentByClassline (classline) {
-      var arr = classline.split(',')
-      var i = 0
       var res
-      while (i < arr.length) {
-        res = res ? res['children'][arr[i]] : this.datas[arr[i]]
-        i++
+      if (classline.indexOf(',') > -1) {
+        var arr = classline.split(',')
+        var i = 0
+        while (i < arr.length) {
+          res = res ? res['children'][arr[i]] : this.datas[arr[i]]
+          i++
+        }
+      } else {
+        this.datas.forEach((item, index) => {
+          if (item.path === classline) {
+            res = this.datas[index]
+          }
+        })
       }
       return res
     },
@@ -56,8 +66,15 @@ export default {
       this.$refs.addcategory.changeStatus('parent')
     },
     addParentCallBack (data) {
-      if (data.id === '') {
-        data.id = this.datas.length
+      if (this.datas.length === 0) {
+        data.path = 0
+      } else {
+        var patharr = this.datas.map(item => {
+          return item.path
+        })
+        if (!data.path) {
+          data.path = Math.max.apply(null, patharr) + 1
+        }
       }
       addCategory(data).then(res => {
         this.datas.push(res.data[0])
@@ -70,101 +87,79 @@ export default {
         this.addParentCallBack(data)
       }
     },
-    addChildCallBack (path) {
-      var newpath
-      // var res = this.getCurrentByClassline(data)
-      if (path.indexOf(',') > -1) {
-        var arr = path.split(',')
-        arr[arr.length - 1] = arr[arr.length - 1] + 1
-        newpath = arr.join(',')
-      } else {
-        newpath = path + ',0'
-      }
-      console.log(newpath)
+    addChildCallBack (data) {
+      addCategory({
+        ...data,
+        path: this.newpath
+      }).then(res => {
+        console.log('添加成功', res)
+        var newpath = res.data[0]['path'].split(',')
+        newpath.pop()
+        let parentres = this.getCurrentByClassline(newpath.join(','))
+        if (!parentres['children']) {
+          parentres['children'] = []
+        }
+        parentres['children'].push(res.data[0])
+        this.newpath = ''
+      })
     }
   },
   beforeMount () {
     // 获取文章分类
     queryall('blog_category').then(res => {
       if (res.status === 200) {
-        this.datas = res.data
+        this.datas = transformorigincategorys(res.data)
       } else {
         console.log('请求失败')
       }
     })
   },
   mounted () {
-    this.$bus.$on('additem', data => {
+    this.$bus.$on('additem', path => {
+      let length
+      let currentres = this.getCurrentByClassline(path)
+      if (!currentres['children']) {
+        length = 0
+      } else {
+        length = currentres['children'].length
+      }
+      this.newpath = path + ',' + length
       this.$refs.addcategory.changeStatus('child')
     })
-    /* Bus.$on('additem', data => {
-      var newitem = {
-        name: 'sdf',
-        description: ''
-      }
-      this.$Modal.confirm({
-        render: (h) => {
-          return h('div', [
-            h('Input', {
-              props: {
-                value: '',
-                autofocus: true,
-                placeholder: '请输入类别名称'
-              },
-              on: {
-                input: val => {
-                  newitem.name = val
-                }
-              }
-            }),
-            h('Input', {
-              props: {
-                value: '',
-                placeholder: '请输入类别描述'
-              },
-              on: {
-                input: val => {
-                  newitem.description = val
-                }
-              }
-            })
-          ])
-        },
-        onOk: () => {
-          var arr = data.split(',')
-          var res = this.getCurrentByClassline(data)
-          arr[arr.length - 1] = arr[arr.length - 1] + 1
-          if (!res['children']) {
-            this.$set(res, 'children', [])
-          }
-          res['children'].push({
-            classline: arr.join(','),
-            description: newitem.description,
-            key: Math.random(),
-            name: newitem.name
-          })
-        }
-      })
-    }) */
 
-    /* Bus.$on('delitem', data => {
-      var arr = data.split(',')
-      console.log('delitem', data)
-      var currentres = this.getCurrentByClassline(data)
-      var parentres = this.getParentByClassline(data)
+    this.$bus.$on('delitem', data => {
+      var currentres = this.getCurrentByClassline(data.path)
+      var parentres = this.getParentByClassline(data.path)
       if (currentres.children) {
         this.$Modal.warning({
           title: '请谨慎删除',
           content: '你确定删除当前类别下所有子分类吗？',
           onOk: () => {
-            console.log('你确定删除所有')
+            function getid (obj) {
+              result.push(obj.id)
+              if (obj['children']) {
+                obj['children'].forEach(item => {
+                  getid(item)
+                })
+              }
+            }
+            let result = []
+            getid(currentres)
+            deleteCategory(result).then(res => {
+              console.log('多个类别删除成功')
+            })
           }
         })
       } else {
-        console.log(parentres)
+        let arr = data.path.split(',')
         parentres['children'].splice(arr[arr.length - 1], 1)
+        deleteCategory([
+          data.id
+        ]).then(res => {
+          console.log('删除分类成功', res)
+        })
       }
-    }) */
+    })
   }
 }
 </script>

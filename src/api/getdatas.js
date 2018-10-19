@@ -131,3 +131,18 @@ export const addCategory = data => {
     data: data
   })
 }
+
+/**
+ * 删除分类
+ * @Author mengxiaofei
+ * @Date   2018-10-19T15:46:51+0800
+ * @param  {Array}ids要删除的id数组
+ * @return {[type]}[description]
+ */
+export const deleteCategory = ids => {
+  return axios.request({
+    url: 'delete_category',
+    method: 'post',
+    data: ids
+  })
+}

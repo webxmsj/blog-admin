@@ -34,7 +34,7 @@ export default {
     },
     delitem (event, item) {
       event.stopPropagation()
-      this.$bus.$emit('delitem', item.path)
+      this.$bus.$emit('delitem', item)
     }
   }
 }

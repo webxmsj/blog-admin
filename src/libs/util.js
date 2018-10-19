@@ -1,7 +1,12 @@
 import Cookies from 'js-cookie'
 // cookie保存的天数
 import config from '@/config'
-import { forEach, hasOneOf, objEqual, isType } from '@/libs/tools'
+import {
+  forEach,
+  hasOneOf,
+  objEqual,
+  isType
+} from '@/libs/tools'
 
 export const TOKEN_KEY = 'token'
 
@@ -34,42 +39,32 @@ export const setAppointColumn = (target, source) => {
 // 分类  从原始数据开始构造结果
 export const transformorigincategorys = (origindata) => {
   var result = []
-  // function transform (target, datas) {
-  //   if (target['children']) {
-  //     target['children'].push(datas)
-  //   } else {
-  //     target['children'] = datas
-  //   }
-  // }
-  // for (let i = 0, ilen = origindata.length; i < ilen; i++) {
-  //   var arr = origindata[i]['path'].split(',')
-  //   if (origindata[i]['path'].indexOf(',') === -1) {
-  //     result[i] = origindata[i]
-  //   } else {
-  //     var index = 0
-  //     while (index < arr.length) {
-  //       if (index === 0) {
-  //         if (!result[arr[index]]) {
-  //           result[arr[index]] = []
-  //           result[arr[index]].push({
-  //             ...origindata[i]
-  //           })
-  //         }
-  //       } else {
-  //         if (!result[arr[index - 1]]) {
-  //           result[arr[index - 1]]['children'] = []
-
-  //         }
-  //       }
-  //       index++
-  //     }
-  //   }
-  // }
+  for (let i = 0; i < origindata.length; i++) {
+    let pathstr = origindata[i]['path']
+    if (origindata[i]['path'].indexOf(',') === -1) {
+      result[pathstr] = origindata[i]
+      result[pathstr]['children'] = result[pathstr]['children'] ? result[pathstr]['children'] : []
+    } else {
+      let patharr = origindata[i]['path'].split(',')
+      let temp = result[patharr[0]]
+      for (let j = 1; j < patharr.length; j++) {
+        temp['children'] = temp['children'] ? temp['children'] : []
+        temp['children'][patharr[j]] = temp['children'][patharr[j]] ? temp['children'][patharr[j]] : {}
+        if (j === patharr.length - 1) {
+          temp['children'][patharr[j]] = origindata[i]
+        } else {
+          temp = temp['children'][patharr[j]]
+        }
+      }
+    }
+  }
   return result
 }
 
 export const setToken = (token) => {
-  Cookies.set(TOKEN_KEY, token, { expires: config.cookieExpires || 1 })
+  Cookies.set(TOKEN_KEY, token, {
+    expires: config.cookieExpires || 1
+  })
 }
 
 export const getToken = () => {
@@ -120,7 +115,8 @@ export const getBreadCrumbList = (route, homeRoute) => {
   let res = routeMetched.filter(item => {
     return item.meta === undefined || !item.meta.hide
   }).map(item => {
-    let meta = { ...item.meta }
+    let meta = { ...item.meta
+    }
     if (meta.title && typeof meta.title === 'function') meta.title = meta.title(route)
     let obj = {
       icon: (item.meta && item.meta.icon) || '',
@@ -132,12 +128,16 @@ export const getBreadCrumbList = (route, homeRoute) => {
   res = res.filter(item => {
     return !item.meta.hideInMenu
   })
-  return [Object.assign(homeRoute, { to: homeRoute.path }), ...res]
+  return [Object.assign(homeRoute, {
+    to: homeRoute.path
+  }), ...res]
 }
 
 export const getRouteTitleHandled = route => {
-  let router = { ...route }
-  let meta = { ...route.meta }
+  let router = { ...route
+  }
+  let meta = { ...route.meta
+  }
   if (meta.title && typeof meta.title === 'function') meta.title = meta.title(router)
   router.meta = meta
   return router
@@ -185,11 +185,22 @@ export const getHomeRoute = routers => {
  * @description 如果该newRoute已经存在则不再添加
  */
 export const getNewTagList = (list, newRoute) => {
-  const { name, path, meta } = newRoute
+  const {
+    name,
+    path,
+    meta
+  } = newRoute
   let newList = [...list]
-  if (newList.findIndex(item => item.name === name) >= 0) return newList
-  else newList.push({ name, path, meta })
-  return newList
+  if (newList.findIndex(item => item.name === name) >= 0) {
+    return newList
+  } else {
+    newList.push({
+      name,
+      path,
+      meta
+    })
+    return newList
+  }
 }
 
 /**
