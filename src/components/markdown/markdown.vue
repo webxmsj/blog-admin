@@ -42,7 +42,8 @@ export default {
         this.$emit('on-focus', this.editor.value())
       })
       this.editor.codemirror.on('blur', () => {
-        this.$emit('on-blur', this.editor.value())
+        let html = this.editor.markdown(this.editor.value())
+        this.$emit('on-blur', html)
       })
     }
   },

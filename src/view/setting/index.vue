@@ -2,60 +2,120 @@
   <Tabs type="card" :value="tabname" @on-click="tabchange">
     <TabPane label="信息配置" name="info">
       <div class="box">
-        <div class="item">
-          <label for="title">博客标题：</label>
-          <Input id="title" placeholder="请输入博客标题" style="width: 300px"/>
-        </div>
-        <div class="item">
-          <label for="title">博客子标题：</label>
-          <Input id="title" placeholder="请输入博客子标题" style="width: 300px"/>
-        </div>
-        <div class="item">
-          <label for="title">博客地址：</label>
-          <Input id="title" placeholder="请输入博客地址" style="width: 300px"/>
-        </div>
-        <div class="item">
-          <label for="title">关键字：</label>
-          <Input id="title" placeholder="请输入关键字" style="width: 300px"/>
-        </div>
-        <div class="item">
-          <label for="title">描述：</label>
-          <Input id="title" placeholder="请输入博客描述" style="width: 300px"/>
-        </div>
-        <div class="item">
-          <label for="title">HTML head：</label>
-          <Input id="title" placeholder="头部脚本" style="width: 300px"/>
-        </div>
-        <div class="item">
-          <label for="title">公告：</label>
-          <Input id="title" placeholder="请输入公告" style="width: 300px"/>
-        </div>
-        <div class="item">
-          <label for="title">页脚：</label>
-          <Input id="title" placeholder="请输入页脚脚本" style="width: 300px"/>
-        </div>
+        <Row class="item">
+          <Col span="2">
+            <p>博客标题：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="请输入博客标题" style="width: auto">
+            </Input>
+          </Col>
+        </Row>
+        <Row class="item">
+          <Col span="2">
+            <p>博客子标题：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="请输入博客子标题" style="width: auto">
+            </Input>
+          </Col>
+        </Row>
+        <Row class="item">
+          <Col span="2">
+            <p>博客地址：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="请输入博客地址" style="width: auto">
+            </Input>
+          </Col>
+        </Row>
+        <Row class="item">
+          <Col span="2">
+            <p>关键字：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="请输入关键字" style="width: auto">
+            </Input>
+          </Col>
+        </Row>
+        <Row class="item">
+          <Col span="2">
+            <p>描述：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="请输入博客描述" style="width: auto">
+            </Input>
+          </Col>
+        </Row>
+        <Row class="item">
+          <Col span="2">
+            <p>HTML head：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="头部脚本" style="width: auto">
+            </Input>
+          </Col>
+        </Row>
+        <Row class="item">
+          <Col span="2">
+            <p>公告：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="请输入公告" style="width: auto">
+            </Input>
+          </Col>
+        </Row>
+        <Row class="item">
+          <Col span="2">
+            <p>页脚：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="请输入页脚脚本" style="width: auto">
+            </Input>
+          </Col>
+        </Row>
       </div>
     </TabPane>
     <TabPane label="皮肤" name="theme">皮肤</TabPane>
     <TabPane label="参数设置" name="field">参数设置</TabPane>
     <TabPane label="七牛" name="qiniu">
       <div class="box">
-        <div class="item">
-          <label for="title">Access Key：</label>
-          <Input id="title" placeholder="请输入Access Key" v-model="qiniu.data.accessKey" style="width: 300px"/>
-        </div>
-        <div class="item">
-          <label for="title">Secret Key：</label>
-          <Input id="title" placeholder="请输入Secret Key" v-model="qiniu.data.secretKey" style="width: 300px"/>
-        </div>
-        <div class="item">
-          <label for="title">域名：</label>
-          <Input id="title" placeholder="请输入域名" v-model="qiniu.data.domain" style="width: 300px"/>
-        </div>
-        <div class="item">
-          <label for="title">Bucket：</label>
-          <Input id="title" placeholder="请输入Bucket" v-model="qiniu.data.bucket" style="width: 300px"/>
-        </div>
+        <Row class="item">
+          <Col span="2">
+            <p>Access Key：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="请输入Access Key" style="width: auto" v-model="qiniu.data.accessKey">
+            </Input>
+          </Col>
+        </Row>
+        <Row class="item">
+          <Col span="2">
+            <p>Secret Key：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="请输入Secret Key" style="width: auto" v-model="qiniu.data.secretKey">
+            </Input>
+          </Col>
+        </Row>
+        <Row class="item">
+          <Col span="2">
+            <p>域名：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="请输入域名" style="width: auto" v-model="qiniu.data.domain">
+            </Input>
+          </Col>
+        </Row>
+        <Row class="item">
+          <Col span="2">
+            <p>Bucket：</p>
+          </Col>
+          <Col span="22">
+            <Input placeholder="请输入Bucket" style="width: auto" v-model="qiniu.data.bucket">
+            </Input>
+          </Col>
+        </Row>
       </div>
       <Button type="primary" @click="savedata('qiniu')">更新</Button>
     </TabPane>
@@ -114,10 +174,12 @@ export default {
 .ivu-tabs-content{
   background: #fff;
   .box{
-    width: 80%;
-    margin: auto;
     .item{
       margin: 10px 0;
+      p{
+        text-align: right;
+        line-height: 32px;
+      }
     }
   }
 }

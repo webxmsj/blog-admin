@@ -1,7 +1,7 @@
 <template>
-  <Tabs value="markeditor" @on-click="tabChange">
-    <TabPane label="MarkDown编辑器" name="name1">
-      <MarkEditor></MarkEditor>
+  <Tabs class="addarticle" value="markeditor" @on-click="tabChange">
+    <TabPane label="MarkDown编辑器" name="markeditor">
+      <MarkEditor @on-blur="getarticle"></MarkEditor>
       <Button type="primary" :loading="loading1" icon="ios-power" @click="pushArticle(0)">
         <span v-if="!loading1">发布</span>
         <span v-else>提交中……</span>
@@ -41,6 +41,9 @@ export default {
       }
       //  TODO push message
     },
+    getarticle (value) {
+      console.log(value)
+    },
     tabChange (name) {
       console.log('你点击了' + name)
     }
@@ -48,6 +51,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less">
+.addarticle{
+  padding-bottom: 20px;
+}
 </style>
