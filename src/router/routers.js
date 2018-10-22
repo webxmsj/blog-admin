@@ -80,7 +80,7 @@ export default [
           icon: 'ios-paper',
           title: '文章列表'
         },
-        component: () => import('@/view/article-list/article-lists.vue')
+        component: () => import('@/view/article/article-lists.vue')
       },
       {
         path: 'article_add',
@@ -89,7 +89,7 @@ export default [
           icon: 'ios-paper-plane',
           title: '新建文章'
         },
-        component: () => import('@/view/article-add/article-add.vue')
+        component: () => import('@/view/article/article-add.vue')
       }
     ]
   },
@@ -130,6 +130,27 @@ export default [
           title: '分类管理'
         },
         component: () => import('@/view/category/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/tags',
+    name: 'tags',
+    meta: {
+      icon: 'md-pricetags',
+      title: '标签管理'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'tags_index',
+        name: 'tags_index',
+        meta: {
+          icon: 'md-pricetags',
+          title: '标签管理',
+          notCache: true
+        },
+        component: () => import('@/view/tags/index.vue')
       }
     ]
   },

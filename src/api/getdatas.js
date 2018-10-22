@@ -116,6 +116,14 @@ export const addOrUpdateLink = data => {
   })
 }
 
+export const addOrUpdateTag = data => {
+  return axios.request({
+    url: 'add_update_tag',
+    method: 'post',
+    data: data
+  })
+}
+
 export const hideOrDeleteLink = data => {
   return axios.request({
     url: 'hide_delete_link',
@@ -144,5 +152,13 @@ export const deleteCategory = ids => {
     url: 'delete_category',
     method: 'post',
     data: ids
+  })
+}
+
+export const addOrUpdateArticle = data => {
+  return axios.request({
+    url: 'add_update_article',
+    method: 'post',
+    data: data
   })
 }
