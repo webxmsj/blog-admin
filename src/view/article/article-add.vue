@@ -148,7 +148,7 @@
         <span v-if="!pushstatus">发布</span>
         <span v-else>提交中……</span>
       </Button>
-      <Button @click="pushArticle(1)">存为草稿</Button>
+      <Button @click="pushArticle(1)" icon="ios-book-outline">存为草稿</Button>
     </ButtonGroup>
   </div>
 </template>
