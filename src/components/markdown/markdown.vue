@@ -150,5 +150,10 @@ export default {
   .CodeMirror-fullscreen ~ .editor-preview-side{
     z-index: 9999;
   }
+  .editor-preview{
+    ul{
+      padding-left: 15px;
+    }
+  }
 }
 </style>
