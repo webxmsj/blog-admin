@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 22/10/2018 16:47:56
+ Date: 22/10/2018 19:13:10
 */
 
 SET NAMES utf8mb4;
@@ -61,6 +61,11 @@ CREATE TABLE `blog_category_post`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `term_taxonomy_id`(`category_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类文章对应表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_category_post
+-- ----------------------------
+INSERT INTO `blog_category_post` VALUES (1, 6, 41, 10000, 1);
 
 -- ----------------------------
 -- Table structure for blog_link
@@ -127,6 +132,10 @@ CREATE TABLE `blog_post`  (
 -- ----------------------------
 INSERT INTO `blog_post` VALUES (1, 39, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540195447087, 0, 0, 0, 'hello', 'js', 'asdfasdf', '', '', '', NULL);
 INSERT INTO `blog_post` VALUES (2, 42, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540195676849, 0, 0, 0, '彩云之南', '旅行', '这是一片神奇的土地', '', '<p>在这里你将会有无限的收获，不是嫩够用言语表达的</p>\n', 'http://img.bfrontend.com/banner1.png', NULL);
+INSERT INTO `blog_post` VALUES (3, 41, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540198994146, 0, 0, 0, 'asdf', 'asdf', 'asdf', '', '<p>在这里你将会有无限的收获，不是嫩够用言语表达的</p>\n', '', NULL);
+INSERT INTO `blog_post` VALUES (4, 41, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540199529350, 0, 0, 0, 'asdf', 'asdf', 'asdf', '', '<p>在这里你将会有无限的收获，不是嫩够用言语表达的</p>\n', '', NULL);
+INSERT INTO `blog_post` VALUES (5, 41, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540199905827, 0, 0, 0, 'a', 'b', 'asdfasdf', '', '', '', NULL);
+INSERT INTO `blog_post` VALUES (6, 41, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540199963253, 0, 0, 0, 'A', 'B', 'ASDFASDF', '', '<p>在这里你将会有无限的收获，不是嫩够用言语表达的</p>\n', '', NULL);
 
 -- ----------------------------
 -- Table structure for blog_setting
@@ -175,6 +184,12 @@ CREATE TABLE `blog_tag_post`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `post_id`(`post_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 标签文章对应表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_tag_post
+-- ----------------------------
+INSERT INTO `blog_tag_post` VALUES (1, 3, 5, 1);
+INSERT INTO `blog_tag_post` VALUES (2, 4, 6, 1);
 
 -- ----------------------------
 -- Table structure for blog_user
