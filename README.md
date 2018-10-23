@@ -6,7 +6,7 @@
 个人博客的后端管理界面,采用前后分离
 
 #### 软件架构
-iview vue simplemde wangeditor echarts axios mock sendemail jwt OAuth2.0 mosquitto
+`iview` `vue` `simplemde` `wangeditor` `echarts` `axios` `mock` `sendemail` `jwt` `OAuth2.0` `mosquitto`
 
 
 #### 安装教程
