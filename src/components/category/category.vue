@@ -5,6 +5,7 @@
         <span>{{ item.name }}</span>
         <div class="btngroup">
           <Button size="small" icon="md-add" @click="additem($event, item)"></Button>
+          <Button size="small" icon="md-create" @click="edititem($event, item)"></Button>
           <Button size="small" icon="md-close" @click="delitem($event, item)"></Button>
         </div>
         <p slot="content">{{ item.description }}</p>
@@ -35,7 +36,18 @@ export default {
     delitem (event, item) {
       event.stopPropagation()
       this.$bus.$emit('delitem', item)
+    },
+    edititem (event, item) {
+      event.stopPropagation()
+      this.$bus.$emit('edititem', item)
     }
   }
 }
 </script>
+<style lang="less">
+.btngroup{
+  .ivu-btn{
+    margin: 0 2px;
+  }
+}
+</style>

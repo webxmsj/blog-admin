@@ -1,5 +1,5 @@
 <template>
-  <Modal class="addcategory" v-model="isshow" title="添加分类" @on-ok="savedata">
+  <Modal class="addcategory" v-model="isshow" title="添加分类" @on-ok="savedata" @on-cancel="emptyinfors">
     <Row class="field">
       <Col span="5">
         <p>类别名称</p>
@@ -65,6 +65,20 @@ export default {
     },
     savedata () {
       this.$emit('confirm', this.flag, this.infors)
+      this.emptyinfors()
+    },
+    getdatas (data) {
+      Object.assign(this.infors, data)
+    },
+    emptyinfors () {
+      this.infors = {
+        name: '',
+        description: '',
+        seo_title: '',
+        seo_keywords: '',
+        seo_description: '',
+        id: ''
+      }
     }
   }
 }

@@ -39,6 +39,7 @@ export default {
   tags: '标签管理',
   links: '链接管理',
   tags_index: '标签管理',
+  recycle_index: '回收站',
   visualization_table: '数据库表可视化',
   visualization_post: '文章相关表',
   visualization_friendlink: '友情链接表',

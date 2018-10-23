@@ -177,8 +177,19 @@ CREATE TABLE IF NOT EXISTS `blog_user_token` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户客户端登录 token 表';
 
+--
+-- 表的结构 `blog_recycle_bin` 回收站
+--
 
-
+CREATE TABLE IF NOT EXISTS `blog_recycle_bin` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `object_id` int(11) DEFAULT '0' COMMENT '删除内容 id',
+  `create_time` int(10) UNSIGNED DEFAULT '0' COMMENT '创建时间',
+  `table_name` varchar(60) DEFAULT '' COMMENT '删除内容所在表名',
+  `name` varchar(255) DEFAULT '' COMMENT '删除内容名称',
+  `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '用户id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=' 回收站';
 
 
 

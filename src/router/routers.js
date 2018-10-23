@@ -215,6 +215,26 @@ export default [
     ]
   },
   {
+    path: '/recycle',
+    name: 'recycle',
+    meta: {
+      icon: 'ios-cube',
+      title: '回收站'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'recycle_index',
+        name: 'recycle_index',
+        meta: {
+          icon: 'ios-cube',
+          title: '回收站'
+        },
+        component: () => import('@/view/recycle/index.vue')
+      }
+    ]
+  },
+  {
     path: '/components',
     name: 'components',
     meta: {

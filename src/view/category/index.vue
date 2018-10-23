@@ -160,6 +160,13 @@ export default {
         })
       }
     })
+
+    this.$bus.$on('edititem', data => {
+      var currentres = this.getCurrentByClassline(data.path)
+      this.newpath = currentres.path
+      this.$refs.addcategory.getdatas(currentres)
+      this.$refs.addcategory.changeStatus('child')
+    })
   }
 }
 </script>

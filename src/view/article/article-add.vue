@@ -139,7 +139,7 @@
       </TabPane>
       <TabPane label="富文本编辑器" name="html">
         <p class="information">文章内容：</p>
-        <RichText></RichText>
+        <RichText @on-change="getvalue"></RichText>
       </TabPane>
     </Tabs>
 
@@ -182,6 +182,10 @@ export default {
         recommended: false,
         status: true,
         format: 'md' // 文章格式
+      },
+      content: {
+        mdhtml: '',
+        richhtml: ''
       },
       displaycategory: '',
       tags: [],
@@ -238,10 +242,11 @@ export default {
     },
     pushArticle (flag) {
       this.pushstatus = true
-      if (flag) {
-        this.articledatas.status = true // 发布
+      this.articledatas.status = Boolean(flag) // 发布/草稿
+      if (this.articledatas.format === 'md') {
+        this.articledatas.html = this.content.mdhtml
       } else {
-        this.articledatas.status = false // 草稿
+        this.articledatas.html = this.content.richhtml
       }
       addOrUpdateArticle(this.articledatas).then(res => {
         console.log('添加文章成功', res)
@@ -249,18 +254,18 @@ export default {
       })
     },
     setContentHtml (value) {
-      this.articledatas.html = value
-    },
-    setabstracehtml (value) {
-      this.articledatas.abstracthtml = value
+      this.content.mdhtml = value
     },
     tabChange (name) {
-      console.log('你点击了' + name)
+      this.articledatas.format = name
     },
     categoryResult (data) {
       let { id, name } = JSON.parse(data)
       this.displaycategory = name
       this.articledatas.category = id
+    },
+    getvalue (html, text) {
+      this.content.richhtml = html
     }
   }
 }

@@ -162,3 +162,13 @@ export const addOrUpdateArticle = data => {
     data: data
   })
 }
+
+export const deletePost = id => {
+  return axios.request({
+    url: 'delete_post',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}

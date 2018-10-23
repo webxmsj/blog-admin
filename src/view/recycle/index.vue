@@ -3,55 +3,30 @@
     <Table :columns="columns" :data="datas"></Table>
   </div>
 </template>
-
 <script>
-import expandRow from './table-expand.vue'
-import { queryall, getDisplayStructure, deletePost } from '@/api/getdatas'
+import { queryall, getDisplayStructure } from '@/api/getdatas'
 import { convertSqlResToCol } from '@/libs/util'
 export default {
-  components: {
-    expandRow
-  },
   data () {
     return {
+      name: '',
       columns: [],
       datas: []
     }
   },
   beforeMount () {
-    queryall('blog_post').then(res => {
+    queryall('blog_recycle_bin').then(res => {
       if (res.status === 200) {
+        this.loading = false
         this.datas = res.data
       } else {
         console.log('表格数据加载失败')
       }
     })
     // 获取表结构
-    getDisplayStructure('blog_post').then(res => {
+    getDisplayStructure('blog_recycle_bin').then(res => {
       if (res.status === 200) {
-        this.columns = convertSqlResToCol(res.data, {
-          post_thumb: {
-            render: (h, params) => {
-              return h('img', {
-                attrs: {
-                  src: params.row.post_thumb
-                }
-              })
-            }
-          }
-        })
-        this.columns.unshift({
-          type: 'expand',
-          width: 50,
-          render: (h, params) => {
-            return h(expandRow, {
-              props: {
-                row: params.row
-              }
-            })
-          }
-        })
-
+        this.columns = convertSqlResToCol(res.data)
         this.columns.push({
           title: '操作',
           key: 'action',
@@ -67,27 +42,12 @@ export default {
                     size: 'small'
                   },
                   on: {
-                    click () {
-                      console.log('preview')
+                    click: event => {
+                      // this.hidelink(params.row.id)
                     }
                   }
                 },
-                '预览'
-              ),
-              h(
-                'Button',
-                {
-                  props: {
-                    type: 'text',
-                    size: 'small'
-                  },
-                  on: {
-                    click () {
-                      console.log('edit')
-                    }
-                  }
-                },
-                '编辑'
+                '隐藏'
               ),
               h(
                 'Button',
@@ -98,7 +58,23 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.deletePost(params.row.id)
+                      // this.showaddlink()
+                      // this.$refs.addlink.setdatas(params.row)
+                    }
+                  }
+                },
+                '修改'
+              ),
+              h(
+                'Button',
+                {
+                  props: {
+                    type: 'text',
+                    size: 'small'
+                  },
+                  on: {
+                    click: () => {
+                      // this.deletelink(params.row.id)
                     }
                   }
                 },
@@ -111,24 +87,9 @@ export default {
         console.log(res)
       }
     })
-  },
-  methods: {
-    deletePost (id) {
-      deletePost(id).then(res => {
-        console.log('删除成功')
-      })
-    }
   }
 }
 </script>
-
 <style lang="less">
-.ivu-table-cell{
-  overflow: hidden;
-  img{
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-}
+
 </style>
