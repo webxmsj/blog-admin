@@ -18,7 +18,7 @@ import Mqtt from '@/libs/mqttmanage'
 // if (process.env.NODE_ENV !== 'production') require('@/mock')
 
 Vue.use(Mqtt, {
-  url: 'ws://mqtt.bfrontend.com'
+  url: 'wss://mqtt.bfrontend.com'
 })
 
 Vue.use(iView, {
