@@ -10,6 +10,7 @@ const importDirective = Vue => {
    * }
    */
   Vue.directive('draggable', directive.draggable)
+  Vue.directive('mdeditor', directive.mdeditor)
 }
 
 export default importDirective

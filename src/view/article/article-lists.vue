@@ -124,6 +124,7 @@ export default {
 
 <style lang="less">
 .ivu-table-cell{
+  max-height: 32px;
   overflow: hidden;
   img{
     display: block;

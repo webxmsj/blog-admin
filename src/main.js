@@ -12,14 +12,14 @@ import 'iview/dist/styles/iview.css'
 import './index.less'
 import '@/assets/icons/iconfont.css'
 import EventBus from '@/libs/eventBus'
-import Mqtt from '@/libs/mqttmanage'
+// import Mqtt from '@/libs/mqttmanage'
 // 实际打包时应该不引入mock
 /* eslint-disable */
 // if (process.env.NODE_ENV !== 'production') require('@/mock')
 
-Vue.use(Mqtt, {
-  url: 'wss://mqtt.bfrontend.com'
-})
+// Vue.use(Mqtt, {
+//   url: 'wss://mqtt.bfrontend.com'
+// })
 
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)

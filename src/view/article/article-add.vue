@@ -128,15 +128,16 @@
           <p class="information" style="line-height: 92px;">文章摘要：</p>
         </Col>
         <Col>
-          <!-- <textarea v-model="articledatas.abstracthtml" cols="70" rows="5" style="resize: none;border-radius: 4px;"></textarea> -->
-          <MarkEditor :value="articledatas.abstracthtml" @on-blur="setAbstractHtml" :options="{toolbar: false}"></MarkEditor>
+          <textarea v-model="articledatas.abstracthtml" v-mdeditor="abstractoptions" @on-blur="setAbstractHtml"></textarea>
+          <!-- <MarkEditor :value="articledatas.abstracthtml" @on-blur="setAbstractHtml" :options="{toolbar: false}"></MarkEditor> -->
         </Col>
       </Row>
     </div>
     <Tabs v-model="articledatas.format" @on-click="tabChange">
       <TabPane label="MarkDown编辑器" name="md">
         <p class="information">文章内容：</p>
-        <MarkEditor :value="articledatas.html" @on-blur="setContentHtml" :options="contentOptions"></MarkEditor>
+        <!-- <MarkEditor :value="articledatas.html" @on-blur="setContentHtml" :options="contentOptions"></MarkEditor> -->
+        <textarea v-model="articledatas.html" @on-blur="setContentHtml" v-mdeditor="contentOptions"></textarea>
       </TabPane>
       <TabPane label="富文本编辑器" name="html">
         <p class="information">文章内容：</p>
@@ -165,7 +166,18 @@ export default {
     return {
       pushstatus: false,
       contentOptions: {
-        spellChecker: false
+        spellChecker: false,
+        toolbar: true
+      },
+      abstractoptions: {
+        toolbar: false,
+        spellChecker: false,
+        forceSync: true,
+        width: 600,
+        height: 200,
+        renderingConfig: {
+          codeSyntaxHighlighting: true
+        }
       },
       articledatas: {
         id: '',
