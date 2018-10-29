@@ -1,8 +1,8 @@
 /*
 * @Author: mengxiaofei
 * @Date:   2018-10-17 14:51:59
-* @Last Modified by:   mengxiaofei
-* @Last Modified time: 2018-10-18 19:05:53
+* @Last Modified by:   17625
+* @Last Modified time: 2018-10-28 12:25:33
 */
 import store from '@/store'
 import mqtt from 'mqtt'
@@ -16,7 +16,10 @@ class Mqtt {
     this.subscribes = {}
     Object.assign(this._setting, options)
     this.clientId = 'bfrontend_' + Math.random().toString(36).substr(2, 10)
-    this.client = mqtt.connect(this._setting.url)
+    this.client = mqtt.connect(this._setting.url, {
+      username: 'bfrontendmanager',
+      password: 'bfrontend'
+    })
     this.addHook()
   }
 
