@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 23/10/2018 16:19:23
+ Date: 29/10/2018 15:39:23
 */
 
 SET NAMES utf8mb4;
@@ -36,17 +36,19 @@ CREATE TABLE `blog_category`  (
   `seo_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性',
   `create_time` bigint(20) DEFAULT NULL,
+  `isdelete` int(3) UNSIGNED ZEROFILL NOT NULL COMMENT '是否已删除1:已删2:未删',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_category
 -- ----------------------------
-INSERT INTO `blog_category` VALUES (38, 0, 0, 1, 0, 10000, '旅行随感', '到处流浪的感受', '0', '', '', '', NULL, 1539938197992);
-INSERT INTO `blog_category` VALUES (39, 0, 0, 1, 0, 10000, '技术文章', '技术人的天地', '1', '', '', '', NULL, 1539938230613);
-INSERT INTO `blog_category` VALUES (40, 0, 0, 1, 0, 10000, '西藏之行', '别有风味的西藏行', '0,0', '心灵对话', '心灵对话', '心灵对话', NULL, 1540172081184);
-INSERT INTO `blog_category` VALUES (42, 0, 0, 1, 0, 10000, '云南之行', '彩云之南', '0,1', '', '', '', NULL, 1540178639434);
-INSERT INTO `blog_category` VALUES (44, 0, 0, 1, 0, 10000, '修改阿里', '人文丰富的阿里地区', '0,0,0', '', '', '', NULL, 1540261053138);
+INSERT INTO `blog_category` VALUES (38, 0, 0, 1, 0, 10000, '旅行随感', '到处流浪的感受', '0', '', '', '', NULL, 1539938197992, 000);
+INSERT INTO `blog_category` VALUES (39, 0, 0, 1, 0, 10000, '技术文章', '技术人的天地', '1', '', '', '', NULL, 1539938230613, 000);
+INSERT INTO `blog_category` VALUES (40, 0, 0, 1, 0, 10000, '西藏之行', '别有风味的西藏行', '0,0', '心灵对话', '心灵对话', '心灵对话', NULL, 1540172081184, 000);
+INSERT INTO `blog_category` VALUES (42, 0, 0, 1, 0, 10000, '云南之行', '彩云之南', '0,1', '', '', '', NULL, 1540178639434, 000);
+INSERT INTO `blog_category` VALUES (44, 0, 0, 1, 0, 10000, '修改阿里', '人文丰富的阿里地区', '0,0,0', '', '', '', NULL, 1540261053138, 000);
+INSERT INTO `blog_category` VALUES (45, 0, 0, 1, 0, 10000, '测试文章', '一个进行测试的类别', '2', 'test', 'test', 'test', NULL, 1540794581260, 000);
 
 -- ----------------------------
 -- Table structure for blog_category_post
@@ -60,12 +62,14 @@ CREATE TABLE `blog_category_post`  (
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `term_taxonomy_id`(`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类文章对应表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类文章对应表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_category_post
 -- ----------------------------
 INSERT INTO `blog_category_post` VALUES (1, 6, 41, 10000, 1);
+INSERT INTO `blog_category_post` VALUES (2, 7, 45, 10000, 1);
+INSERT INTO `blog_category_post` VALUES (3, 8, 45, 10000, 1);
 
 -- ----------------------------
 -- Table structure for blog_link
@@ -84,7 +88,7 @@ CREATE TABLE `blog_link`  (
   `rel` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '链接与网站的关系',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `status`(`status`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '友情链接表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '友情链接表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_link
@@ -112,7 +116,7 @@ CREATE TABLE `blog_post`  (
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `update_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '更新时间',
   `published_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发布时间',
-  `delete_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '删除时间',
+  `delete_time` bigint(20) UNSIGNED DEFAULT NULL COMMENT '删除时间',
   `post_title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'post标题',
   `post_keywords` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'seo keywords',
   `post_excerpt` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'post摘要',
@@ -120,6 +124,7 @@ CREATE TABLE `blog_post`  (
   `post_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '文章内容',
   `post_thumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '缩略图',
   `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性,如缩略图;格式为json',
+  `isdelete` int(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否已删除',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `type_status_date`(`post_status`, `create_time`, `id`) USING BTREE,
   INDEX `parent_id`(`parent_id`) USING BTREE,
@@ -130,9 +135,11 @@ CREATE TABLE `blog_post`  (
 -- ----------------------------
 -- Records of blog_post
 -- ----------------------------
-INSERT INTO `blog_post` VALUES (1, 39, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540195447087, 0, 0, 0, 'hello', 'js', 'asdfasdf', '', '', '', NULL);
-INSERT INTO `blog_post` VALUES (2, 42, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540195676849, 0, 0, 0, '彩云之南', '旅行', '这是一片神奇的土地', '', '<p>在这里你将会有无限的收获，不是嫩够用言语表达的</p>\n', 'http://img.bfrontend.com/banner1.png', NULL);
-INSERT INTO `blog_post` VALUES (3, 41, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540198994146, 0, 0, 1540266246233, 'asdf', 'asdf', 'asdf', '', '<p>在这里你将会有无限的收获，不是嫩够用言语表达的</p>\n', '', NULL);
+INSERT INTO `blog_post` VALUES (1, 39, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540195447087, 0, 0, 1540795032096, 'hello', 'js', 'asdfasdf', '', '', '', NULL, 1);
+INSERT INTO `blog_post` VALUES (2, 42, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540195676849, 0, 0, 0, '彩云之南', '旅行', '这是一片神奇的土地', '', '<p>在这里你将会有无限的收获，不是嫩够用言语表达的</p>\n', 'http://img.bfrontend.com/banner1.png', NULL, 0);
+INSERT INTO `blog_post` VALUES (3, 41, 'md', 5, 1, 1, 0, 0, 0, 0, 0, 1540198994146, 0, 0, 1540794992188, 'asdf', 'asdf', 'asdf', '', '<p>在这里你将会有无限的收获，不是嫩够用言语表达的</p>\n', '', NULL, 1);
+INSERT INTO `blog_post` VALUES (7, 45, 'md', 5, 0, 1, 0, 0, 0, 0, 0, 1540795312409, 0, 0, 0, 'asdfasdf', 'a', '有时候，一样食物给人留下的记忆，远比一顿暴打更深刻，更烙入骨髓。\n\n　　对小素而言，不能对她提一种叫做麻球的小吃。金黄黄的，包了红糖馅、滚了白芝麻、入了油锅炸的糯米点心。\n\n　　童年时，家境清寒。三间外面大雨、里面小雨的草房，三棵李树、两株桃树和屋后的一片竹子，就是家里的全部不动产了。好在那时也没过过好日子，并不觉得有多苦。', 'b', '', '', NULL, 0);
+INSERT INTO `blog_post` VALUES (8, 45, 'md', 5, 0, 1, 0, 0, 0, 0, 0, 1540796004347, 0, 0, NULL, 'test', 'a', '<div style=\"background: red;width:300px;height:300px;\">asdf</div>', 'b', '', '', NULL, 0);
 
 -- ----------------------------
 -- Table structure for blog_recycle_bin
@@ -146,13 +153,19 @@ CREATE TABLE `blog_recycle_bin`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '' COMMENT '删除内容名称',
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = ' 回收站' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = ' 回收站' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_recycle_bin
 -- ----------------------------
 INSERT INTO `blog_recycle_bin` VALUES (2, 4, 1540266176124, 'blog_post', 'asdf', 5);
 INSERT INTO `blog_recycle_bin` VALUES (3, 3, 1540266246140, 'blog_post', 'asdf', 5);
+INSERT INTO `blog_recycle_bin` VALUES (4, 2, 1540794121778, 'blog_post', '彩云之南', 5);
+INSERT INTO `blog_recycle_bin` VALUES (5, 2, 1540794141733, 'blog_post', '彩云之南', 5);
+INSERT INTO `blog_recycle_bin` VALUES (6, 3, 1540794261176, 'blog_post', 'asdf', 5);
+INSERT INTO `blog_recycle_bin` VALUES (7, 1, 1540794527668, 'blog_post', 'hello', 5);
+INSERT INTO `blog_recycle_bin` VALUES (8, 3, 1540794992133, 'blog_post', 'asdf', 5);
+INSERT INTO `blog_recycle_bin` VALUES (9, 1, 1540795032033, 'blog_post', 'hello', 5);
 
 -- ----------------------------
 -- Table structure for blog_setting
@@ -163,7 +176,7 @@ CREATE TABLE `blog_setting`  (
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '设置的类型',
   `data` json COMMENT 'json格式的key-value',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_setting
@@ -180,14 +193,15 @@ CREATE TABLE `blog_tag`  (
   `recommended` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否推荐;1:推荐;0:不推荐',
   `post_count` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '标签文章数',
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '标签名称',
+  `isdelete` int(3) UNSIGNED ZEROFILL NOT NULL COMMENT '是否已删除1:已删2:未删',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章标签表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章标签表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_tag
 -- ----------------------------
-INSERT INTO `blog_tag` VALUES (3, 1, 0, 0, 'js');
-INSERT INTO `blog_tag` VALUES (4, 1, 1, 0, 'html');
+INSERT INTO `blog_tag` VALUES (3, 1, 0, 0, 'js', 000);
+INSERT INTO `blog_tag` VALUES (4, 1, 1, 0, 'html', 000);
 
 -- ----------------------------
 -- Table structure for blog_tag_post
@@ -200,13 +214,15 @@ CREATE TABLE `blog_tag_post`  (
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `post_id`(`post_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 标签文章对应表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 标签文章对应表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_tag_post
 -- ----------------------------
 INSERT INTO `blog_tag_post` VALUES (1, 3, 5, 1);
 INSERT INTO `blog_tag_post` VALUES (2, 4, 6, 1);
+INSERT INTO `blog_tag_post` VALUES (3, 4, 7, 1);
+INSERT INTO `blog_tag_post` VALUES (4, 4, 8, 1);
 
 -- ----------------------------
 -- Table structure for blog_user
@@ -266,7 +282,7 @@ CREATE TABLE `blog_user_token`  (
 -- Records of blog_user_token
 -- ----------------------------
 INSERT INTO `blog_user_token` VALUES (20, 4, 1539635316187, 1539548916187, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo0fSwiZXhwIjoxNTM5NjM1MzE2LCJpYXQiOjE1Mzk1NDg5MTZ9.VMlDnMaL-yWOC3uemh9xpB5JhKtXwDZTSXbvV-op4EHdTUSh7C9YaEvinkpoG1jyKqT_n0jP1enkmLtvYKAVAGsVh9zIGGw5yMKCgrocUlfX02QvpTnwr3les_g-d5ENfzgBBrA_xq5fSWFjdyrTZzv3tU-85lcUJOHp-eAY1KLSSVkc05LIGNqxGNGBQB6HUMcRh_-U7gsTsyUaXb9Km7hxMt7TCfJhOvs65W_eQ0TZwcsTuK809AL_3cwknC1tzoLG8EEW1C7HO6betiO7-968I_2VZ_ZfuC2ZmyuDS6yiwn2LFW6eMQqA4hpQVZSgIgQ0DZanEbBJV8-cydkEGA', '', '::1');
-INSERT INTO `blog_user_token` VALUES (21, 5, 1540345144576, 1540258744576, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo1fSwiZXhwIjoxNTQwMzQ1MTQ0LCJpYXQiOjE1NDAyNTg3NDR9.SmASCJwIDq5jXiTVEQxc4XNOGkNSPy1AxiLckVcEGxi3waiya1F--Y0hPiDNsiNsOimzfvFwAZ9tij1VCK4j_1PYwN5gLrFMCx-I7wjQdUyx-q9_8_mTTNEfwfIxt6vWu2-yWM_QGJfDwGU1OJ-zhLBCcT2Hhx04lVuPUEK1V8vvCq1oWH97mhkg67fEPZX0rRraXHszzMU5a6C1-Pgdver0LGMN6jjsHyGOchuyMVEvaAgpF_QB2n5R3KjgVPJ-_HzXA7-VvxE7ttxhPKEv3jHwgE7MyGIvtaSRKl6HhLPuTgZUK33sbR6kcMFAoKwHoRKu_qquyHAIkis_5YV2Cg', '', '::1');
+INSERT INTO `blog_user_token` VALUES (21, 5, 1540880510907, 1540794110907, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo1fSwiZXhwIjoxNTQwODgwNTEwLCJpYXQiOjE1NDA3OTQxMTB9.n0tXdnFR1SsyclKDY3v17YS8yzk9-Fq0GGTF3MUGg07MEB8iHNa2AP8ifNZRJ1-z2Nhav0L9HJ15xCydArSfgDX_j-wFV9lw66XDi1hTAbdGnUSYbTXBdbi53i4zSOGMWEA12sF3YAp2XKjMS3LNQ5rfiNtstfoY1EuBG6_fL59gzQ_XrLoGMR8UKqNwd2lrIZz2YjRpddCPYQEOpNuKHYWPEcKF44ANbfKX4K-7Sqoh1Q4NpJm2jwSxpE8hBjTHXAffrVSxrJJNBpTPABEgsWYBeaCvlc-hNJ-3HRu9BBzKPuPkik1K0UkQh9lumIoEkIq5dh7-ESF--akhH9_iFQ', '', '::1');
 INSERT INTO `blog_user_token` VALUES (22, 11, 1539746096135, 1539659696135, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxMX0sImV4cCI6MTUzOTc0NjA5NiwiaWF0IjoxNTM5NjU5Njk2fQ.Ff_zVlv8tkmO3cEshqA48QYXXhllwI9xcAPbEBHW9dIZG7DUpk9QH5hXaZOwS-w3aR68wpxtbsyuRPylMSjezYfRw4aCGA8ITNEiz-aPoyv-nhKhVHI0XczbrZIcqMvKvQcwpMCltVhudhsRKOsdBestdA1RHbZLCGGyWxvWUkXHQnA3YbMNPIwTDdK8RDSBmXQ9dcO_bHioDs2oFcYcnFOVFjjJNjjR6RZgYQt41mauXIBRV8RNEzvEsF1g5bxKBxrxZuE_6_xSBmp3osF-CBOC812vLzW_BqfYc0f2VS9STRiX7SKjin0aJCM7wydU8u1dKuyS64VyR7ikZNnznw', '', '::1');
 
 SET FOREIGN_KEY_CHECKS = 1;
