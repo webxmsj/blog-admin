@@ -21,7 +21,7 @@ import Simplemde from 'simplemde'
 import 'simplemde/dist/simplemde.min.css'
 import { uploadFile } from '@/api/getdatas'
 export default {
-  naem: 'MarkdownEditor',
+  name: 'MarkdownEditor',
   props: {
     value: {
       type: String,
@@ -90,39 +90,44 @@ export default {
     }
   },
   mounted () {
-    var customToolBar = [{
-      name: 'bold',
-      action: Simplemde.toggleBold,
-      className: 'fa fa-bold',
-      title: '加粗'
-    }, {
-      name: 'italic',
-      action: Simplemde.toggleItalic,
-      className: 'fa fa-italic',
-      title: '斜体'
-    }, {
-      name: 'heading',
-      action: Simplemde.toggleHeadingSmaller,
-      className: 'fa fa-header',
-      title: '标题'
-    }, {
-      name: 'code',
-      action: Simplemde.toggleCodeBlock,
-      className: 'fa fa-code',
-      title: '代码块'
-    }, {
-      name: 'image',
-      action: () => {
-        this.insertImg()
-      },
-      className: 'fa fa-picture-o',
-      title: '图片'
-    }, {
-      name: 'preview',
-      action: Simplemde.togglePreview,
-      className: 'fa fa-eye no-disable',
-      title: '预览'
-    }]
+    var customToolBar
+    if (this.options.toolbar) {
+      customToolBar = [{
+        name: 'bold',
+        action: Simplemde.toggleBold,
+        className: 'fa fa-bold',
+        title: '加粗'
+      }, {
+        name: 'italic',
+        action: Simplemde.toggleItalic,
+        className: 'fa fa-italic',
+        title: '斜体'
+      }, {
+        name: 'heading',
+        action: Simplemde.toggleHeadingSmaller,
+        className: 'fa fa-header',
+        title: '标题'
+      }, {
+        name: 'code',
+        action: Simplemde.toggleCodeBlock,
+        className: 'fa fa-code',
+        title: '代码块'
+      }, {
+        name: 'image',
+        action: () => {
+          this.insertImg()
+        },
+        className: 'fa fa-picture-o',
+        title: '图片'
+      }, {
+        name: 'preview',
+        action: Simplemde.togglePreview,
+        className: 'fa fa-eye no-disable',
+        title: '预览'
+      }]
+    } else {
+      customToolBar = false
+    }
 
     this.editor = new Simplemde(Object.assign(this.options, {
       element: this.$refs.editor,

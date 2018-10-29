@@ -128,14 +128,15 @@
           <p class="information" style="line-height: 92px;">文章摘要：</p>
         </Col>
         <Col>
-          <textarea v-model="articledatas.abstracthtml" cols="70" rows="5" style="resize: none;border-radius: 4px;"></textarea>
+          <!-- <textarea v-model="articledatas.abstracthtml" cols="70" rows="5" style="resize: none;border-radius: 4px;"></textarea> -->
+          <MarkEditor :value="articledatas.abstracthtml" @on-blur="setAbstractHtml" :options="{toolbar: false}"></MarkEditor>
         </Col>
       </Row>
     </div>
     <Tabs v-model="articledatas.format" @on-click="tabChange">
       <TabPane label="MarkDown编辑器" name="md">
         <p class="information">文章内容：</p>
-        <MarkEditor @on-blur="setContentHtml" :options="contentOptions"></MarkEditor>
+        <MarkEditor :value="articledatas.html" @on-blur="setContentHtml" :options="contentOptions"></MarkEditor>
       </TabPane>
       <TabPane label="富文本编辑器" name="html">
         <p class="information">文章内容：</p>
@@ -255,6 +256,9 @@ export default {
     },
     setContentHtml (value) {
       this.content.mdhtml = value
+    },
+    setAbstractHtml (value) {
+      this.articledatas.abstracthtml = value
     },
     tabChange (name) {
       this.articledatas.format = name
