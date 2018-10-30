@@ -1,7 +1,15 @@
 import { on } from '@/libs/tools'
-import Simplemde from 'simplemde' // markdown 编辑器
+import { MdEditor } from '@/libs/Factory'
 
 const directives = {
+  /**
+   * 拖拽指令 v-draggable="options"
+   * options = {
+   *  trigger: /这里传入作为拖拽触发器的CSS选择器/,
+   *  body:    /这里传入需要移动容器的CSS选择器/,
+   *  recover: /拖动结束之后是否恢复到原来的位置/
+   * }
+   */
   draggable: {
     inserted: (el, binding, vnode) => {
       let triggerDom = document.querySelector(binding.value.trigger)
@@ -42,74 +50,23 @@ const directives = {
       bodyDom.style.transform = ''
     }
   },
+  /**
+   * textarea 转MarkDown 编辑器指令 v-mdeditor="options"
+   * options = {
+   *   toolbar: Boolean or Array, false // 隐藏 toolbar [] // 添加自定义toolbar 按照 simplemde的添加规则
+   *   spellChecker: false,  // 是否开启拼写检查
+   *   forceSync: true,
+   *   width: 600, // 编辑器的宽度
+   *   height: 300 // 编辑器的高度
+   *   ……  其他参数同 simplemde options
+   * }
+   */
   mdeditor: {
     inserted: (el, binding, vnode) => {
       let options = binding.value
-      let context = vnode.context
-      var events = vnode.data.on
-      var customToolBar
-      if (options.toolbar) {
-        customToolBar = [{
-          name: 'bold',
-          action: Simplemde.toggleBold,
-          className: 'fa fa-bold',
-          title: '加粗'
-        }, {
-          name: 'italic',
-          action: Simplemde.toggleItalic,
-          className: 'fa fa-italic',
-          title: '斜体'
-        }, {
-          name: 'heading',
-          action: Simplemde.toggleHeadingSmaller,
-          className: 'fa fa-header',
-          title: '标题'
-        }, {
-          name: 'code',
-          action: Simplemde.toggleCodeBlock,
-          className: 'fa fa-code',
-          title: '代码块'
-        }, {
-          name: 'image',
-          action: () => {
-            this.insertImg()
-          },
-          className: 'fa fa-picture-o',
-          title: '图片'
-        }, {
-          name: 'preview',
-          action: Simplemde.togglePreview,
-          className: 'fa fa-eye no-disable',
-          title: '预览'
-        }]
-      } else {
-        customToolBar = false
-      }
-      var editor = new Simplemde(Object.assign(options, {
-        element: el,
-        toolbar: customToolBar
-      }))
-      // 宽高修改
-      var wraper = editor.codemirror.display.wrapper
-      wraper.style.height = options.height + 'px'
-      wraper.style.width = options.width ? options.width + 'px' : '100%'
-      if (events['input'] || events['on-change']) {
-        editor.codemirror.on('change', () => {
-          let value = editor.value()
-          events['on-change'] && events['on-change'].call(context, value)
-        })
-      }
-      if (events['on-focus']) {
-        editor.codemirror.on('focus', () => {
-          events['on-focus'].call(context, editor.value())
-        })
-      }
-      if (events['on-blur']) {
-        editor.codemirror.on('blur', () => {
-          let html = editor.markdown(editor.value())
-          events['on-blur'].call(context, html)
-        })
-      }
+      let editor = new MdEditor(el, options)
+      editor.setSize(options.width || 500, options.height || 200)
+      editor.bindEvent(vnode.context, vnode.data.on)
     }
   }
 }

@@ -127,7 +127,7 @@
         <Col span="2">
           <p class="information" style="line-height: 92px;">文章摘要：</p>
         </Col>
-        <Col>
+        <Col span="22">
           <textarea v-model="articledatas.abstracthtml" v-mdeditor="abstractoptions" @on-blur="setAbstractHtml"></textarea>
           <!-- <MarkEditor :value="articledatas.abstracthtml" @on-blur="setAbstractHtml" :options="{toolbar: false}"></MarkEditor> -->
         </Col>
@@ -167,7 +167,9 @@ export default {
       pushstatus: false,
       contentOptions: {
         spellChecker: false,
-        toolbar: true
+        toolbar: true,
+        width: 900,
+        height: 300
       },
       abstractoptions: {
         toolbar: false,
