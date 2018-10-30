@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 29/10/2018 15:39:23
+ Date: 30/10/2018 17:56:39
 */
 
 SET NAMES utf8mb4;
@@ -38,7 +38,7 @@ CREATE TABLE `blog_category`  (
   `create_time` bigint(20) DEFAULT NULL,
   `isdelete` int(3) UNSIGNED ZEROFILL NOT NULL COMMENT '是否已删除1:已删2:未删',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_category
@@ -62,7 +62,7 @@ CREATE TABLE `blog_category_post`  (
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `term_taxonomy_id`(`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类文章对应表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类文章对应表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_category_post
@@ -130,7 +130,7 @@ CREATE TABLE `blog_post`  (
   INDEX `parent_id`(`parent_id`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE,
   INDEX `create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'portal应用 文章表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'portal应用 文章表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of blog_post
@@ -153,7 +153,7 @@ CREATE TABLE `blog_recycle_bin`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '' COMMENT '删除内容名称',
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = ' 回收站' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = ' 回收站' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_recycle_bin
@@ -195,7 +195,7 @@ CREATE TABLE `blog_tag`  (
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '标签名称',
   `isdelete` int(3) UNSIGNED ZEROFILL NOT NULL COMMENT '是否已删除1:已删2:未删',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章标签表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章标签表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_tag
@@ -214,7 +214,7 @@ CREATE TABLE `blog_tag_post`  (
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `post_id`(`post_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 标签文章对应表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 标签文章对应表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_tag_post
@@ -282,7 +282,7 @@ CREATE TABLE `blog_user_token`  (
 -- Records of blog_user_token
 -- ----------------------------
 INSERT INTO `blog_user_token` VALUES (20, 4, 1539635316187, 1539548916187, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo0fSwiZXhwIjoxNTM5NjM1MzE2LCJpYXQiOjE1Mzk1NDg5MTZ9.VMlDnMaL-yWOC3uemh9xpB5JhKtXwDZTSXbvV-op4EHdTUSh7C9YaEvinkpoG1jyKqT_n0jP1enkmLtvYKAVAGsVh9zIGGw5yMKCgrocUlfX02QvpTnwr3les_g-d5ENfzgBBrA_xq5fSWFjdyrTZzv3tU-85lcUJOHp-eAY1KLSSVkc05LIGNqxGNGBQB6HUMcRh_-U7gsTsyUaXb9Km7hxMt7TCfJhOvs65W_eQ0TZwcsTuK809AL_3cwknC1tzoLG8EEW1C7HO6betiO7-968I_2VZ_ZfuC2ZmyuDS6yiwn2LFW6eMQqA4hpQVZSgIgQ0DZanEbBJV8-cydkEGA', '', '::1');
-INSERT INTO `blog_user_token` VALUES (21, 5, 1540880510907, 1540794110907, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo1fSwiZXhwIjoxNTQwODgwNTEwLCJpYXQiOjE1NDA3OTQxMTB9.n0tXdnFR1SsyclKDY3v17YS8yzk9-Fq0GGTF3MUGg07MEB8iHNa2AP8ifNZRJ1-z2Nhav0L9HJ15xCydArSfgDX_j-wFV9lw66XDi1hTAbdGnUSYbTXBdbi53i4zSOGMWEA12sF3YAp2XKjMS3LNQ5rfiNtstfoY1EuBG6_fL59gzQ_XrLoGMR8UKqNwd2lrIZz2YjRpddCPYQEOpNuKHYWPEcKF44ANbfKX4K-7Sqoh1Q4NpJm2jwSxpE8hBjTHXAffrVSxrJJNBpTPABEgsWYBeaCvlc-hNJ-3HRu9BBzKPuPkik1K0UkQh9lumIoEkIq5dh7-ESF--akhH9_iFQ', '', '::1');
+INSERT INTO `blog_user_token` VALUES (21, 5, 1540956852964, 1540870452964, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo1fSwiZXhwIjoxNTQwOTU2ODUyLCJpYXQiOjE1NDA4NzA0NTJ9.b5CAmjDrdtYKUca23tEewGehq_CWgHuwZLfR6QZcsalOqdOdZ78gTAHTtzTzVS4ISSa6kjw23tbhN96lGepTmkfWhvrUPuVRkUynDUo7bJ1dCNYcpi2e7csDfnAEOquRK4PcTpqlrahnewS87ZXft2QhKuSiPg7Bp53GTHA8OHM22wFxNgR9Tz1AzSjwwpeMk8fO5RceTTRbn9V-41YqGn-oLlJrrbX5DSkqJhhS2krF570jCjVhY4R7w7vM5boyeXC49ZQKy1GILmY_hpVvFTYfkVmSKQiyOW0TEwwXSskoZNoYv-TW6VWqsSkfXFHUjIcpL1GqK1O3NhyjG1pVqg', '', '::1');
 INSERT INTO `blog_user_token` VALUES (22, 11, 1539746096135, 1539659696135, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxMX0sImV4cCI6MTUzOTc0NjA5NiwiaWF0IjoxNTM5NjU5Njk2fQ.Ff_zVlv8tkmO3cEshqA48QYXXhllwI9xcAPbEBHW9dIZG7DUpk9QH5hXaZOwS-w3aR68wpxtbsyuRPylMSjezYfRw4aCGA8ITNEiz-aPoyv-nhKhVHI0XczbrZIcqMvKvQcwpMCltVhudhsRKOsdBestdA1RHbZLCGGyWxvWUkXHQnA3YbMNPIwTDdK8RDSBmXQ9dcO_bHioDs2oFcYcnFOVFjjJNjjR6RZgYQt41mauXIBRV8RNEzvEsF1g5bxKBxrxZuE_6_xSBmp3osF-CBOC812vLzW_BqfYc0f2VS9STRiX7SKjin0aJCM7wydU8u1dKuyS64VyR7ikZNnznw', '', '::1');
 
 SET FOREIGN_KEY_CHECKS = 1;
