@@ -2,7 +2,7 @@
 * @Author: mengxiaofei
 * @Date:   2018-10-29 19:13:43
 * @Last Modified by:   mengxiaofei
-* @Last Modified time: 2018-10-30 14:07:22
+* @Last Modified time: 2018-10-31 19:33:23
 */
 import Simplemde from 'simplemde' // markdown 编辑器
 export const MdEditor = class MdEditor {
@@ -56,6 +56,12 @@ export const MdEditor = class MdEditor {
       toolbar: this.baseToolBar
     }))
   }
+
+  createImgUpload () {
+    // TODO 插入上传组件
+    console.log('upload img')
+  }
+
   createToolBar (options) {
     if (!Array.isArray(this.options.toolbar)) {
       return false

@@ -65,7 +65,9 @@ const directives = {
     inserted: (el, binding, vnode) => {
       let options = binding.value
       let editor = new MdEditor(el, options)
-      editor.setSize(options.width || 500, options.height || 200)
+      if (options.width && options.height) {
+        editor.setSize(options.width, options.height)
+      }
       editor.bindEvent(vnode.context, vnode.data.on)
     }
   }
