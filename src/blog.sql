@@ -191,6 +191,33 @@ CREATE TABLE IF NOT EXISTS `blog_recycle_bin` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=' 回收站';
 
+--
+-- 表的结构 `blog_comment` 评论表
+--
+
+CREATE TABLE IF NOT EXISTS `blog_comment` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '被回复的评论id',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '发表评论的用户id',
+  `to_user_id` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '被评论的用户id',
+  `like_count` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '点赞数',
+  `dislike_count` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '不喜欢数',
+  `floor` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '楼层数',
+  `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '评论时间',
+  `delete_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态,1:已审核,0:未审核',
+  `full_name` varchar(50) NOT NULL DEFAULT '' COMMENT '评论者昵称',
+  `email` varchar(255) NOT NULL DEFAULT '' COMMENT '评论者邮箱',
+  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '层级关系',
+  `url` text COMMENT '原文地址',
+  `content` text CHARACTER SET utf8mb4 COMMENT '评论内容',
+  `more` text CHARACTER SET utf8mb4 COMMENT '扩展属性',
+  PRIMARY KEY (`id`),
+  KEY `table_id_status` (`status`),
+  KEY `status` (`status`) USING BTREE,
+  KEY `parent_id` (`parent_id`) USING BTREE,
+  KEY `create_time` (`create_time`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
 
 
 
