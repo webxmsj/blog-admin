@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 01/11/2018 18:02:38
+ Date: 02/11/2018 18:22:13
 */
 
 SET NAMES utf8mb4;
@@ -97,7 +97,7 @@ CREATE TABLE `blog_comment`  (
   INDEX `status`(`status`) USING BTREE,
   INDEX `parent_id`(`parent_id`) USING BTREE,
   INDEX `create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '评论表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '评论表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_comment
@@ -321,7 +321,7 @@ CREATE TABLE `blog_user`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_login`(`user_login`) USING BTREE,
   INDEX `user_nickname`(`user_nickname`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_user
@@ -350,7 +350,7 @@ CREATE TABLE `blog_user_token`  (
 -- Records of blog_user_token
 -- ----------------------------
 INSERT INTO `blog_user_token` VALUES (20, 4, 1539635316187, 1539548916187, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo0fSwiZXhwIjoxNTM5NjM1MzE2LCJpYXQiOjE1Mzk1NDg5MTZ9.VMlDnMaL-yWOC3uemh9xpB5JhKtXwDZTSXbvV-op4EHdTUSh7C9YaEvinkpoG1jyKqT_n0jP1enkmLtvYKAVAGsVh9zIGGw5yMKCgrocUlfX02QvpTnwr3les_g-d5ENfzgBBrA_xq5fSWFjdyrTZzv3tU-85lcUJOHp-eAY1KLSSVkc05LIGNqxGNGBQB6HUMcRh_-U7gsTsyUaXb9Km7hxMt7TCfJhOvs65W_eQ0TZwcsTuK809AL_3cwknC1tzoLG8EEW1C7HO6betiO7-968I_2VZ_ZfuC2ZmyuDS6yiwn2LFW6eMQqA4hpQVZSgIgQ0DZanEbBJV8-cydkEGA', '', '::1');
-INSERT INTO `blog_user_token` VALUES (21, 5, 1541071873884, 1540985473884, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo1fSwiZXhwIjoxNTQxMDcxODczLCJpYXQiOjE1NDA5ODU0NzN9.t60wE5aB2dF6MZutyKxNdYBn4WDiXpjr1Dv-Tm1MvLGv9_hLQ958jnO_NYXUls5afwL_2Hjg_hNOPLb76zF9BkZ_APdkhPZZzSGF_3Y1QaZJy5iOWYona2m_ZPcERoMZbf0bJt30XC6A1UFhlSvJE2KO-Ys-0msAYRDYkuaiy3ybADSHeeQ42K1IlG3Nytn1x8tzxNPHxBsN88x_Qr0Nf4TCZs8LsHTwSIneyh6JTy1DET9TaL7hpi1tKN7KLOsjJqsY3lqkZBgsWRkF37MWFJveK6DpeLfFpdm2v8DitFjoUwT75g0nUkbJ6YG0T3rnH0HogqAyoiD4u3wUfWBKHQ', '', '::1');
+INSERT INTO `blog_user_token` VALUES (21, 5, 1541236652973, 1541150252973, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo1fSwiZXhwIjoxNTQxMjM2NjUyLCJpYXQiOjE1NDExNTAyNTJ9.ExyMlaIPQcp3SvAanoyr81GztmAq52QmDkesY4CMRCsZW80JmMIn074nNvPsuTL3TknVKjm2tRqqoDVBlcr4VdyExfwCe_F7HDXrJDoF9ZhQIk26nFrqNao0x42-cj70_2jmabJvzw9jKC4vDnMn8kTDW8sqXXafMbIy_qcde1XlD-uHekSl5vGNvGe_PMHYLJYF563pkFUM6f3AALOOF6cuXS59jZ9zO6PL2iFLIY-E5JcFeNx5p_AF3tvubUyIXvhQ-EOE8Vl5D68nUWKvePTLNiNuJT12smMMKB2jgFpAvYbC_Q12CH6PfPuaZcExndmB-kIPJpNcXOxpJGyiAA', '', '::1');
 INSERT INTO `blog_user_token` VALUES (22, 11, 1539746096135, 1539659696135, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxMX0sImV4cCI6MTUzOTc0NjA5NiwiaWF0IjoxNTM5NjU5Njk2fQ.Ff_zVlv8tkmO3cEshqA48QYXXhllwI9xcAPbEBHW9dIZG7DUpk9QH5hXaZOwS-w3aR68wpxtbsyuRPylMSjezYfRw4aCGA8ITNEiz-aPoyv-nhKhVHI0XczbrZIcqMvKvQcwpMCltVhudhsRKOsdBestdA1RHbZLCGGyWxvWUkXHQnA3YbMNPIwTDdK8RDSBmXQ9dcO_bHioDs2oFcYcnFOVFjjJNjjR6RZgYQt41mauXIBRV8RNEzvEsF1g5bxKBxrxZuE_6_xSBmp3osF-CBOC812vLzW_BqfYc0f2VS9STRiX7SKjin0aJCM7wydU8u1dKuyS64VyR7ikZNnznw', '', '::1');
 
 SET FOREIGN_KEY_CHECKS = 1;
