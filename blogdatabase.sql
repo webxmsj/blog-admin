@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : local
+ Source Server         : localhost
  Source Server Type    : MySQL
  Source Server Version : 80012
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 02/11/2018 18:22:13
+ Date: 03/11/2018 20:23:46
 */
 
 SET NAMES utf8mb4;
@@ -34,8 +34,8 @@ CREATE TABLE `blog_category`  (
   `seo_title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `seo_keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `seo_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
-  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性',
-  `create_time` bigint(20) DEFAULT NULL,
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '扩展属性',
+  `create_time` bigint(20) NULL DEFAULT NULL,
   `isdelete` int(3) UNSIGNED ZEROFILL NOT NULL COMMENT '是否已删除1:已删2:未删',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
@@ -77,21 +77,21 @@ INSERT INTO `blog_category_post` VALUES (3, 8, 45, 10000, 1);
 DROP TABLE IF EXISTS `blog_comment`;
 CREATE TABLE `blog_comment`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `parent_id` bigint(20) UNSIGNED DEFAULT 0 COMMENT '被回复的评论id',
+  `parent_id` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '被回复的评论id',
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发表评论的用户id',
   `to_user_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '被评论的用户id',
   `like_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '点赞数',
   `dislike_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '不喜欢数',
   `floor` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '楼层数',
   `create_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '评论时间',
-  `delete_time` bigint(20) UNSIGNED DEFAULT 0 COMMENT '删除时间',
+  `delete_time` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '删除时间',
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:已审核,0:未审核',
   `full_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '评论者昵称',
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '评论者邮箱',
   `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '层级关系',
-  `url` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '原文地址',
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '评论内容',
-  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性',
+  `url` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '原文地址',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '评论内容',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '扩展属性',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `table_id_status`(`status`) USING BTREE,
   INDEX `status`(`status`) USING BTREE,
@@ -102,13 +102,9 @@ CREATE TABLE `blog_comment`  (
 -- ----------------------------
 -- Records of blog_comment
 -- ----------------------------
-INSERT INTO `blog_comment` VALUES (2, NULL, 33, 33, 0, 0, 1, 1541062908751, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (3, NULL, 33, 33, 0, 0, 1, 1541063514617, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (4, NULL, 33, 33, 0, 0, 1, 1541063545263, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (5, NULL, 33, 33, 0, 0, 1, 1541063601890, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (6, NULL, 33, 33, 0, 0, 1, 1541063630516, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (7, NULL, 33, 33, 0, 0, 1, 1541063676647, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (8, NULL, 33, 33, 0, 0, 1, 1541066181402, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfa', '0', NULL);
+INSERT INTO `blog_comment` VALUES (10, NULL, 33, 33, 0, 0, 1, 1541229897140, NULL, 0, 'heartdream', 'null', '0', 'http://127.0.0.1:3100/blog/article/7', '你好我是xxx', NULL);
+INSERT INTO `blog_comment` VALUES (11, NULL, 33, 33, 0, 0, 1, 1541229906044, NULL, 0, 'heartdream', 'null', '0', 'http://127.0.0.1:3100/blog/article/7', '你好我是xxx', NULL);
+INSERT INTO `blog_comment` VALUES (12, NULL, 33, 33, 0, 0, 1, 1541229940428, NULL, 0, 'heartdream', 'null', '0', 'http://127.0.0.1:3100/blog/article/2', 'woshi', NULL);
 
 -- ----------------------------
 -- Table structure for blog_link
@@ -152,17 +148,17 @@ CREATE TABLE `blog_post`  (
   `post_hits` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '查看数',
   `post_like` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '点赞数',
   `comment_count` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '评论数',
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `create_time` bigint(20) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '更新时间',
   `published_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发布时间',
-  `delete_time` bigint(20) UNSIGNED DEFAULT NULL COMMENT '删除时间',
+  `delete_time` bigint(20) UNSIGNED NULL DEFAULT NULL COMMENT '删除时间',
   `post_title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'post标题',
   `post_keywords` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'seo keywords',
   `post_excerpt` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'post摘要',
   `post_source` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '转载文章的来源',
-  `post_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '文章内容',
-  `post_thumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '缩略图',
-  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性,如缩略图;格式为json',
+  `post_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '文章内容',
+  `post_thumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '缩略图',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '扩展属性,如缩略图;格式为json',
   `isdelete` int(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否已删除',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `type_status_date`(`post_status`, `create_time`, `id`) USING BTREE,
@@ -186,10 +182,10 @@ INSERT INTO `blog_post` VALUES (8, 45, 'md', 5, 0, 1, 0, 0, 0, 0, 0, 15407960043
 DROP TABLE IF EXISTS `blog_recycle_bin`;
 CREATE TABLE `blog_recycle_bin`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `object_id` int(11) DEFAULT 0 COMMENT '删除内容 id',
-  `create_time` bigint(20) UNSIGNED DEFAULT 0 COMMENT '创建时间',
-  `table_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '' COMMENT '删除内容所在表名',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '' COMMENT '删除内容名称',
+  `object_id` int(11) NULL DEFAULT 0 COMMENT '删除内容 id',
+  `create_time` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '创建时间',
+  `table_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '删除内容所在表名',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '删除内容名称',
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = ' 回收站' ROW_FORMAT = Dynamic;
@@ -212,8 +208,8 @@ INSERT INTO `blog_recycle_bin` VALUES (9, 1, 1540795032033, 'blog_post', 'hello'
 DROP TABLE IF EXISTS `blog_setting`;
 CREATE TABLE `blog_setting`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '设置的类型',
-  `data` json COMMENT 'json格式的key-value',
+  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设置的类型',
+  `data` json NULL COMMENT 'json格式的key-value',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -282,7 +278,7 @@ CREATE TABLE `blog_third_party_user`  (
   `access_token` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '第三方授权码',
   `openid` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '第三方用户id',
   `union_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '第三方用户多个产品中的惟一 id,(如:微信平台)',
-  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展信息',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '扩展信息',
   PRIMARY KEY (`id`, `expire_time`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '第三方用户表' ROW_FORMAT = Dynamic;
 
@@ -315,9 +311,9 @@ CREATE TABLE `blog_user`  (
   `signature` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '个性签名',
   `last_login_ip` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '最后登录ip',
   `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '用户手机号',
-  `user_activation_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '激活码',
-  `islive` enum('0','1') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '0',
-  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性',
+  `user_activation_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '激活码',
+  `islive` enum('0','1') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '扩展属性',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_login`(`user_login`) USING BTREE,
   INDEX `user_nickname`(`user_nickname`) USING BTREE
@@ -350,7 +346,7 @@ CREATE TABLE `blog_user_token`  (
 -- Records of blog_user_token
 -- ----------------------------
 INSERT INTO `blog_user_token` VALUES (20, 4, 1539635316187, 1539548916187, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo0fSwiZXhwIjoxNTM5NjM1MzE2LCJpYXQiOjE1Mzk1NDg5MTZ9.VMlDnMaL-yWOC3uemh9xpB5JhKtXwDZTSXbvV-op4EHdTUSh7C9YaEvinkpoG1jyKqT_n0jP1enkmLtvYKAVAGsVh9zIGGw5yMKCgrocUlfX02QvpTnwr3les_g-d5ENfzgBBrA_xq5fSWFjdyrTZzv3tU-85lcUJOHp-eAY1KLSSVkc05LIGNqxGNGBQB6HUMcRh_-U7gsTsyUaXb9Km7hxMt7TCfJhOvs65W_eQ0TZwcsTuK809AL_3cwknC1tzoLG8EEW1C7HO6betiO7-968I_2VZ_ZfuC2ZmyuDS6yiwn2LFW6eMQqA4hpQVZSgIgQ0DZanEbBJV8-cydkEGA', '', '::1');
-INSERT INTO `blog_user_token` VALUES (21, 5, 1541236652973, 1541150252973, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo1fSwiZXhwIjoxNTQxMjM2NjUyLCJpYXQiOjE1NDExNTAyNTJ9.ExyMlaIPQcp3SvAanoyr81GztmAq52QmDkesY4CMRCsZW80JmMIn074nNvPsuTL3TknVKjm2tRqqoDVBlcr4VdyExfwCe_F7HDXrJDoF9ZhQIk26nFrqNao0x42-cj70_2jmabJvzw9jKC4vDnMn8kTDW8sqXXafMbIy_qcde1XlD-uHekSl5vGNvGe_PMHYLJYF563pkFUM6f3AALOOF6cuXS59jZ9zO6PL2iFLIY-E5JcFeNx5p_AF3tvubUyIXvhQ-EOE8Vl5D68nUWKvePTLNiNuJT12smMMKB2jgFpAvYbC_Q12CH6PfPuaZcExndmB-kIPJpNcXOxpJGyiAA', '', '::1');
+INSERT INTO `blog_user_token` VALUES (21, 5, 1541304148147, 1541217748147, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo1fSwiZXhwIjoxNTQxMzA0MTQ4LCJpYXQiOjE1NDEyMTc3NDh9.iKfDVc5kWwr_HOdGKNBp7XF0GqEaIHTduZJFc5sNkVD5D57VAykKJkOhejVlX3dt2CJaBvJdiWW2LsRIRzdXz8RGH-eyuV8r1pKfIL6SgtiM-ACoUBXh4dWLc3TMiOF9QmfZ1aUx5EJhBqqHzExs3bHMVtou9vW3p66hj1DpPmTnpdEVKInxg4PKZI7L5beIHoZcH9kDiKz42zj584WNaEh6ZsQ4331pgqHvF0QQ5k5T15oNELXBfYG7eKp7IcDQ9_C4fVDZTkmqKrjzX-4DCCHF5xpje-qTAe7vn9NCEn-sD-j_8maXnsQHzHj4mEN_0ceC4LH3kCGq_Y6CG5SDLA', '', '::1');
 INSERT INTO `blog_user_token` VALUES (22, 11, 1539746096135, 1539659696135, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxMX0sImV4cCI6MTUzOTc0NjA5NiwiaWF0IjoxNTM5NjU5Njk2fQ.Ff_zVlv8tkmO3cEshqA48QYXXhllwI9xcAPbEBHW9dIZG7DUpk9QH5hXaZOwS-w3aR68wpxtbsyuRPylMSjezYfRw4aCGA8ITNEiz-aPoyv-nhKhVHI0XczbrZIcqMvKvQcwpMCltVhudhsRKOsdBestdA1RHbZLCGGyWxvWUkXHQnA3YbMNPIwTDdK8RDSBmXQ9dcO_bHioDs2oFcYcnFOVFjjJNjjR6RZgYQt41mauXIBRV8RNEzvEsF1g5bxKBxrxZuE_6_xSBmp3osF-CBOC812vLzW_BqfYc0f2VS9STRiX7SKjin0aJCM7wydU8u1dKuyS64VyR7ikZNnznw', '', '::1');
 
 SET FOREIGN_KEY_CHECKS = 1;
