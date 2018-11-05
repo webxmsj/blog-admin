@@ -2,7 +2,7 @@
 * @Author: mengxiaofei
 * @Date:   2018-10-29 19:13:43
 * @Last Modified by:   mengxiaofei
-* @Last Modified time: 2018-10-31 19:33:23
+* @Last Modified time: 2018-11-05 14:48:13
 */
 import Simplemde from 'simplemde' // markdown 编辑器
 export const MdEditor = class MdEditor {
@@ -53,7 +53,10 @@ export const MdEditor = class MdEditor {
     }
     this.editor = new Simplemde(Object.assign(this.options, {
       element: this.el,
-      toolbar: this.baseToolBar
+      toolbar: this.baseToolBar,
+      renderingConfig: {
+        codeSyntaxHighlighting: true
+      }
     }))
   }
 

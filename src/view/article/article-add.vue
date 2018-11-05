@@ -270,6 +270,7 @@ export default {
     },
     setContentHtml (value) {
       this.content.mdhtml = value
+      console.log(value)
     },
     setAbstractHtml (value) {
       this.articledatas.abstracthtml = value

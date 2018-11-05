@@ -172,3 +172,11 @@ export const deletePost = id => {
     }
   })
 }
+
+export const changeStatusComment = data => {
+  return axios.request({
+    url: 'change_status_comment',
+    method: 'post',
+    data
+  })
+}

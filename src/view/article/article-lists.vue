@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="articlelist">
     <Table :columns="columns" :data="datas"></Table>
   </div>
 </template>
@@ -123,13 +123,18 @@ export default {
 </script>
 
 <style lang="less">
-.ivu-table-cell{
-  max-height: 32px;
-  overflow: hidden;
-  img{
-    display: block;
-    width: 100%;
-    height: auto;
+.articlelist{
+  .ivu-table-cell{
+    max-height: 32px;
+    overflow: auto;
+    img{
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .ivu-table-cell-expand{
+      line-height: 32px;
+    }
   }
 }
 </style>

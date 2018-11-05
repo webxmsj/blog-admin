@@ -7,71 +7,78 @@
 </template>
 
 <script>
+import { queryall, getDisplayStructure, changeStatusComment } from '@/api/getdatas'
+import { convertSqlResToCol } from '@/libs/util'
 export default {
   data () {
     return {
-      columns: [{
-        type: 'selection',
-        width: 60,
-        align: 'center'
-      }, {
-        title: 'id',
-        key: 'id'
-      }, {
-        title: '内容',
-        key: 'content'
-      }, {
-        title: '评论者',
-        key: 'author'
-      }, {
-        title: '发表时间',
-        key: 'createTime'
-      }, {
-        title: '状态',
-        key: 'status',
-        render: (h, params) => {
-          return h('Select', [
-            h('Option', {
-              props: {
-                value: 'passed'
-              }
-            }, '通过'),
-            h('Option', {
-              props: {
-                value: 'refuse'
-              }
-            }, '拒绝')
-          ])
-        }
-      }, {
-        title: '引用人',
-        key: 'referer'
-      }, {
-        title: '引用评论',
-        key: 'referercontent'
-      }],
-      datas: [{
-        id: 0,
-        content: '一篇不错的文章',
-        author: '小王',
-        createTime: '2018-09-30',
-        status: '通过',
-        referer: '引用者',
-        referercontent: '楼上所说挺好'
-      }, {
-        id: 1,
-        content: '一篇不错的文章',
-        author: '小王',
-        createTime: '2018-09-30',
-        status: '通过',
-        referer: '引用者',
-        referercontent: '楼上所说挺好'
-      }]
+      columns: [],
+      datas: []
     }
+  },
+  beforeMount () {
+    // 获取表结构
+    getDisplayStructure('blog_comment').then(res => {
+      if (res.status === 200) {
+        this.columns = convertSqlResToCol(res.data, {
+          status: {
+            render: (h, { row }) => {
+              return h('Select', {
+                props: {
+                  value: row.status
+                },
+                on: {
+                  'on-change': (v) => {
+                    this.changestatus(row.id, v)
+                  }
+                }
+              }, [
+                h('Option', {
+                  props: {
+                    value: 1
+                  }
+                }, '通过'),
+                h('Option', {
+                  props: {
+                    value: 0
+                  }
+                }, '拒绝')
+              ])
+            }
+          },
+          url: {
+            render: (h, { row }) => {
+              return h('a', {
+                attrs: {
+                  href: row.url
+                }
+              }, row.url)
+            }
+          }
+        })
+      }
+    })
+    // 获取文章分类
+    queryall('blog_comment').then(res => {
+      if (res.status === 200) {
+        this.datas = res.data
+      } else {
+        console.log('请求失败')
+      }
+    })
   },
   methods: {
     handleSelectAll (status) {
       this.$refs.selection.selectAll(status)
+    },
+    changestatus (id, value) {
+      console.log(id, value)
+      changeStatusComment({
+        id,
+        value
+      }).then(res => {
+        console.log(res)
+      })
     }
   }
 }
