@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 05/11/2018 19:22:19
+ Date: 06/11/2018 18:46:42
 */
 
 SET NAMES utf8mb4;
@@ -38,7 +38,7 @@ CREATE TABLE `blog_category`  (
   `create_time` bigint(20) DEFAULT NULL,
   `isdelete` int(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 2 COMMENT '是否已删除1:已删2:未删',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_category
@@ -66,7 +66,7 @@ CREATE TABLE `blog_category_post`  (
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `term_taxonomy_id`(`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类文章对应表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类文章对应表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_category_post
@@ -96,7 +96,7 @@ CREATE TABLE `blog_comment`  (
   `full_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '评论者昵称',
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '评论者邮箱',
   `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '层级关系',
-  `url` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '原文地址',
+  `post_id` int(10) DEFAULT NULL COMMENT '文章id',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '评论内容',
   `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性',
   PRIMARY KEY (`id`) USING BTREE,
@@ -109,13 +109,7 @@ CREATE TABLE `blog_comment`  (
 -- ----------------------------
 -- Records of blog_comment
 -- ----------------------------
-INSERT INTO `blog_comment` VALUES (2, NULL, 33, 33, 0, 0, 1, 1541062908751, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (3, NULL, 33, 33, 0, 0, 1, 1541063514617, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (4, NULL, 33, 33, 0, 0, 1, 1541063545263, NULL, 1, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (5, NULL, 33, 33, 0, 0, 1, 1541063601890, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (6, NULL, 33, 33, 0, 0, 1, 1541063630516, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (7, NULL, 33, 33, 0, 0, 1, 1541063676647, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfasdf', '0', NULL);
-INSERT INTO `blog_comment` VALUES (8, NULL, 33, 33, 0, 0, 1, 1541066181402, NULL, 0, 'heartdream', 'null', 'http://127.0.0.1:3100/blog/article/2', 'asdfa', '0', NULL);
+INSERT INTO `blog_comment` VALUES (15, NULL, 33, 33, 0, 0, 1, 1541478639338, NULL, 1, 'heartdream', 'null', '0', 2, '你好，不错的文章', NULL);
 
 -- ----------------------------
 -- Table structure for blog_link
@@ -176,7 +170,7 @@ CREATE TABLE `blog_post`  (
   INDEX `parent_id`(`parent_id`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE,
   INDEX `create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'portal应用 文章表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'portal应用 文章表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of blog_post
@@ -263,7 +257,7 @@ CREATE TABLE `blog_tag_post`  (
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `post_id`(`post_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 标签文章对应表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 标签文章对应表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_tag_post
