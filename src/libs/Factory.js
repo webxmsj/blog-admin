@@ -2,8 +2,10 @@
 * @Author: mengxiaofei
 * @Date:   2018-10-29 19:13:43
 * @Last Modified by:   mengxiaofei
-* @Last Modified time: 2018-11-05 14:48:13
+* @Last Modified time: 2018-11-07 16:46:30
 */
+import { uploadFile } from '@/api/getdatas'
+
 import Simplemde from 'simplemde' // markdown 编辑器
 export const MdEditor = class MdEditor {
   constructor (el, options) {
@@ -43,6 +45,8 @@ export const MdEditor = class MdEditor {
       title: '预览'
     }]
     this.editor = null
+    this.upload = Upload.getInstance()
+    this.upload.onUploadSuccess = this.inserIntoEditor.bind(this)
     this.init()
   }
   init () {
@@ -58,11 +62,6 @@ export const MdEditor = class MdEditor {
         codeSyntaxHighlighting: true
       }
     }))
-  }
-
-  createImgUpload () {
-    // TODO 插入上传组件
-    console.log('upload img')
   }
 
   createToolBar (options) {
@@ -119,5 +118,65 @@ export const MdEditor = class MdEditor {
   }
   getvalue () {
     return this.editor.value()
+  }
+  insertImg () {
+    this.upload.input.click()
+  }
+  inserIntoEditor (name, url) {
+    var cm = this.editor.codemirror
+    var text
+    var startPoint = cm.getCursor('start')
+    var endPoint = cm.getCursor('end')
+    text = cm.getSelection()
+    cm.replaceSelection('![' + name + '](' + text + url + ')')
+    cm.setSelection(startPoint, endPoint)
+    cm.focus()
+  }
+}
+
+// 上传组件工具
+export const Upload = class Upload {
+  static getInstance () {
+    if (!Upload.instance) {
+      Upload.instance = new Upload()
+    }
+    return Upload.instance
+  }
+  constructor () {
+    this.input = this.createInput()
+    this.init()
+  }
+  init () {
+    document.body.appendChild(this.input)
+  }
+  createInput () {
+    var input = document.createElement('input')
+    // input.style.display = 'none'
+    input.type = 'file'
+    input.name = 'upload'
+    input.onchange = this.handleclick.bind(this)
+    return input
+  }
+  handleclick (e) {
+    var file = e.target.files[0]
+    var reader = new FileReader()
+    let formData = new FormData()
+    reader.onload = e => {
+      var img = new Image()
+      img.src = e.target.result
+      img.onload = () => {
+        formData.append('file', file)
+        uploadFile(formData).then(res => {
+          var imgpath = 'http://img.bfrontend.com/' + res.data
+          var name = res.data.split('.')[0]
+          if (!this.onUploadSuccess) {
+            console.error('请添加上传成功的处理方法')
+          } else {
+            this.onUploadSuccess(name, imgpath)
+          }
+        })
+      }
+    }
+    reader.readAsDataURL(file)
   }
 }
