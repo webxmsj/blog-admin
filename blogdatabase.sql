@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 07/11/2018 18:30:07
+ Date: 08/11/2018 18:10:54
 */
 
 SET NAMES utf8mb4;
@@ -66,7 +66,7 @@ CREATE TABLE `blog_category_post`  (
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `term_taxonomy_id`(`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类文章对应表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类文章对应表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_category_post
@@ -86,7 +86,7 @@ CREATE TABLE `blog_comment`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `parent_id` bigint(20) UNSIGNED DEFAULT 0 COMMENT '被回复的评论id',
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发表评论的用户id',
-  `to_user_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '被评论的用户id',
+  `to_user_id` int(10) UNSIGNED DEFAULT 0 COMMENT '被评论的用户id',
   `like_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '点赞数',
   `dislike_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '不喜欢数',
   `floor` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '楼层数',
@@ -104,13 +104,16 @@ CREATE TABLE `blog_comment`  (
   INDEX `status`(`status`) USING BTREE,
   INDEX `parent_id`(`parent_id`) USING BTREE,
   INDEX `create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '评论表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '评论表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_comment
 -- ----------------------------
-INSERT INTO `blog_comment` VALUES (15, NULL, 33, 33, 2, 0, 1, 1541478639338, NULL, 1, 'heartdream', 'null', '0', 2, '你好，不错的文章', NULL);
-INSERT INTO `blog_comment` VALUES (16, NULL, 33, 33, 2, 0, 1, 1541583094930, NULL, 1, 'heartdream', 'null', '0', 2, '第二次查看该文章', NULL);
+INSERT INTO `blog_comment` VALUES (36, NULL, 33, NULL, 0, 0, 0, 1541670454328, NULL, 1, 'heartdream', 'null', '0', 2, '第一条', NULL);
+INSERT INTO `blog_comment` VALUES (42, 36, 33, 33, 0, 0, 0, 1541670815679, NULL, 1, 'heartdream', 'null', '0,0', 2, 'huifu 1 > 1', NULL);
+INSERT INTO `blog_comment` VALUES (43, 42, 33, 33, 0, 0, 0, 1541670957583, NULL, 1, 'heartdream', 'null', '0,0,0', 2, '1 > 1 > 1', NULL);
+INSERT INTO `blog_comment` VALUES (47, NULL, 33, NULL, 0, 0, 0, 1541671370847, NULL, 0, 'heartdream', 'null', '1', 2, '第二条', NULL);
+INSERT INTO `blog_comment` VALUES (48, NULL, 33, NULL, 0, 0, 0, 1541671397919, NULL, 0, 'heartdream', 'null', '1', 2, '3', NULL);
 
 -- ----------------------------
 -- Table structure for blog_link
@@ -129,7 +132,7 @@ CREATE TABLE `blog_link`  (
   `rel` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '链接与网站的关系',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `status`(`status`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '友情链接表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '友情链接表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_link
@@ -197,7 +200,7 @@ CREATE TABLE `blog_recycle_bin`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '' COMMENT '删除内容名称',
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = ' 回收站' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = ' 回收站' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_recycle_bin
@@ -220,7 +223,7 @@ CREATE TABLE `blog_setting`  (
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '设置的类型',
   `data` json COMMENT 'json格式的key-value',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_setting
@@ -258,7 +261,7 @@ CREATE TABLE `blog_tag_post`  (
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `post_id`(`post_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 标签文章对应表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 标签文章对应表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_tag_post
@@ -292,7 +295,7 @@ CREATE TABLE `blog_third_party_user`  (
   `union_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '第三方用户多个产品中的惟一 id,(如:微信平台)',
   `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展信息',
   PRIMARY KEY (`id`, `expire_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '第三方用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '第三方用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_third_party_user
@@ -350,7 +353,7 @@ CREATE TABLE `blog_user_like`  (
   `create_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uid`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户点赞表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户点赞表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for blog_user_token
