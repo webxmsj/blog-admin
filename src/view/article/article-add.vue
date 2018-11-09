@@ -146,11 +146,11 @@
     </Tabs>
 
     <ButtonGroup>
-      <Button type="primary" :loading="pushstatus" icon="ios-power" @click="pushArticle(0)">
+      <Button type="primary" :loading="pushstatus" icon="ios-power" @click="pushArticle(1)">
         <span v-if="!pushstatus">发布</span>
         <span v-else>提交中……</span>
       </Button>
-      <Button @click="pushArticle(1)" icon="ios-book-outline">存为草稿</Button>
+      <Button @click="pushArticle(0)" icon="ios-book-outline">存为草稿</Button>
     </ButtonGroup>
   </div>
 </template>
