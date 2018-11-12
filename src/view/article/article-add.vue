@@ -125,6 +125,15 @@
 
       <Row>
         <Col span="2">
+          <p style="line-height: 100px;">文章相册：</p>
+        </Col>
+        <Col span="22">
+          <album ref="albums" />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col span="2">
           <p class="information" style="line-height: 92px;">文章摘要：</p>
         </Col>
         <Col span="22">
@@ -161,6 +170,7 @@ import RichText from '@/components/editor/editor.vue'
 import { queryall, uploadFile, addOrUpdateArticle } from '@/api/getdatas'
 import { transformorigincategorys } from '@/libs/util'
 import dropChild from './dropChild.vue'
+import album from '@/components/album'
 export default {
   data () {
     return {
@@ -196,6 +206,7 @@ export default {
         toTop: false,
         recommended: false,
         status: true,
+        albums: [],
         format: 'md' // 文章格式
       },
       content: {
@@ -210,7 +221,8 @@ export default {
   components: {
     MarkEditor,
     RichText,
-    dropChild
+    dropChild,
+    album
   },
   beforeMount () {
     this.articledatas.userId = this.$store.state.user.userId
@@ -263,6 +275,7 @@ export default {
       } else {
         this.articledatas.html = this.content.richhtml
       }
+      this.articledatas.albums = this.$refs.albums.uploadList
       addOrUpdateArticle(this.articledatas).then(res => {
         console.log('添加文章成功', res)
         this.pushstatus = false
