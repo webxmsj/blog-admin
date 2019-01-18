@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : local
  Source Server Type    : MySQL
  Source Server Version : 80012
  Source Host           : localhost:3306
@@ -11,11 +11,28 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 11/11/2018 16:08:46
+ Date: 12/11/2018 18:12:48
 */
 
-SET NAMES utf8;
+SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for blog_albums_post
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_albums_post`;
+CREATE TABLE `blog_albums_post`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `album_src` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_albums_post
+-- ----------------------------
+INSERT INTO `blog_albums_post` VALUES (1, 14, 'http://img.bfrontend.com/12053349.jpg');
+INSERT INTO `blog_albums_post` VALUES (2, 14, 'http://img.bfrontend.com/IMG_0866.JPG');
 
 -- ----------------------------
 -- Table structure for blog_category
@@ -28,17 +45,17 @@ CREATE TABLE `blog_category`  (
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:发布,0:不发布',
   `delete_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '删除时间',
   `list_order` float NOT NULL DEFAULT 10000 COMMENT '排序',
-  `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '分类名称',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '分类描述',
-  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
-  `seo_title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `seo_keywords` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `seo_description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `more` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '扩展属性',
-  `create_time` bigint(20) NULL DEFAULT NULL,
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '分类名称',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '分类描述',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
+  `seo_title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `seo_keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `seo_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性',
+  `create_time` bigint(20) DEFAULT NULL,
   `isdelete` int(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 2 COMMENT '是否已删除1:已删2:未删',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_category
@@ -73,6 +90,7 @@ CREATE TABLE `blog_category_post`  (
 -- ----------------------------
 INSERT INTO `blog_category_post` VALUES (7, 12, 46, 10000, 1);
 INSERT INTO `blog_category_post` VALUES (8, 13, 46, 10000, 1);
+INSERT INTO `blog_category_post` VALUES (9, 14, 49, 10000, 1);
 
 -- ----------------------------
 -- Table structure for blog_comment
@@ -80,21 +98,21 @@ INSERT INTO `blog_category_post` VALUES (8, 13, 46, 10000, 1);
 DROP TABLE IF EXISTS `blog_comment`;
 CREATE TABLE `blog_comment`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `parent_id` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '被回复的评论id',
+  `parent_id` bigint(20) UNSIGNED DEFAULT 0 COMMENT '被回复的评论id',
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发表评论的用户id',
-  `to_user_id` int(10) UNSIGNED NULL DEFAULT 0 COMMENT '被评论的用户id',
+  `to_user_id` int(10) UNSIGNED DEFAULT 0 COMMENT '被评论的用户id',
   `like_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '点赞数',
   `dislike_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '不喜欢数',
   `floor` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '楼层数',
   `create_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '评论时间',
-  `delete_time` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '删除时间',
+  `delete_time` bigint(20) UNSIGNED DEFAULT 0 COMMENT '删除时间',
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:已审核,0:未审核',
   `full_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '评论者昵称',
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '评论者邮箱',
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '评论者邮箱',
   `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '层级关系',
-  `post_id` int(10) NULL DEFAULT NULL COMMENT '文章id',
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '评论内容',
-  `more` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '扩展属性',
+  `post_id` int(10) DEFAULT NULL COMMENT '文章id',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '评论内容',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `table_id_status`(`status`) USING BTREE,
   INDEX `status`(`status`) USING BTREE,
@@ -106,18 +124,11 @@ CREATE TABLE `blog_comment`  (
 -- Records of blog_comment
 -- ----------------------------
 INSERT INTO `blog_comment` VALUES (82, NULL, 33, NULL, 1, 1, 0, 1541746458732, NULL, 1, 'heartdream', 'null', '0', 12, '写较少的if判断，可以优化阅读体验', NULL);
-INSERT INTO `blog_comment` VALUES (83, NULL, 33, NULL, 1, 0, 1, 1541746670118, NULL, 1, 'heartdream', 'null', '1', 12, '你好，我再好好看看', NULL);
+INSERT INTO `blog_comment` VALUES (83, NULL, 33, NULL, 0, 0, 1, 1541746670118, NULL, 1, 'heartdream', 'null', '1', 12, '你好，我再好好看看', NULL);
 INSERT INTO `blog_comment` VALUES (84, NULL, 33, NULL, 0, 0, 2, 1541746725712, NULL, 1, 'heartdream', 'null', '2', 12, 'test', NULL);
 INSERT INTO `blog_comment` VALUES (85, NULL, 33, NULL, 0, 0, 3, 1541746899696, NULL, 1, 'heartdream', 'null', '3', 12, 'aaaa', NULL);
 INSERT INTO `blog_comment` VALUES (86, NULL, 33, NULL, 0, 0, 4, 1541746976383, NULL, 1, 'heartdream', 'null', '4', 12, 'asdf', NULL);
 INSERT INTO `blog_comment` VALUES (87, NULL, 33, NULL, 0, 0, 5, 1541747072271, NULL, 1, 'heartdream', 'null', '5', 12, 'bbbb', NULL);
-INSERT INTO `blog_comment` VALUES (88, NULL, 5, NULL, 0, 0, 6, 1541825165143, NULL, 1, 'bfrontend', NULL, '6', 12, '你好', NULL);
-INSERT INTO `blog_comment` VALUES (89, NULL, 33, NULL, 0, 0, 7, 1541916454024, NULL, 1, 'heartdream', 'null', '7', 12, 'test', NULL);
-INSERT INTO `blog_comment` VALUES (90, NULL, 33, NULL, 1, 0, 8, 1541916468611, NULL, 1, 'heartdream', 'null', '8', 13, 'bbb', NULL);
-INSERT INTO `blog_comment` VALUES (91, NULL, 33, NULL, 1, 0, 0, 1541916468612, NULL, 1, 'heartdream', 'null', '0', 13, 'bbb', NULL);
-INSERT INTO `blog_comment` VALUES (92, 91, 33, 33, 0, 0, 0, 1541918443055, NULL, 1, 'heartdream', 'null', '0,0', 13, 'nihao', NULL);
-INSERT INTO `blog_comment` VALUES (93, NULL, 33, NULL, 0, 0, 8, 1541920613908, NULL, 1, 'heartdream', 'null', '8', 12, 'aa\'asdf\'', NULL);
-INSERT INTO `blog_comment` VALUES (94, NULL, 33, NULL, 0, 0, 9, 1541920797395, NULL, 1, 'heartdream', 'null', '9', 12, 'asdf', NULL);
 
 -- ----------------------------
 -- Table structure for blog_link
@@ -128,15 +139,15 @@ CREATE TABLE `blog_link`  (
   `status` bigint(20) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态;1:显示;0:不显示',
   `rating` int(11) NOT NULL DEFAULT 0 COMMENT '友情链接评级',
   `list_order` float NOT NULL DEFAULT 10000 COMMENT '排序',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '友情链接描述',
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '友情链接地址',
-  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '友情链接名称',
-  `image` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '友情链接图标',
-  `target` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '友情链接打开方式',
-  `rel` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '链接与网站的关系',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '友情链接描述',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '友情链接地址',
+  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '友情链接名称',
+  `image` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '友情链接图标',
+  `target` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '友情链接打开方式',
+  `rel` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '链接与网站的关系',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `status`(`status`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '友情链接表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '友情链接表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_link
@@ -152,7 +163,7 @@ DROP TABLE IF EXISTS `blog_post`;
 CREATE TABLE `blog_post`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `parent_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '父级id',
-  `post_format` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1' COMMENT '内容格式; html、md',
+  `post_format` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1' COMMENT '内容格式; html、md',
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发表者用户id',
   `post_status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态;1:已发布;0:未发布;',
   `comment_status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '评论状态;1:允许;0:不允许',
@@ -161,30 +172,31 @@ CREATE TABLE `blog_post`  (
   `post_hits` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '查看数',
   `post_like` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '点赞数',
   `comment_count` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '评论数',
-  `create_time` bigint(20) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `update_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '更新时间',
   `published_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发布时间',
-  `delete_time` bigint(20) UNSIGNED NULL DEFAULT NULL COMMENT '删除时间',
-  `post_title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'post标题',
-  `post_keywords` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'seo keywords',
-  `post_excerpt` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'post摘要',
-  `post_source` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '转载文章的来源',
-  `post_content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '文章内容',
-  `post_thumb` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '缩略图',
-  `more` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '扩展属性,如缩略图;格式为json',
+  `delete_time` bigint(20) UNSIGNED DEFAULT NULL COMMENT '删除时间',
+  `post_title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'post标题',
+  `post_keywords` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'seo keywords',
+  `post_excerpt` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'post摘要',
+  `post_source` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '转载文章的来源',
+  `post_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '文章内容',
+  `post_thumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '缩略图',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性,如缩略图;格式为json',
   `isdelete` int(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否已删除',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `type_status_date`(`post_status`, `create_time`, `id`) USING BTREE,
   INDEX `parent_id`(`parent_id`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE,
   INDEX `create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 文章表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'portal应用 文章表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of blog_post
 -- ----------------------------
-INSERT INTO `blog_post` VALUES (12, 46, 'md', 5, 0, 1, 0, 0, 51, 0, 10, 1541746005219, 0, 1541746005219, NULL, '小技巧写出更好的javascript条件语句', 'js', '<p>小技巧写出更好的javascript条件语句</p>\n', 'https://scotch.io/tutorials/5-tips-to-write-better-conditionals-in-javascript', '<h2 id=\"1-array-includes-\">1. 使用<code>Array.includes</code>来处理多重条件</h2>\n<p>使用前：</p>\n<pre><code><span class=\"hljs-comment\">// 条件语句</span>\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">fruit</span>) </span>{\n  <span class=\"hljs-keyword\">if</span> (fruit == <span class=\"hljs-string\">\'apple\'</span> || fruit == <span class=\"hljs-string\">\'redjujube\'</span>) {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'red\'</span>);\n  }\n}</code></pre><p>乍一看，这么些似乎没有什么大问题。然而，如果我们想要匹配更多的红色水果呢，比如说[火龙果]和[草莓]？我们是不是得用更多的 <code>||</code> 来扩展这条语句？<br>我们可以使用 <code>Array.includes</code> 重写以上条件句。</p>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">fruit</span>) </span>{\n  <span class=\"hljs-comment\">// 将条件提取到数组中</span>\n  <span class=\"hljs-keyword\">const</span> redFruits = [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>, <span class=\"hljs-string\">\'cherry\'</span>, <span class=\"hljs-string\">\'cranberries\'</span>]\n\n  <span class=\"hljs-keyword\">if</span> (redFruits.includes(fruit)) {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'red\'</span>)\n  }\n}</code></pre><h2 id=\"2-\">2. 少写嵌套，尽早返回</h2>\n<p>让我们为之前的例子添加两个条件：</p>\n<ul>\n<li>如果没有提供水果，抛出错误。</li>\n<li>如果该水果的数量大于10，将其打印出来</li>\n</ul>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">fruit, quantity</span>) </span>{\n  <span class=\"hljs-keyword\">const</span> redFruits = [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>, <span class=\"hljs-string\">\'cherry\'</span>, <span class=\"hljs-string\">\'cranberries\'</span>]\n\n  <span class=\"hljs-keyword\">if</span> (fruit) {\n    <span class=\"hljs-keyword\">if</span> (redFruits.includes(fruit)) {\n      <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'red\'</span>)\n\n      <span class=\"hljs-keyword\">if</span> (quantity &gt; <span class=\"hljs-number\">10</span>) {\n        <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'big quantity\'</span>)\n      }\n    }\n  } <span class=\"hljs-keyword\">else</span> {\n    <span class=\"hljs-keyword\">throw</span> <span class=\"hljs-keyword\">new</span> <span class=\"hljs-built_in\">Error</span>(<span class=\"hljs-string\">\'No fruit\'</span>)\n  }\n}</code></pre><p>让我们回顾上面的代码,我们有：</p>\n<ul>\n<li>1个if/else语句来筛选无效的条件</li>\n<li>3层if 语句嵌套</li>\n</ul>\n<ol>\n<li>减少嵌套</li>\n</ol>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">fruit, quantity</span>) </span>{\n  <span class=\"hljs-keyword\">const</span> redFruits = [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>, <span class=\"hljs-string\">\'cherry\'</span>, <span class=\"hljs-string\">\'cranberries\'</span>]\n\n  <span class=\"hljs-keyword\">if</span> (!fruit) <span class=\"hljs-keyword\">throw</span> <span class=\"hljs-keyword\">new</span> <span class=\"hljs-built_in\">Error</span>(<span class=\"hljs-string\">\'No fruit\'</span>)\n\n  <span class=\"hljs-keyword\">if</span> (redFruits.includes(fruit)) {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'red\'</span>)\n\n    <span class=\"hljs-keyword\">if</span> (quantity &gt; <span class=\"hljs-number\">10</span>) {\n      <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'big quantity\'</span>)\n    }\n  }\n}</code></pre><p>// 不推荐使用以下此版本</p>\n<ul>\n<li>条件反转会导致更多的思考过程(增加认知负担)</li>\n<li>进一步减少嵌套</li>\n</ul>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">fruit, quantity</span>) </span>{\n  <span class=\"hljs-keyword\">const</span> redFruits = [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>, <span class=\"hljs-string\">\'cherry\'</span>, <span class=\"hljs-string\">\'cranberries\'</span>]\n\n  <span class=\"hljs-keyword\">if</span> (!fruit) <span class=\"hljs-keyword\">throw</span> <span class=\"hljs-keyword\">new</span> <span class=\"hljs-built_in\">Error</span>(<span class=\"hljs-string\">\'No fruit\'</span>)\n  <span class=\"hljs-keyword\">if</span> (!redFruits.includes(fruit)) <span class=\"hljs-keyword\">return</span> ;\n\n  <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'red\'</span>)\n\n  <span class=\"hljs-keyword\">if</span> (quantity &gt; <span class=\"hljs-number\">10</span>) {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'big quantity\'</span>)\n  }\n}</code></pre><h2 id=\"3-\">3. 使用函数默认参数和解构</h2>\n<p>在javascript 中我们经常需要检查<code>null</code>/<code>undefined</code>并赋予默认值</p>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\">fruit,quantity</span>) </span>{\n  <span class=\"hljs-keyword\">if</span> (!fruit) <span class=\"hljs-keyword\">return</span>;\n  <span class=\"hljs-keyword\">const</span> q = quantity || <span class=\"hljs-number\">1</span>; <span class=\"hljs-comment\">// 如果没有提供 quantity, 默认为1</span>\n  <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">`we have <span class=\"hljs-subst\">${q}</span> <span class=\"hljs-subst\">${fruit}</span>`</span>)\n}</code></pre><p>事实上我们可以通过函数的默认参数来去掉变量 <code>q</code></p>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\">fruit,quantity = <span class=\"hljs-number\">1</span></span>) </span>{\n  <span class=\"hljs-keyword\">if</span> (!fruit) <span class=\"hljs-keyword\">return</span>;\n  <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">`we have <span class=\"hljs-subst\">${q}</span> <span class=\"hljs-subst\">${fruit}</span>`</span>)\n}</code></pre><p>那么如果<code>fruit</code>是一个对象(Object)呢？我们还可以使用默认参数吗？</p>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> (<span class=\"hljs-params\">fruit</span>) </span>{\n  <span class=\"hljs-keyword\">if</span> (fruit &amp;&amp; fruit.name) {\n    <span class=\"hljs-built_in\">console</span>.log(fruit.name)\n  } <span class=\"hljs-keyword\">else</span> {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'unknown\'</span>)\n  }\n}</code></pre><p>观察上面的例子，当水果名称属性存在时，我们希望将其打印出来，否则打印<code>unknown</code>，我们可以通过默认参数和解构赋值的方法来避免写出<code>fruit &amp;&amp; fruit.name</code> 这种条件</p>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\">{name} = {}</span>) </span>{\n  <span class=\"hljs-built_in\">console</span>.log(name || <span class=\"hljs-string\">\'unknown\'</span>)\n}</code></pre><p>既然我们只需要fruit的<code>name</code>属性,我们可以使用<code>{name}</code>来将其解构出来，之后我们就可以在代码中使用<code>name</code>变量来取代<code>fruit.name</code></p>\n<h2 id=\"4-switch-map-object-\">4. 相较于switch ,Map/Object 也许是更好的选择</h2>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">color</span>) </span>{\n  <span class=\"hljs-keyword\">switch</span> (color) {\n    <span class=\"hljs-keyword\">case</span> <span class=\"hljs-string\">\'red\'</span>:\n      <span class=\"hljs-keyword\">return</span> [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>]\n    <span class=\"hljs-keyword\">case</span> <span class=\"hljs-string\">\'yellow\'</span>:\n      <span class=\"hljs-keyword\">return</span> [<span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-string\">\'pineapple\'</span>]\n    <span class=\"hljs-keyword\">case</span> <span class=\"hljs-string\">\'purple\'</span>:\n      <span class=\"hljs-keyword\">return</span> [<span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-string\">\'plum\'</span>]\n    <span class=\"hljs-keyword\">default</span>:\n      <span class=\"hljs-keyword\">return</span> []\n  }\n}</code></pre><p>使用对象字面量来进行优化</p>\n<pre><code><span class=\"hljs-keyword\">const</span> fruitColor = {\n  <span class=\"hljs-attr\">red</span>: [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>],\n  <span class=\"hljs-attr\">yellow</span>: [<span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-string\">\'pineapple\'</span>],\n  <span class=\"hljs-attr\">purple</span>: [<span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-string\">\'plum\'</span>]\n}\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">color</span>) </span>{\n  <span class=\"hljs-keyword\">return</span> fruitColor[color] || []\n}</code></pre><p>或者使用 <code>Map</code> 来实现同样的效果</p>\n<pre><code><span class=\"hljs-keyword\">const</span> fruitColor = <span class=\"hljs-keyword\">new</span> Map()\n    .<span class=\"hljs-keyword\">set</span>(<span class=\"hljs-string\">\'red\'</span>, [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>])\n    .<span class=\"hljs-keyword\">set</span>(<span class=\"hljs-string\">\'yellow\'</span>, [<span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-string\">\'pineapple\'</span>])\n    .<span class=\"hljs-keyword\">set</span>(<span class=\"hljs-string\">\'purple\'</span>, [<span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-string\">\'plum\'</span>])\n<span class=\"hljs-function\">function <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">color</span>) </span>{\n  <span class=\"hljs-keyword\">return</span> fruitColor.<span class=\"hljs-keyword\">get</span>(color) || []\n}</code></pre><p>或者 使用 <code>Array.filter</code> 实现同样的效果</p>\n<pre><code><span class=\"hljs-keyword\">const</span> fruits = [{\n  <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'apple\'</span>,\n  <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'red\'</span>\n}, {\n  <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'strawberry\'</span>,\n  <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'red\'</span>\n}, {\n  <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'banana\'</span>,\n  <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'yellow\'</span>\n}]\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">color</span>) </span>{\n  <span class=\"hljs-keyword\">return</span> fruits.filter(<span class=\"hljs-function\"><span class=\"hljs-params\">f</span> =&gt;</span> f.color == color)\n}</code></pre><h2 id=\"5-array-every-array-some-\">5. 使用 Array.every 和 Array.some 来处理全部/部分满足条件</h2>\n<pre><code><span class=\"hljs-keyword\">const</span> fruits = [\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'red\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'yellow\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'purple\'</span> }\n  ];\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\"></span>) </span>{\n  <span class=\"hljs-keyword\">let</span> isAllRed = <span class=\"hljs-literal\">true</span>;\n\n  <span class=\"hljs-comment\">// 条件：所有的水果都必须是红色</span>\n  <span class=\"hljs-keyword\">for</span> (<span class=\"hljs-keyword\">let</span> f <span class=\"hljs-keyword\">of</span> fruits) {\n    <span class=\"hljs-keyword\">if</span> (!isAllRed) <span class=\"hljs-keyword\">break</span>;\n    isAllRed = (f.color == <span class=\"hljs-string\">\'red\'</span>);\n  }\n\n  <span class=\"hljs-built_in\">console</span>.log(isAllRed); <span class=\"hljs-comment\">// false</span>\n}</code></pre><p>使用 <code>Array.every</code> 来缩减代码</p>\n<pre><code><span class=\"hljs-keyword\">const</span> fruits = [\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'red\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'yellow\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'purple\'</span> }\n  ];\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\"></span>) </span>{\n  <span class=\"hljs-comment\">// 条件：（简短形式）所有的水果都必须是红色</span>\n  <span class=\"hljs-keyword\">const</span> isAllRed = fruits.every(<span class=\"hljs-function\"><span class=\"hljs-params\">f</span> =&gt;</span> f.color == <span class=\"hljs-string\">\'red\'</span>);\n\n  <span class=\"hljs-built_in\">console</span>.log(isAllRed); <span class=\"hljs-comment\">// false</span>\n}</code></pre><p>如果我们想要检查是否有至少一个水果是红色的，我们可以使用 <code>Array.some</code> </p>\n<pre><code><span class=\"hljs-keyword\">const</span> fruits = [\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'red\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'yellow\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'purple\'</span> }\n];\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\"></span>) </span>{\n  <span class=\"hljs-comment\">// 条件：至少一个水果是红色的</span>\n  <span class=\"hljs-keyword\">const</span> isAnyRed = fruits.some(<span class=\"hljs-function\"><span class=\"hljs-params\">f</span> =&gt;</span> f.color == <span class=\"hljs-string\">\'red\'</span>);\n\n  <span class=\"hljs-built_in\">console</span>.log(isAnyRed); <span class=\"hljs-comment\">// true</span>\n}\n</code></pre>', 'http://img.bfrontend.com/es6.png', NULL, 0);
-INSERT INTO `blog_post` VALUES (13, 46, 'md', 5, 1, 1, 0, 0, 57, 0, 4, 1541747394421, 0, 1541747394421, NULL, 'class 在 ES6/ES5 中的实现', 'js,class', '<p>class 在 ES6/ES5 中的实现</p>\n', '', '<h2 id=\"1-es6-class-\">1. ES6 class 的简单实现</h2>\n<pre><code><span class=\"hljs-class\"><span class=\"hljs-keyword\">class</span> <span class=\"hljs-title\">Animal</span> </span>{\n  <span class=\"hljs-keyword\">constructor</span> (options) {\n    <span class=\"hljs-keyword\">this</span>.options = options\n  }\n\n  eat () {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'i can eat\'</span>)\n  }\n}</code></pre><blockquote>\n<p>ES6 -&gt; babel -&gt; ES5  es6转换为es5的结果</p>\n</blockquote>\n<pre><code><span class=\"hljs-meta\">\'use strict\'</span>;\n\n<span class=\"hljs-keyword\">var</span> _createClass = <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> (<span class=\"hljs-params\"></span>) </span>{\n    <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">defineProperties</span>(<span class=\"hljs-params\">target, props</span>) </span>{\n        <span class=\"hljs-keyword\">for</span> (<span class=\"hljs-keyword\">var</span> i = <span class=\"hljs-number\">0</span>; i &lt; props.length; i++) {\n          <span class=\"hljs-keyword\">var</span> descriptor = props[i];\n          descriptor.enumerable = descriptor.enumerable || <span class=\"hljs-literal\">false</span>;\n          descriptor.configurable = <span class=\"hljs-literal\">true</span>;\n          <span class=\"hljs-keyword\">if</span> (<span class=\"hljs-string\">\"value\"</span> <span class=\"hljs-keyword\">in</span> descriptor) descriptor.writable = <span class=\"hljs-literal\">true</span>;\n          <span class=\"hljs-built_in\">Object</span>.defineProperty(target, descriptor.key, descriptor);\n        }\n    }\n\n    <span class=\"hljs-keyword\">return</span> <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span>(<span class=\"hljs-params\">Constructor, protoProps, staticProps</span>) </span>{\n        <span class=\"hljs-keyword\">if</span> (protoProps) defineProperties(Constructor.prototype, protoProps);\n        <span class=\"hljs-keyword\">if</span> (staticProps) defineProperties(Constructor, staticProps);\n        <span class=\"hljs-keyword\">return</span> Constructor;\n      };\n}();\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">_classCallCheck</span> (<span class=\"hljs-params\">instance, Constructor</span>) </span>{\n    <span class=\"hljs-keyword\">if</span> (!(instance <span class=\"hljs-keyword\">instanceof</span> Constructor)) {\n        <span class=\"hljs-keyword\">throw</span> <span class=\"hljs-keyword\">new</span> <span class=\"hljs-built_in\">TypeError</span>(<span class=\"hljs-string\">\'Cannot call a class as a function\'</span>)\n    }\n}\n\n<span class=\"hljs-keyword\">var</span> Animal = <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> (<span class=\"hljs-params\">options</span>) </span>{\n    <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">Animal</span> (<span class=\"hljs-params\">options</span>) </span>{\n        _classCallCheck(<span class=\"hljs-keyword\">this</span>, Animal);\n        <span class=\"hljs-keyword\">this</span>.options = options;\n    }\n\n    _createClass (Animal, [{\n        <span class=\"hljs-attr\">key</span>: <span class=\"hljs-string\">\'eat\'</span>,\n        <span class=\"hljs-attr\">value</span>: <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">eat</span>(<span class=\"hljs-params\"></span>) </span>{\n            <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'i can eat\'</span>)\n        }\n    }])\n    <span class=\"hljs-keyword\">return</span> Animal;\n}();</code></pre><h2 id=\"es5-class-\">ES5 class 的实现</h2>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">Animal</span> (<span class=\"hljs-params\">options</span>) </span>{\n  <span class=\"hljs-keyword\">if</span> (!(<span class=\"hljs-keyword\">this</span> <span class=\"hljs-keyword\">instanceof</span> Animal)) {\n    <span class=\"hljs-keyword\">throw</span> <span class=\"hljs-keyword\">new</span> <span class=\"hljs-built_in\">TypeError</span>(<span class=\"hljs-string\">\'Cannot call a class as a function\'</span>)\n  }\n  <span class=\"hljs-keyword\">this</span>.options = options\n}\nAnimal.prototype.eat = <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> (<span class=\"hljs-params\"></span>) </span>{\n  <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'i can eat\'</span>)\n}</code></pre>', '', NULL, 0);
+INSERT INTO `blog_post` VALUES (12, 46, 'md', 5, 0, 1, 0, 0, 18, 0, 6, 1541746005219, 0, 1541746005219, NULL, '小技巧写出更好的javascript条件语句', 'js', '<p>小技巧写出更好的javascript条件语句</p>\n', 'https://scotch.io/tutorials/5-tips-to-write-better-conditionals-in-javascript', '<h2 id=\"1-array-includes-\">1. 使用<code>Array.includes</code>来处理多重条件</h2>\n<p>使用前：</p>\n<pre><code><span class=\"hljs-comment\">// 条件语句</span>\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">fruit</span>) </span>{\n  <span class=\"hljs-keyword\">if</span> (fruit == <span class=\"hljs-string\">\'apple\'</span> || fruit == <span class=\"hljs-string\">\'redjujube\'</span>) {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'red\'</span>);\n  }\n}</code></pre><p>乍一看，这么些似乎没有什么大问题。然而，如果我们想要匹配更多的红色水果呢，比如说[火龙果]和[草莓]？我们是不是得用更多的 <code>||</code> 来扩展这条语句？<br>我们可以使用 <code>Array.includes</code> 重写以上条件句。</p>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">fruit</span>) </span>{\n  <span class=\"hljs-comment\">// 将条件提取到数组中</span>\n  <span class=\"hljs-keyword\">const</span> redFruits = [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>, <span class=\"hljs-string\">\'cherry\'</span>, <span class=\"hljs-string\">\'cranberries\'</span>]\n\n  <span class=\"hljs-keyword\">if</span> (redFruits.includes(fruit)) {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'red\'</span>)\n  }\n}</code></pre><h2 id=\"2-\">2. 少写嵌套，尽早返回</h2>\n<p>让我们为之前的例子添加两个条件：</p>\n<ul>\n<li>如果没有提供水果，抛出错误。</li>\n<li>如果该水果的数量大于10，将其打印出来</li>\n</ul>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">fruit, quantity</span>) </span>{\n  <span class=\"hljs-keyword\">const</span> redFruits = [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>, <span class=\"hljs-string\">\'cherry\'</span>, <span class=\"hljs-string\">\'cranberries\'</span>]\n\n  <span class=\"hljs-keyword\">if</span> (fruit) {\n    <span class=\"hljs-keyword\">if</span> (redFruits.includes(fruit)) {\n      <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'red\'</span>)\n\n      <span class=\"hljs-keyword\">if</span> (quantity &gt; <span class=\"hljs-number\">10</span>) {\n        <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'big quantity\'</span>)\n      }\n    }\n  } <span class=\"hljs-keyword\">else</span> {\n    <span class=\"hljs-keyword\">throw</span> <span class=\"hljs-keyword\">new</span> <span class=\"hljs-built_in\">Error</span>(<span class=\"hljs-string\">\'No fruit\'</span>)\n  }\n}</code></pre><p>让我们回顾上面的代码,我们有：</p>\n<ul>\n<li>1个if/else语句来筛选无效的条件</li>\n<li>3层if 语句嵌套</li>\n</ul>\n<ol>\n<li>减少嵌套</li>\n</ol>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">fruit, quantity</span>) </span>{\n  <span class=\"hljs-keyword\">const</span> redFruits = [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>, <span class=\"hljs-string\">\'cherry\'</span>, <span class=\"hljs-string\">\'cranberries\'</span>]\n\n  <span class=\"hljs-keyword\">if</span> (!fruit) <span class=\"hljs-keyword\">throw</span> <span class=\"hljs-keyword\">new</span> <span class=\"hljs-built_in\">Error</span>(<span class=\"hljs-string\">\'No fruit\'</span>)\n\n  <span class=\"hljs-keyword\">if</span> (redFruits.includes(fruit)) {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'red\'</span>)\n\n    <span class=\"hljs-keyword\">if</span> (quantity &gt; <span class=\"hljs-number\">10</span>) {\n      <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'big quantity\'</span>)\n    }\n  }\n}</code></pre><p>// 不推荐使用以下此版本</p>\n<ul>\n<li>条件反转会导致更多的思考过程(增加认知负担)</li>\n<li>进一步减少嵌套</li>\n</ul>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">fruit, quantity</span>) </span>{\n  <span class=\"hljs-keyword\">const</span> redFruits = [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>, <span class=\"hljs-string\">\'cherry\'</span>, <span class=\"hljs-string\">\'cranberries\'</span>]\n\n  <span class=\"hljs-keyword\">if</span> (!fruit) <span class=\"hljs-keyword\">throw</span> <span class=\"hljs-keyword\">new</span> <span class=\"hljs-built_in\">Error</span>(<span class=\"hljs-string\">\'No fruit\'</span>)\n  <span class=\"hljs-keyword\">if</span> (!redFruits.includes(fruit)) <span class=\"hljs-keyword\">return</span> ;\n\n  <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'red\'</span>)\n\n  <span class=\"hljs-keyword\">if</span> (quantity &gt; <span class=\"hljs-number\">10</span>) {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'big quantity\'</span>)\n  }\n}</code></pre><h2 id=\"3-\">3. 使用函数默认参数和解构</h2>\n<p>在javascript 中我们经常需要检查<code>null</code>/<code>undefined</code>并赋予默认值</p>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\">fruit,quantity</span>) </span>{\n  <span class=\"hljs-keyword\">if</span> (!fruit) <span class=\"hljs-keyword\">return</span>;\n  <span class=\"hljs-keyword\">const</span> q = quantity || <span class=\"hljs-number\">1</span>; <span class=\"hljs-comment\">// 如果没有提供 quantity, 默认为1</span>\n  <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">`we have <span class=\"hljs-subst\">${q}</span> <span class=\"hljs-subst\">${fruit}</span>`</span>)\n}</code></pre><p>事实上我们可以通过函数的默认参数来去掉变量 <code>q</code></p>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\">fruit,quantity = <span class=\"hljs-number\">1</span></span>) </span>{\n  <span class=\"hljs-keyword\">if</span> (!fruit) <span class=\"hljs-keyword\">return</span>;\n  <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">`we have <span class=\"hljs-subst\">${q}</span> <span class=\"hljs-subst\">${fruit}</span>`</span>)\n}</code></pre><p>那么如果<code>fruit</code>是一个对象(Object)呢？我们还可以使用默认参数吗？</p>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> (<span class=\"hljs-params\">fruit</span>) </span>{\n  <span class=\"hljs-keyword\">if</span> (fruit &amp;&amp; fruit.name) {\n    <span class=\"hljs-built_in\">console</span>.log(fruit.name)\n  } <span class=\"hljs-keyword\">else</span> {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'unknown\'</span>)\n  }\n}</code></pre><p>观察上面的例子，当水果名称属性存在时，我们希望将其打印出来，否则打印<code>unknown</code>，我们可以通过默认参数和解构赋值的方法来避免写出<code>fruit &amp;&amp; fruit.name</code> 这种条件</p>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\">{name} = {}</span>) </span>{\n  <span class=\"hljs-built_in\">console</span>.log(name || <span class=\"hljs-string\">\'unknown\'</span>)\n}</code></pre><p>既然我们只需要fruit的<code>name</code>属性,我们可以使用<code>{name}</code>来将其解构出来，之后我们就可以在代码中使用<code>name</code>变量来取代<code>fruit.name</code></p>\n<h2 id=\"4-switch-map-object-\">4. 相较于switch ,Map/Object 也许是更好的选择</h2>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">color</span>) </span>{\n  <span class=\"hljs-keyword\">switch</span> (color) {\n    <span class=\"hljs-keyword\">case</span> <span class=\"hljs-string\">\'red\'</span>:\n      <span class=\"hljs-keyword\">return</span> [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>]\n    <span class=\"hljs-keyword\">case</span> <span class=\"hljs-string\">\'yellow\'</span>:\n      <span class=\"hljs-keyword\">return</span> [<span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-string\">\'pineapple\'</span>]\n    <span class=\"hljs-keyword\">case</span> <span class=\"hljs-string\">\'purple\'</span>:\n      <span class=\"hljs-keyword\">return</span> [<span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-string\">\'plum\'</span>]\n    <span class=\"hljs-keyword\">default</span>:\n      <span class=\"hljs-keyword\">return</span> []\n  }\n}</code></pre><p>使用对象字面量来进行优化</p>\n<pre><code><span class=\"hljs-keyword\">const</span> fruitColor = {\n  <span class=\"hljs-attr\">red</span>: [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>],\n  <span class=\"hljs-attr\">yellow</span>: [<span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-string\">\'pineapple\'</span>],\n  <span class=\"hljs-attr\">purple</span>: [<span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-string\">\'plum\'</span>]\n}\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">color</span>) </span>{\n  <span class=\"hljs-keyword\">return</span> fruitColor[color] || []\n}</code></pre><p>或者使用 <code>Map</code> 来实现同样的效果</p>\n<pre><code><span class=\"hljs-keyword\">const</span> fruitColor = <span class=\"hljs-keyword\">new</span> Map()\n    .<span class=\"hljs-keyword\">set</span>(<span class=\"hljs-string\">\'red\'</span>, [<span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-string\">\'strawberry\'</span>])\n    .<span class=\"hljs-keyword\">set</span>(<span class=\"hljs-string\">\'yellow\'</span>, [<span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-string\">\'pineapple\'</span>])\n    .<span class=\"hljs-keyword\">set</span>(<span class=\"hljs-string\">\'purple\'</span>, [<span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-string\">\'plum\'</span>])\n<span class=\"hljs-function\">function <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">color</span>) </span>{\n  <span class=\"hljs-keyword\">return</span> fruitColor.<span class=\"hljs-keyword\">get</span>(color) || []\n}</code></pre><p>或者 使用 <code>Array.filter</code> 实现同样的效果</p>\n<pre><code><span class=\"hljs-keyword\">const</span> fruits = [{\n  <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'apple\'</span>,\n  <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'red\'</span>\n}, {\n  <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'strawberry\'</span>,\n  <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'red\'</span>\n}, {\n  <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'banana\'</span>,\n  <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'yellow\'</span>\n}]\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span> (<span class=\"hljs-params\">color</span>) </span>{\n  <span class=\"hljs-keyword\">return</span> fruits.filter(<span class=\"hljs-function\"><span class=\"hljs-params\">f</span> =&gt;</span> f.color == color)\n}</code></pre><h2 id=\"5-array-every-array-some-\">5. 使用 Array.every 和 Array.some 来处理全部/部分满足条件</h2>\n<pre><code><span class=\"hljs-keyword\">const</span> fruits = [\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'red\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'yellow\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'purple\'</span> }\n  ];\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\"></span>) </span>{\n  <span class=\"hljs-keyword\">let</span> isAllRed = <span class=\"hljs-literal\">true</span>;\n\n  <span class=\"hljs-comment\">// 条件：所有的水果都必须是红色</span>\n  <span class=\"hljs-keyword\">for</span> (<span class=\"hljs-keyword\">let</span> f <span class=\"hljs-keyword\">of</span> fruits) {\n    <span class=\"hljs-keyword\">if</span> (!isAllRed) <span class=\"hljs-keyword\">break</span>;\n    isAllRed = (f.color == <span class=\"hljs-string\">\'red\'</span>);\n  }\n\n  <span class=\"hljs-built_in\">console</span>.log(isAllRed); <span class=\"hljs-comment\">// false</span>\n}</code></pre><p>使用 <code>Array.every</code> 来缩减代码</p>\n<pre><code><span class=\"hljs-keyword\">const</span> fruits = [\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'red\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'yellow\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'purple\'</span> }\n  ];\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\"></span>) </span>{\n  <span class=\"hljs-comment\">// 条件：（简短形式）所有的水果都必须是红色</span>\n  <span class=\"hljs-keyword\">const</span> isAllRed = fruits.every(<span class=\"hljs-function\"><span class=\"hljs-params\">f</span> =&gt;</span> f.color == <span class=\"hljs-string\">\'red\'</span>);\n\n  <span class=\"hljs-built_in\">console</span>.log(isAllRed); <span class=\"hljs-comment\">// false</span>\n}</code></pre><p>如果我们想要检查是否有至少一个水果是红色的，我们可以使用 <code>Array.some</code> </p>\n<pre><code><span class=\"hljs-keyword\">const</span> fruits = [\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'apple\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'red\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'banana\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'yellow\'</span> },\n    { <span class=\"hljs-attr\">name</span>: <span class=\"hljs-string\">\'grape\'</span>, <span class=\"hljs-attr\">color</span>: <span class=\"hljs-string\">\'purple\'</span> }\n];\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">test</span>(<span class=\"hljs-params\"></span>) </span>{\n  <span class=\"hljs-comment\">// 条件：至少一个水果是红色的</span>\n  <span class=\"hljs-keyword\">const</span> isAnyRed = fruits.some(<span class=\"hljs-function\"><span class=\"hljs-params\">f</span> =&gt;</span> f.color == <span class=\"hljs-string\">\'red\'</span>);\n\n  <span class=\"hljs-built_in\">console</span>.log(isAnyRed); <span class=\"hljs-comment\">// true</span>\n}\n</code></pre>', 'http://img.bfrontend.com/es6.png', NULL, 0);
+INSERT INTO `blog_post` VALUES (13, 46, 'md', 5, 1, 1, 0, 0, 51, 0, 1, 1541747394421, 0, 1541747394421, NULL, 'class 在 ES6/ES5 中的实现', 'js,class', '<p>class 在 ES6/ES5 中的实现</p>\n', '', '<h2 id=\"1-es6-class-\">1. ES6 class 的简单实现</h2>\n<pre><code><span class=\"hljs-class\"><span class=\"hljs-keyword\">class</span> <span class=\"hljs-title\">Animal</span> </span>{\n  <span class=\"hljs-keyword\">constructor</span> (options) {\n    <span class=\"hljs-keyword\">this</span>.options = options\n  }\n\n  eat () {\n    <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'i can eat\'</span>)\n  }\n}</code></pre><blockquote>\n<p>ES6 -&gt; babel -&gt; ES5  es6转换为es5的结果</p>\n</blockquote>\n<pre><code><span class=\"hljs-meta\">\'use strict\'</span>;\n\n<span class=\"hljs-keyword\">var</span> _createClass = <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> (<span class=\"hljs-params\"></span>) </span>{\n    <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">defineProperties</span>(<span class=\"hljs-params\">target, props</span>) </span>{\n        <span class=\"hljs-keyword\">for</span> (<span class=\"hljs-keyword\">var</span> i = <span class=\"hljs-number\">0</span>; i &lt; props.length; i++) {\n          <span class=\"hljs-keyword\">var</span> descriptor = props[i];\n          descriptor.enumerable = descriptor.enumerable || <span class=\"hljs-literal\">false</span>;\n          descriptor.configurable = <span class=\"hljs-literal\">true</span>;\n          <span class=\"hljs-keyword\">if</span> (<span class=\"hljs-string\">\"value\"</span> <span class=\"hljs-keyword\">in</span> descriptor) descriptor.writable = <span class=\"hljs-literal\">true</span>;\n          <span class=\"hljs-built_in\">Object</span>.defineProperty(target, descriptor.key, descriptor);\n        }\n    }\n\n    <span class=\"hljs-keyword\">return</span> <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span>(<span class=\"hljs-params\">Constructor, protoProps, staticProps</span>) </span>{\n        <span class=\"hljs-keyword\">if</span> (protoProps) defineProperties(Constructor.prototype, protoProps);\n        <span class=\"hljs-keyword\">if</span> (staticProps) defineProperties(Constructor, staticProps);\n        <span class=\"hljs-keyword\">return</span> Constructor;\n      };\n}();\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">_classCallCheck</span> (<span class=\"hljs-params\">instance, Constructor</span>) </span>{\n    <span class=\"hljs-keyword\">if</span> (!(instance <span class=\"hljs-keyword\">instanceof</span> Constructor)) {\n        <span class=\"hljs-keyword\">throw</span> <span class=\"hljs-keyword\">new</span> <span class=\"hljs-built_in\">TypeError</span>(<span class=\"hljs-string\">\'Cannot call a class as a function\'</span>)\n    }\n}\n\n<span class=\"hljs-keyword\">var</span> Animal = <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> (<span class=\"hljs-params\">options</span>) </span>{\n    <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">Animal</span> (<span class=\"hljs-params\">options</span>) </span>{\n        _classCallCheck(<span class=\"hljs-keyword\">this</span>, Animal);\n        <span class=\"hljs-keyword\">this</span>.options = options;\n    }\n\n    _createClass (Animal, [{\n        <span class=\"hljs-attr\">key</span>: <span class=\"hljs-string\">\'eat\'</span>,\n        <span class=\"hljs-attr\">value</span>: <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">eat</span>(<span class=\"hljs-params\"></span>) </span>{\n            <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'i can eat\'</span>)\n        }\n    }])\n    <span class=\"hljs-keyword\">return</span> Animal;\n}();</code></pre><h2 id=\"es5-class-\">ES5 class 的实现</h2>\n<pre><code><span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> <span class=\"hljs-title\">Animal</span> (<span class=\"hljs-params\">options</span>) </span>{\n  <span class=\"hljs-keyword\">if</span> (!(<span class=\"hljs-keyword\">this</span> <span class=\"hljs-keyword\">instanceof</span> Animal)) {\n    <span class=\"hljs-keyword\">throw</span> <span class=\"hljs-keyword\">new</span> <span class=\"hljs-built_in\">TypeError</span>(<span class=\"hljs-string\">\'Cannot call a class as a function\'</span>)\n  }\n  <span class=\"hljs-keyword\">this</span>.options = options\n}\nAnimal.prototype.eat = <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> (<span class=\"hljs-params\"></span>) </span>{\n  <span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">\'i can eat\'</span>)\n}</code></pre>', '', NULL, 0);
+INSERT INTO `blog_post` VALUES (14, 49, 'md', 5, 1, 1, 0, 0, 7, 0, 0, 1542008862083, 0, 1542008862083, NULL, 'asdf', 'asdf', '<p>asdf</p>\n', 'asdf', '<p>asdfasdf</p>\n', '', NULL, 0);
 
 -- ----------------------------
 -- Table structure for blog_recycle_bin
@@ -192,13 +204,13 @@ INSERT INTO `blog_post` VALUES (13, 46, 'md', 5, 1, 1, 0, 0, 57, 0, 4, 154174739
 DROP TABLE IF EXISTS `blog_recycle_bin`;
 CREATE TABLE `blog_recycle_bin`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `object_id` int(11) NULL DEFAULT 0 COMMENT '删除内容 id',
-  `create_time` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '创建时间',
-  `table_name` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '删除内容所在表名',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '删除内容名称',
+  `object_id` int(11) DEFAULT 0 COMMENT '删除内容 id',
+  `create_time` bigint(20) UNSIGNED DEFAULT 0 COMMENT '创建时间',
+  `table_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '' COMMENT '删除内容所在表名',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '' COMMENT '删除内容名称',
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = ' 回收站' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = ' 回收站' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for blog_setting
@@ -206,10 +218,10 @@ CREATE TABLE `blog_recycle_bin`  (
 DROP TABLE IF EXISTS `blog_setting`;
 CREATE TABLE `blog_setting`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设置的类型',
-  `data` json NULL COMMENT 'json格式的key-value',
+  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '设置的类型',
+  `data` json COMMENT 'json格式的key-value',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_setting
@@ -225,10 +237,10 @@ CREATE TABLE `blog_tag`  (
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:发布,0:不发布',
   `recommended` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否推荐;1:推荐;0:不推荐',
   `post_count` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '标签文章数',
-  `name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '标签名称',
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '标签名称',
   `isdelete` int(3) UNSIGNED ZEROFILL NOT NULL COMMENT '是否已删除1:已删2:未删',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章标签表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章标签表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_tag
@@ -247,13 +259,14 @@ CREATE TABLE `blog_tag_post`  (
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `post_id`(`post_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 标签文章对应表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'portal应用 标签文章对应表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_tag_post
 -- ----------------------------
 INSERT INTO `blog_tag_post` VALUES (8, 3, 12, 1);
 INSERT INTO `blog_tag_post` VALUES (9, 3, 13, 1);
+INSERT INTO `blog_tag_post` VALUES (10, 3, 14, 1);
 
 -- ----------------------------
 -- Table structure for blog_third_party_user
@@ -267,16 +280,16 @@ CREATE TABLE `blog_third_party_user`  (
   `create_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '绑定时间',
   `login_times` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '登录次数',
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态;1:正常;0:禁用',
-  `nickname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
-  `third_party` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '第三方惟一码',
-  `app_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '第三方应用 id',
-  `last_login_ip` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '最后登录ip',
-  `access_token` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '第三方授权码',
-  `openid` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '第三方用户id',
-  `union_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '第三方用户多个产品中的惟一 id,(如:微信平台)',
-  `more` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '扩展信息',
+  `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
+  `third_party` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '第三方惟一码',
+  `app_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '第三方应用 id',
+  `last_login_ip` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '最后登录ip',
+  `access_token` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '第三方授权码',
+  `openid` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '第三方用户id',
+  `union_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '第三方用户多个产品中的惟一 id,(如:微信平台)',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展信息',
   PRIMARY KEY (`id`, `expire_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '第三方用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '第三方用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_third_party_user
@@ -291,29 +304,29 @@ CREATE TABLE `blog_user`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_type` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '用户类型;1:普通用户;2:基础后台管理用户3:超级后台管理用户',
   `sex` tinyint(2) NOT NULL DEFAULT 0 COMMENT '性别;0:保密,1:男,2:女',
-  `birthday` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '生日',
+  `birthday` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0' COMMENT '生日',
   `last_login_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '最后登录时间',
   `score` int(11) NOT NULL DEFAULT 0 COMMENT '用户积分',
   `coin` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '金币',
   `balance` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '余额',
   `create_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '注册时间',
   `user_status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '用户状态;0:禁用,1:正常,2:未验证',
-  `user_login` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户名',
-  `user_pass` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '登录密码 加密',
-  `user_nickname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
-  `user_email` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户登录邮箱',
-  `user_url` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户个人网址',
-  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户头像',
-  `signature` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '个性签名',
-  `last_login_ip` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '最后登录ip',
-  `mobile` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户手机号',
-  `user_activation_key` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '激活码',
-  `islive` enum('0','1') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0',
-  `more` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '扩展属性',
+  `user_login` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户名',
+  `user_pass` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '登录密码 加密',
+  `user_nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
+  `user_email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '用户登录邮箱',
+  `user_url` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '用户个人网址',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '用户头像',
+  `signature` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '个性签名',
+  `last_login_ip` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '最后登录ip',
+  `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '用户手机号',
+  `user_activation_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '激活码',
+  `islive` enum('0','1') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '0',
+  `more` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '扩展属性',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_login`(`user_login`) USING BTREE,
   INDEX `user_nickname`(`user_nickname`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_user
@@ -334,7 +347,7 @@ CREATE TABLE `blog_user_dislike`  (
   `create_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uid`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户讨厌表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户讨厌表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_user_dislike
@@ -352,15 +365,12 @@ CREATE TABLE `blog_user_like`  (
   `create_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uid`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户点赞表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户点赞表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_user_like
 -- ----------------------------
 INSERT INTO `blog_user_like` VALUES (2, 5, 82, 1541750573127);
-INSERT INTO `blog_user_like` VALUES (3, 33, 83, 1541915897197);
-INSERT INTO `blog_user_like` VALUES (4, 33, 90, 1541916765613);
-INSERT INTO `blog_user_like` VALUES (5, 33, 91, 1541916804404);
 
 -- ----------------------------
 -- Table structure for blog_user_token
@@ -371,10 +381,15 @@ CREATE TABLE `blog_user_token`  (
   `user_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '用户id',
   `expire_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT ' 过期时间',
   `create_time` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
-  `token` varchar(2048) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'token',
-  `device_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '设备类型;mobile,android,iphone,ipad,web,pc,mac,wxapp',
-  `ip_address` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `token` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'token',
+  `device_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '设备类型;mobile,android,iphone,ipad,web,pc,mac,wxapp',
+  `ip_address` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户客户端登录 token 表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户客户端登录 token 表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_user_token
+-- ----------------------------
+INSERT INTO `blog_user_token` VALUES (23, 5, 1542091563039, 1542005163039, 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo1fSwiZXhwIjoxNTQyNjA5OTYzLCJpYXQiOjE1NDIwMDUxNjN9.giQTAGRkV5anNo8Sff-sxCtLPY3lWwnYOwWHH6oZxakz_Kud7jdXnHMpQmmGKhjEhzy9Uqi9t5aO0GBQuC_RDTZpbn3AzuAO1eZuh8R-KU57NVwgSCeT_nOsOvRBk-f6qaXnY4nOSKnNXeyd_xov9_yJ4o4VkF3NEvg-iIeWv_Dq0e9DQkPEaSRQyhVkWpL-xwDxcUnCtxKzC0Pl1RWB8Uo0VLTsctr7vMLmCMO6a6_RiHXCftio-Am2mJZtMhUqz3JDNyQ6mZiY2ILEFikKlqdBTvb8xIbdRa6kpDQnt3XWErolJ26TMHo6fC6E3qcDHXW17xniHGYbigqBFPrBvA', '', '::1');
 
 SET FOREIGN_KEY_CHECKS = 1;
