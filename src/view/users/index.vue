@@ -105,7 +105,7 @@ export default {
     margin-bottom: 20px;
   }
   .ivu-table-cell{
-    max-height: 32px;
+    max-height: 52px;
     overflow: auto;
   }
   th{

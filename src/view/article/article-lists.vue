@@ -35,6 +35,37 @@ export default {
               return h('img', {
                 attrs: {
                   src: params.row.post_thumb
+                },
+                on: {
+                  click: (e) => {
+                    var imgObj = {
+                      src: e.target.src
+                    }
+                    this.$Modal.info({
+                      okText: '关闭',
+                      closable: true,
+                      width: 600,
+                      render: (h) => {
+                        return h('img', {
+                          style: {
+                            display: 'block',
+                            width: '100%',
+                            height: 'auto',
+                            maxWidth: '100%',
+                            maxHeight: '100%'
+                          },
+                          domProps: {
+                            src: imgObj.src
+                          },
+                          on: {
+                            click: () => {
+                              imgObj.src = ''
+                            }
+                          }
+                        })
+                      }
+                    })
+                  }
                 }
               })
             }
@@ -67,8 +98,8 @@ export default {
                     size: 'small'
                   },
                   on: {
-                    click () {
-                      console.log('preview')
+                    click: () => {
+                      this.prewPost(params.row.id)
                     }
                   }
                 },
@@ -113,10 +144,15 @@ export default {
     })
   },
   methods: {
+    // 删除文章
     deletePost (id) {
       deletePost(id).then(res => {
         console.log('删除成功')
       })
+    },
+    prewPost (id) {
+      window.open('https://blog.bfrontend.com/blog/article/' + id)
+      // console.log(id)
     }
   }
 }
@@ -125,15 +161,23 @@ export default {
 <style lang="less">
 .articlelist{
   .ivu-table-cell{
-    max-height: 32px;
-    overflow: auto;
-    img{
-      display: block;
+    max-height: 52px;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    & > div {
       width: 100%;
-      height: auto;
+    }
+    img{
+      display: inline-block;
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+      max-height: 100%;
     }
     .ivu-table-cell-expand{
-      line-height: 32px;
+      line-height: 52px;
     }
   }
 }

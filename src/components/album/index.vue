@@ -41,16 +41,7 @@ import { uploadFile } from '@/api/getdatas'
 export default {
   data () {
     return {
-      defaultList: [
-        {
-          'name': '12053349.jpg',
-          'url': 'http://img.bfrontend.com/12053349.jpg'
-        },
-        {
-          'name': 'IMG_0866.JPG',
-          'url': 'http://img.bfrontend.com/IMG_0866.JPG'
-        }
-      ],
+      defaultList: [],
       imgName: '',
       visible: false,
       uploadList: []

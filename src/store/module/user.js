@@ -41,9 +41,13 @@ export default {
           userName,
           password
         }).then(res => {
-          const data = res.data
-          commit('setToken', data.token)
-          resolve()
+          if (res.data.token) {
+            const data = res.data
+            commit('setToken', data.token)
+            resolve()
+          } else {
+            reject(new Error('用户名或密码错误'))
+          }
         }).catch(err => {
           reject(err)
         })

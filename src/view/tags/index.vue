@@ -4,7 +4,7 @@
       <Button type="success" @click="showaddtag">添加标签</Button>
     </ButtonGroup>
     <AddTag ref="addtag"></AddTag>
-    <Table stripe :columns="columns" :data="datas"></Table>
+    <Table class="tag_table" stripe :columns="columns" :data="datas"></Table>
   </div>
 </template>
 <script>
@@ -49,5 +49,20 @@ export default {
 <style lang="less">
 .ivu-btn-group{
   margin-bottom: 20px;
+}
+.tag_table{
+  border: none;
+  .ivu-table{
+    display: inline-block;
+    border: 1px solid #dcdee2;
+  }
+  & > div {
+    &:before{
+      display: none;
+    }
+    &:after{
+      display: none;
+    }
+  }
 }
 </style>

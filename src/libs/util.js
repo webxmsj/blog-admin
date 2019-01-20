@@ -12,19 +12,32 @@ export const TOKEN_KEY = 'token'
 
 // 转换sql查询的表结构 为符合要求的table clomuns //
 export const convertSqlResToCol = (sqlres, options) => {
+  let comment = ''
+  let name = ''
+  if (sqlres.length > 0) {
+    if (sqlres[0].hasOwnProperty('column_name')) {
+      comment = 'column_comment'
+      name = 'column_name'
+    } else {
+      comment = 'COLUMN_COMMENT'
+      name = 'COLUMN_NAME'
+    }
+  } else {
+    return []
+  }
   return sqlres.map((item) => {
-    var title = item['COLUMN_COMMENT'] ? `${item['COLUMN_NAME']} (${item['COLUMN_COMMENT']})` : `${item['COLUMN_NAME']}`
-    if (options && options[item['COLUMN_NAME']]) {
+    var title = item[comment] ? `${item[name]} (${item[comment]})` : `${item[name]}`
+    if (options && options[item[name]]) {
       return {
         title: title,
-        key: item['COLUMN_NAME'],
+        key: item[name],
         width: 200,
-        ...options[item['COLUMN_NAME']]
+        ...options[item[name]]
       }
     } else {
       return {
         title: title,
-        key: item['COLUMN_NAME'],
+        key: item[name],
         width: 200
       }
     }

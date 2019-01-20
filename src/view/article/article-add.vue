@@ -1,147 +1,126 @@
 <template>
   <div class="addarticle">
-    <div class="formbox">
-      <Row>
-        <Col span="2">
-          <p style="line-height: 32px;">分类选择：</p>
-        </Col>
-        <Col span="22" pull="1">
-          <Dropdown style="line-height: 32px;padding-left: 15px;" @on-click="categoryResult">
-            <a href="javascript:void(0)">
+    <Row>
+      <Col span="2">
+        <p style="line-height: 32px;">分类选择：</p>
+      </Col>
+      <Col span="22">
+        <Dropdown trigger="click" @on-click="categoryResult">
+          <Button type="primary">
               {{ displaycategory || '分类选择'}}
               <Icon type="ios-arrow-down"></Icon>
-            </a>
-            <DropdownMenu slot="list">
-              <dropChild :menudata="categorys"></dropChild>
-            </DropdownMenu>
-          </Dropdown>
-        </Col>
-      </Row>
-      <Row>
-        <Col span="6">
-          <Row>
-            <Col span="5">
-              <p style="line-height: 32px;margin-right: 10px;">文章标题：</p>
-            </Col>
-            <Col span="19">
-              <Input v-model="articledatas.title" style="width:auto;"></Input>
-            </Col>
-          </Row>
-        </Col>
-        <Col span="18">
-          <Row>
-            <Col span="2">
-              <p style="line-height: 32px;margin-right: 10px;">文章关键字：</p>
-            </Col>
-            <Col span="19">
-              <Input v-model="articledatas.keywords" style="width:auto;"></Input>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col span="6">
-          <Row>
-            <Col span="5">
-              <p style="line-height: 32px;margin-right: 10px;">文章标签：</p>
-            </Col>
-            <Col span="19">
-              <Select v-model="articledatas.tags" multiple style="width:260px">
-                <Option v-for="(item, index) in tags" :value="item.id" :key="index">{{ item.name }}</Option>
-              </Select>
-            </Col>
-          </Row>
-        </Col>
-        <Col span="18">
-          <Row>
-            <Col span="2">
-              <p style="line-height: 32px;margin-right: 10px;">文章转载来源：</p>
-            </Col>
-            <Col span="19">
-              <Input v-model="articledatas.sourceurl" style="width:auto;"></Input>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row>
+          </Button>
+          <DropdownMenu slot="list">
+            <dropChild :menudata="categorys"></dropChild>
+          </DropdownMenu>
+        </Dropdown>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="2">
+        <p style="line-height: 32px;margin-right: 10px;">文章标题：</p>
+      </Col>
+      <Col span="4">
+        <Input v-model="articledatas.title" style="width:auto;"></Input>
+      </Col>
+      <Col span="2">
+        <p style="line-height: 32px;margin-right: 10px;">文章关键字：</p>
+      </Col>
+      <Col span="16">
+        <Input v-model="articledatas.keywords" style="width:auto;"></Input>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="2">
+        <p style="line-height: 32px;margin-right: 10px;">文章标签：</p>
+      </Col>
+      <Col span="4">
+        <Select v-model="articledatas.tags" multiple style="width:260px">
+          <Option v-for="(item, index) in tags" :value="item.id" :key="index">{{ item.name }}</Option>
+        </Select>
+      </Col>
         <Col span="2">
-          <p style="line-height: 32px;margin-right: 10px;">允许评论：</p>
+          <p style="line-height: 32px;margin-right: 10px;">文章转载来源：</p>
         </Col>
-        <Col span="22">
-          <i-switch v-model="articledatas.enableComment" size="large">
-            <span slot="open">是</span>
-            <span slot="close">否</span>
-          </i-switch>
-        </Col>
-      </Row>
-      <Row>
-        <Col span="2">
-          <p style="line-height: 32px;margin-right: 10px;">是否置顶：</p>
-        </Col>
-        <Col span="22">
-          <i-switch v-model="articledatas.toTop" size="large">
-            <span slot="open">是</span>
-            <span slot="close">否</span>
-          </i-switch>
-        </Col>
-      </Row>
-      <Row>
-        <Col span="2">
-          <p style="line-height: 32px;margin-right: 10px;">是否推荐：</p>
-        </Col>
-        <Col span="22">
-          <i-switch v-model="articledatas.recommended" size="large">
-            <span slot="open">是</span>
-            <span slot="close">否</span>
-          </i-switch>
-        </Col>
-      </Row>
-      <Row>
-        <Col span="2">
-          <p style="line-height: 100px;">文章缩略图：</p>
-        </Col>
-        <Col span="22">
-          <div class="articlethumb">
-            <Upload
-              :show-upload-list="false"
-              :format="['jpg','jpeg','png']"
-              :max-size="2048"
-              :before-upload="uploadThumb"
-              :on-format-error="pc1FormatError"
-              multiple
-              type="drag"
-              action="">
-              <div style="width: 100px;height:100px;line-height:100px;text-align: center;">
-                  <p>点击上传图片</p>
-              </div>
-            </Upload>
-            <div class="mask" v-if="articledatas.thumb" :style="{backgroundImage: 'url('+ articledatas.thumb +')'}">
-              <p><span>重新上传</span></p>
+        <Col span="16">
+          <Input v-model="articledatas.sourceurl" style="width:auto;"></Input>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="2">
+        <p style="line-height: 32px;margin-right: 10px;">允许评论：</p>
+      </Col>
+      <Col span="22">
+        <i-switch v-model="articledatas.enableComment" size="large">
+          <span slot="open">是</span>
+          <span slot="close">否</span>
+        </i-switch>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="2">
+        <p style="line-height: 32px;margin-right: 10px;">是否置顶：</p>
+      </Col>
+      <Col span="22">
+        <i-switch v-model="articledatas.toTop" size="large">
+          <span slot="open">是</span>
+          <span slot="close">否</span>
+        </i-switch>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="2">
+        <p style="line-height: 32px;margin-right: 10px;">是否推荐：</p>
+      </Col>
+      <Col span="22">
+        <i-switch v-model="articledatas.recommended" size="large">
+          <span slot="open">是</span>
+          <span slot="close">否</span>
+        </i-switch>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="2">
+        <p style="line-height: 100px;">文章缩略图：</p>
+      </Col>
+      <Col span="22">
+        <div class="articlethumb">
+          <Upload
+            :show-upload-list="false"
+            :format="['jpg','jpeg','png']"
+            :max-size="2048"
+            :before-upload="uploadThumb"
+            :on-format-error="pc1FormatError"
+            multiple
+            type="drag"
+            action="">
+            <div style="width: 100px;height:100px;line-height:100px;text-align: center;">
+                <p>点击上传图片</p>
             </div>
+          </Upload>
+          <div class="mask" v-if="articledatas.thumb" :style="{backgroundImage: 'url('+ articledatas.thumb +')'}">
+            <p><span>重新上传</span></p>
           </div>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col span="2">
-          <p style="line-height: 100px;">文章相册：</p>
-        </Col>
-        <Col span="22">
-          <album ref="albums" />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col span="2">
-          <p class="information" style="line-height: 92px;">文章摘要：</p>
-        </Col>
-        <Col span="22">
-          <textarea v-model="articledatas.abstracthtml" v-mdeditor="abstractoptions" @on-blur="setAbstractHtml"></textarea>
-          <!-- <MarkEditor :value="articledatas.abstracthtml" @on-blur="setAbstractHtml" :options="{toolbar: false}"></MarkEditor> -->
-        </Col>
-      </Row>
-    </div>
+        </div>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="2">
+        <p style="line-height: 100px;">文章相册：</p>
+      </Col>
+      <Col span="22">
+        <album ref="albums" />
+      </Col>
+    </Row>
+    <Row>
+      <Col span="2">
+        <p class="information" style="line-height: 92px;">文章摘要：</p>
+      </Col>
+      <Col span="22">
+        <textarea v-model="articledatas.abstracthtml" v-mdeditor="abstractoptions" @on-blur="setAbstractHtml"></textarea>
+        <!-- <MarkEditor :value="articledatas.abstracthtml" @on-blur="setAbstractHtml" :options="{toolbar: false}"></MarkEditor> -->
+      </Col>
+    </Row>
     <Tabs v-model="articledatas.format" @on-click="tabChange">
       <TabPane label="MarkDown编辑器" name="md">
         <p class="information">文章内容：</p>
@@ -153,7 +132,6 @@
         <RichText @on-change="getvalue"></RichText>
       </TabPane>
     </Tabs>
-
     <ButtonGroup>
       <Button type="primary" :loading="pushstatus" icon="ios-power" @click="pushArticle(1)">
         <span v-if="!pushstatus">发布</span>
@@ -192,7 +170,7 @@ export default {
         }
       },
       articledatas: {
-        id: '',
+        // id: '',
         userId: '',
         html: '',
         category: '',
@@ -267,6 +245,21 @@ export default {
         desc: `只支持以下文件类型(jpg,jpeg,png),当前文件格式${file.name}不支持`
       })
     },
+    // 校验提交的数据是否合法
+    validate (data, rules) {
+      let result = true
+      for (let key in data) {
+        if (!data[key]) {
+          this.$Notice.open({
+            title: '提示',
+            desc: `${key}不可为空`
+          })
+          result = false
+          break
+        }
+      }
+      return result
+    },
     pushArticle (flag) {
       this.pushstatus = true
       this.articledatas.status = Boolean(flag) // 发布/草稿
@@ -306,6 +299,11 @@ export default {
 <style lang="less">
 .addarticle{
   padding-bottom: 20px;
+  .ivu-row{
+    margin: 6px 0;
+    display: flex;
+    align-items: center;
+  }
   .chosecategory{
     margin-bottom: 15px;
     // padding-left: 15px;
@@ -316,48 +314,42 @@ export default {
       margin-left: 15px;
     }
   }
-  .formbox{
-    margin-bottom: 15px;
-    .ivu-row{
-      margin-bottom: 6px;
-    }
-    .articlethumb{
-      width: 100px;
-      height: 100px;
+  .articlethumb{
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    position: relative;
+    p{
       text-align: center;
-      position: relative;
+      line-height: 100px;
+    }
+    .mask{
+      background-size: cover;
+      background-position: center;
+      position:absolute;
+      left:0;
+      top:0;
+      height:100%;
+      width: 100%;
+      z-index: 2;
       p{
+        display: block;
+        transition: all .6s linear;
+        opacity: 0;
+        color: #fff;
         text-align: center;
         line-height: 100px;
-      }
-      .mask{
-        background-size: cover;
-        background-position: center;
-        position:absolute;
-        left:0;
-        top:0;
-        height:100%;
-        width: 100%;
-        z-index: 2;
-        p{
-          display: block;
-          transition: all .6s linear;
-          opacity: 0;
-          color: #fff;
-          text-align: center;
-          line-height: 100px;
-          height: 100px;
-          span{
-            cursor: pointer;
-            padding: 5px 0;
-            margin: 0 10px;
-          }
+        height: 100px;
+        span{
+          cursor: pointer;
+          padding: 5px 0;
+          margin: 0 10px;
         }
-        &:hover{
-          p{
-            opacity: 1;
-            background: rgba(0,0,0,.5);
-          }
+      }
+      &:hover{
+        p{
+          opacity: 1;
+          background: rgba(0,0,0,.5);
         }
       }
     }

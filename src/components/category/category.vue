@@ -1,6 +1,6 @@
 <template>
   <div v-if="datas">
-    <Collapse v-for="(item, index) in datas" :key="index">
+    <Collapse accordion v-for="(item, index) in datas" :key="index">
       <Panel :name="item.name">
         <span>{{ item.name }}</span>
         <div class="btngroup">
