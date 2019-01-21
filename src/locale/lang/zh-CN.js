@@ -47,5 +47,6 @@ export default {
   visualization_post_category_corresponding: '文章分类对应表',
   visualization_post_tag: '文章标签表',
   visualization_post_tag_corresponding: '文章标签对应表',
-  visualization_posts: '文章表'
+  visualization_posts: '文章表',
+  article_draft: '文章草稿箱'
 }

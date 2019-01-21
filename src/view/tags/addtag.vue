@@ -52,7 +52,8 @@ export default {
     },
     submitdata () {
       addOrUpdateTag(this.infors).then(res => {
-        console.log('添加链接成功', res)
+        console.log('添加标签成功', res)
+        this.$emit('success')
       })
     },
     setdatas (data) {

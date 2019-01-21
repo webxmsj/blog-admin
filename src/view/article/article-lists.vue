@@ -19,13 +19,7 @@ export default {
     }
   },
   beforeMount () {
-    queryall('blog_post').then(res => {
-      if (res.status === 200) {
-        this.datas = res.data
-      } else {
-        console.log('表格数据加载失败')
-      }
-    })
+    this.queryAllPost()
     // 获取表结构
     getDisplayStructure('blog_post').then(res => {
       if (res.status === 200) {
@@ -144,11 +138,30 @@ export default {
     })
   },
   methods: {
+    queryAllPost() {
+      queryall('blog_post').then(res => {
+        if (res.status === 200) {
+          this.datas = res.data
+        } else {
+          console.log('表格数据加载失败')
+        }
+      })
+    },
     // 删除文章
     deletePost (id) {
-      deletePost(id).then(res => {
-        console.log('删除成功')
-      })
+      this.$Modal.confirm({
+          title: '提示',
+          content: '确定要删除该文章吗？',
+          onOk: () => {
+            deletePost(id).then(res => {
+              this.$Message.success('删除成功');
+              this.queryAllPost()
+            })
+          },
+          onCancel: () => {
+              this.$Message.info('取消删除');
+          }
+      });
     },
     prewPost (id) {
       window.open('https://blog.bfrontend.com/blog/article/' + id)
@@ -179,6 +192,9 @@ export default {
     .ivu-table-cell-expand{
       line-height: 52px;
     }
+  }
+  .ivu-table-fixed-right{
+    background: #fff;
   }
 }
 </style>

@@ -246,10 +246,10 @@ export default {
       })
     },
     // 校验提交的数据是否合法
-    validate (data, rules) {
+    validate (data, excepts) {
       let result = true
       for (let key in data) {
-        if (!data[key]) {
+        if (!excepts.includes(key) && !data[key]) {
           this.$Notice.open({
             title: '提示',
             desc: `${key}不可为空`
@@ -269,14 +269,22 @@ export default {
         this.articledatas.html = this.content.richhtml
       }
       this.articledatas.albums = this.$refs.albums.uploadList
+      let excepts = ['thumb', 'albums', 'toTop', 'recommended', 'status']
+      if (!this.validate(this.articledatas, excepts)) {
+        this.pushstatus = false
+        return
+      }
       addOrUpdateArticle(this.articledatas).then(res => {
-        console.log('添加文章成功', res)
+        if (flag) {
+          this.$Message.success('发表成功');
+        } else {
+          this.$Message.success('添加到草稿箱成功');
+        }
         this.pushstatus = false
       })
     },
     setContentHtml (value) {
       this.content.mdhtml = value
-      console.log(value)
     },
     setAbstractHtml (value) {
       this.articledatas.abstracthtml = value

@@ -3,7 +3,7 @@
     <ButtonGroup>
       <Button type="success" @click="showaddtag">添加标签</Button>
     </ButtonGroup>
-    <AddTag ref="addtag"></AddTag>
+    <AddTag ref="addtag" @success="reload"></AddTag>
     <Table class="tag_table" stripe :columns="columns" :data="datas"></Table>
   </div>
 </template>
@@ -22,14 +22,7 @@ export default {
     }
   },
   beforeMount () {
-    queryall('blog_tag').then(res => {
-      if (res.status === 200) {
-        this.datas = res.data
-      } else {
-        console.log('表格数据加载失败')
-      }
-    })
-
+    this.handleQueryAll()
     // 获取表结构
     getDisplayStructure('blog_tag').then(res => {
       if (res.status === 200) {
@@ -40,6 +33,18 @@ export default {
     })
   },
   methods: {
+    handleQueryAll () {
+      queryall('blog_tag').then(res => {
+        if (res.status === 200) {
+          this.datas = res.data
+        } else {
+          console.log('表格数据加载失败')
+        }
+      })
+    },
+    reload () {
+      this.handleQueryAll()
+    },
     showaddtag () {
       this.$refs.addtag.changestatus()
     }

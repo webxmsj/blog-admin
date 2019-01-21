@@ -99,6 +99,7 @@ export default {
     },
     submitdata () {
       addOrUpdateLink(this.infors).then(res => {
+        this.$emit('success')
         console.log('添加链接成功', res)
       })
     },

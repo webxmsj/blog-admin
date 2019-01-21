@@ -180,3 +180,22 @@ export const changeStatusComment = data => {
     data
   })
 }
+
+// 获取草稿箱中文章
+export const getDraftArticle = data => {
+  return axios.request({
+    url: 'get_draft_article',
+    method: 'post',
+    data
+  })
+}
+// 发布草稿箱中的文章
+export const releasePost = id => {
+  return axios.request({
+    url: 'release_post',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}

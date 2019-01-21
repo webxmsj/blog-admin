@@ -3,7 +3,7 @@
     <ButtonGroup>
       <Button type="success" @click="showaddlink">添加链接</Button>
     </ButtonGroup>
-    <AddLink ref="addlink"></AddLink>
+    <AddLink ref="addlink" @success="reload"></AddLink>
     <Table :loading="loading" :columns="columns" :data="datas"></Table>
   </div>
 </template>
@@ -23,14 +23,7 @@ export default {
     }
   },
   beforeMount () {
-    queryall('blog_link').then(res => {
-      if (res.status === 200) {
-        this.loading = false
-        this.datas = res.data
-      } else {
-        console.log('表格数据加载失败')
-      }
-    })
+    this.handleQueryAll()
     // 获取表结构
     getDisplayStructure('blog_link').then(res => {
       if (res.status === 200) {
@@ -100,6 +93,19 @@ export default {
     showaddlink () {
       this.$refs.addlink.changestatus()
     },
+    handleQueryAll () {
+      queryall('blog_link').then(res => {
+        if (res.status === 200) {
+          this.loading = false
+          this.datas = res.data
+        } else {
+          console.log('表格数据加载失败')
+        }
+      })
+    },
+    reload () {
+      this.handleQueryAll()
+    },
     // 隐藏 当前链接
     hidelink (id) {
       hideOrDeleteLink({
@@ -115,6 +121,7 @@ export default {
         id,
         flag: 'delete'
       }).then(res => {
+        this.handleQueryAll()
         console.log('删除链接成功', res)
       })
     }

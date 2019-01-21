@@ -47,5 +47,6 @@ export default {
   visualization_post_category_corresponding: 'correspondenceTableOfArticlesClassification',
   visualization_post_tag: 'articleTagTable',
   visualization_post_tag_corresponding: 'articleLabelCorrespondenceTable',
-  visualization_posts: 'articleTable'
+  visualization_posts: 'articleTable',
+  article_draft: 'draftArticlesBox'
 }

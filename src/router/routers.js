@@ -83,6 +83,15 @@ export default [
         component: () => import('@/view/article/article-lists.vue')
       },
       {
+        path: 'article_draft',
+        name: 'article_draft',
+        meta: {
+          icon: 'ios-paper-plane',
+          title: '文章草稿箱'
+        },
+        component: () => import('@/view/article/article-draft.vue')
+      },
+      {
         path: 'article_add',
         name: 'article_add',
         meta: {
@@ -90,7 +99,7 @@ export default [
           title: '新建文章'
         },
         component: () => import('@/view/article/article-add.vue')
-      }
+      },
     ]
   },
   {
