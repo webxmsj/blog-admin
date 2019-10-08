@@ -29,7 +29,7 @@
     "semver-regex": "^2.0.0",
     "simplemde": "^1.11.2",
     "sortablejs": "^1.7.0",
-    "vue": "^2.5.10",
+    "vue": "^2.6.10",
     "vue-i18n": "^7.8.0",
     "vue-router": "^3.0.1",
     "vue-verify-pop": "^0.1.5",
@@ -56,7 +56,7 @@
     "lint-staged": "^6.0.0",
     "mockjs": "^1.0.1-beta3",
     "validate-commit-msg": "^2.14.0",
-    "vue-template-compiler": "^2.5.13"
+    "vue-template-compiler": "^2.6.10"
   },
   "browserslist": [
     "> 1%",
