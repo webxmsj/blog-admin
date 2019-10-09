@@ -28,7 +28,7 @@
     "promise-mysql": "^3.3.1",
     "semver-regex": "^2.0.0",
     "simplemde": "^1.11.2",
-    "sortablejs": "^1.7.0",
+    "sortablejs": "^1.10.1",
     "vue": "^2.5.10",
     "vue-i18n": "^7.8.0",
     "vue-router": "^3.0.1",
