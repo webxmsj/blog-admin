@@ -21,7 +21,7 @@
     "echarts": "^4.0.4",
     "highlight.js": "^9.13.1",
     "html2canvas": "^1.0.0-alpha.12",
-    "iview": "^3.0.0",
+    "iview": "^4.0.0",
     "iview-area": "^1.5.17",
     "js-cookie": "^2.2.0",
     "mqtt": "^2.18.8",
